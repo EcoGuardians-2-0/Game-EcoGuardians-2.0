@@ -34,6 +34,8 @@ public class MenuController : MonoBehaviour
         // Try to find the menu camera by name
         mainCamera = GameObject.Find("MainCameraMenu")?.GetComponent<Camera>();
 
+        showCursor();
+
         if (mainCamera == null)
         {
             // Log a warning if the camera is not found
@@ -52,6 +54,7 @@ public class MenuController : MonoBehaviour
 
     public void NewGameDialogYes()  
     {
+        hideCursor();
         SceneManager.LoadScene(newGameLevel);
     }
 
@@ -109,6 +112,18 @@ public class MenuController : MonoBehaviour
             mainControllerSen = defaultSen;
             GameplayApply();
         }
+    }
+
+    public void showCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void hideCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public IEnumerator ConfirmationBox()
