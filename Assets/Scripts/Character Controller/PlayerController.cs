@@ -33,9 +33,12 @@ public class PlayerController : MonoBehaviour
     private float? jumpButtonPressedTime;
     private bool isJumping;
     private bool isGrounded;
+    public bool isInGame;
+    private float inputMagnitude;
 
     void Start()
     {
+        isInGame = false;
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         originalStepOffset = characterController.stepOffset;
@@ -47,10 +50,22 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
-        float inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
-        
-        if(!Input.GetKey(KeyCode.LeftShift)){
+        Vector3 movementDirection;
+
+        if (isInGame)
+        {
+            jumpHeight = 0f;
+            inputMagnitude = 0f;
+            movementDirection = Vector3.zero;
+        }
+        else
+        {
+            jumpHeight = 1f;
+            movementDirection = new Vector3(horizontalInput, 0, verticalInput);
+            inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
+        }
+
+        if (!Input.GetKey(KeyCode.LeftShift)){
             inputMagnitude /= 2;
         }
 
@@ -73,7 +88,7 @@ public class PlayerController : MonoBehaviour
             lastGroundedTime = Time.time;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && !isInGame)
         {
             jumpButtonPressedTime = Time.time;
         }
@@ -128,6 +143,7 @@ public class PlayerController : MonoBehaviour
             characterController.Move(velocity * Time.deltaTime);
         }
     }
+
 
     private void OnAnimatorMove()
     {

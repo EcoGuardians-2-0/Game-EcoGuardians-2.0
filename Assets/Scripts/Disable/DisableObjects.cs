@@ -45,7 +45,7 @@ public class DisableObjects : MonoBehaviour
 
     public void disableCharacterController()
     {
-        characterController.enabled = !characterController.enabled;
+        characterController.isInGame = ! characterController.isInGame;
     }
 
 

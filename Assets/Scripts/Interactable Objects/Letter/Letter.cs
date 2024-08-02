@@ -14,10 +14,11 @@ public class Letter : InteractableObject
         toggle = !toggle;
         if (toggle)
         {
-            DisableObjects.Instance.disableCharacterController();
+            letterUI.SetActive(true);
             DisableObjects.Instance.disableSwitchCamera();
             DisableObjects.Instance.disableCameras();
-            letterUI.SetActive(true);
+            DisableObjects.Instance.disableCharacterController();
+
         }
         else
         {
