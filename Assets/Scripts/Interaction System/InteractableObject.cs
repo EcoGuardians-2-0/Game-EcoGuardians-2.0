@@ -2,14 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public abstract class InteractableObject : MonoBehaviour
 {
-    public string ItemName;
+
+    [SerializeField]
+    protected string selectionPrompt;
+
+    [SerializeField]
+    protected string itemName;
+
     public bool playerInRange;
 
-    public string GetItemName()
+    public string GetSelectionPrompt()
     {
-        return ItemName;
+        return selectionPrompt;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -27,4 +33,7 @@ public class InteractableObject : MonoBehaviour
             playerInRange = false;
         }
     }
+
+    public abstract void Interact();
+    
 }
