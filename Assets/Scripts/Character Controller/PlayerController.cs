@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour
     private CharacterController characterController;
     private Animator animator;
 
-
     private float originalStepOffset;
     private float ySpeed;
     private float? lastGroundedTime;
@@ -35,6 +34,8 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     public bool isInGame;
     private float inputMagnitude;
+
+    public bool GetIsGrounded(){ return isGrounded; }
 
     void Start()
     {
