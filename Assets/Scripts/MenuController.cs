@@ -28,6 +28,8 @@ public class MenuController : MonoBehaviour
     [SerializeField] private GameObject noSavedGame = null;
 
     private Camera mainCamera;
+    [Header("Event System")]
+    public GameObject EventSystem;
 
     private void Start()
     {

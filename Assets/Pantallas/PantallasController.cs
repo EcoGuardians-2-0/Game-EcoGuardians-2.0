@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 
@@ -10,18 +11,74 @@ public class PantallasControler : MonoBehaviour
     [SerializeField] private TMP_Text volumeTextValue = null;
     [SerializeField] private Slider volumeSlider = null;
 
-    [Header("Confirmation")]
-    [SerializeField] private GameObject confirmationPrompt = null;
+    [Header("Gameplay Settings")]
+    [SerializeField] private TMP_Text sensTextValue = null;
+    [SerializeField] private Slider sensSlider = null;
+    [SerializeField] private int defaultSen = 4;
+    public int mainControllerSen = 4;
 
     [Header("Levels To Load")]
-    public string _newGameLevel;
+    public string newGameLevel;
     public string levelToLoad;
-    [SerializeField] private GameObject noSavedGameDialog = null;
+    [SerializeField] private GameObject noSavedGame = null;
 
+    private Camera mainCamera;
+    private bool menuP = false;
+    public GameObject menuPUI;
+    public GameObject ajustesUI;
+    public GameObject pausaUI;
+
+    private void Start()
+    {
+        showCursor();
+    }
+
+    public void MenuTrue(bool Menu)
+    {
+        if (Menu == true)
+        {
+            menuP = true;
+        }
+    }
+
+    public void NewGameDialogYes()
+    {
+        hideCursor();
+        SceneManager.LoadScene(newGameLevel);
+
+    }
+    public void Regresar()
+    {
+        if (menuP == true)
+        {
+            menuPUI.SetActive(true);
+            menuP = false;
+        }
+        else
+        {
+            ajustesUI.SetActive(false);
+            pausaUI.SetActive(true);
+            menuP = false;
+        }
+
+    }
+
+    public void LoadGame()
+    {
+        if (PlayerPrefs.HasKey("SavedLevel"))
+        {
+            PlayerPrefs.GetString("SavedLevel");
+            SceneManager.LoadScene(levelToLoad);
+        }
+        else
+        {
+            noSavedGame.SetActive(true);
+        }
+    }
 
     public void ExitButton()
     {
-        Application.Quit();
+        Time.timeScale = 1f;
     }
 
     public void SetVolume(float volume)
@@ -33,13 +90,28 @@ public class PantallasControler : MonoBehaviour
     public void VolumeApply()
     {
         PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
-        StartCoroutine(ConfirmationBox());
     }
 
-    public IEnumerator ConfirmationBox()
+    public void showCursor()
     {
-        confirmationPrompt.SetActive(true);
-        yield return new WaitForSeconds(2);
-        confirmationPrompt.SetActive(false);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void hideCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    public void SetControllerSen(float sensitivity)
+    {
+        mainControllerSen = Mathf.RoundToInt(sensitivity);
+        sensTextValue.text = sensitivity.ToString("0");
+    }
+
+    public void GameplayApply()
+    {
+        PlayerPrefs.SetFloat("masterSen", mainControllerSen);
     }
 }
