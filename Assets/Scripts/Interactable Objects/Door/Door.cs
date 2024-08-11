@@ -2,47 +2,24 @@ using UnityEngine;
 
 public class Door : InteractableObject
 {
-    override
-    public void Interact()
+    private Animator doorAnimation;
+    private bool active;
+
+    public void Start()
     {
-        Debug.Log("Interactuando con " + itemName);
+        doorAnimation = GetComponent<Animator>();
+        selectionPrompt = "Abrir puerta";
+        itemName = "Puerta";
     }
 
-    public Animator puerta;
-    private bool enZona;
-    private bool activa;
-
-
-    void Update()
+    override public void Interact()
     {
-        if (Input.GetKeyDown(KeyCode.E) && enZona)
-        {
-            activa = !activa;
-            if (activa == true)
-            {
-                puerta.SetBool("door", true);
-            }
-            if (activa == false)
-            {
-                puerta.SetBool("door", false);
-            }
-        }
-    }
+        active = !active;
+        doorAnimation.SetBool("door", active);
 
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.tag == "Player")
-        {
-            enZona = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            enZona = false;
-        }
+        if (active)
+            selectionPrompt = "Cerrar puerta";
+        else
+            selectionPrompt = "Abrir puerta";
     }
 }
