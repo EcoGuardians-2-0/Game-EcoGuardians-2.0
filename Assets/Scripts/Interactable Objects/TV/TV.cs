@@ -20,8 +20,9 @@ public class TV : InteractableObject
     private bool isOn;
 
     // Start is called before the first frame update
-    void Start()
+    new void Start()
     {
+        base.Start(); // Do not remove - child calls parent method
         isOn = false;
 
         if (!LoadObjects())
@@ -44,6 +45,8 @@ public class TV : InteractableObject
     // Interact with the TV
     public override void Interact()
     {
+        base.Interact(); // Do not remove - child calls parent method
+
         disableObjects.ToggleMinimap();
         disableObjects.TogglePlayer();
         disableObjects.ToggleSelectionCursor();

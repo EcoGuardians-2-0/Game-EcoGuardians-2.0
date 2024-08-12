@@ -11,7 +11,25 @@ public abstract class InteractableObject : MonoBehaviour
     [SerializeField]
     protected string itemName;
 
+    protected Outline outline;
+
+    protected bool interacting;
+
     public bool playerInRange;
+    
+    protected virtual void Start()
+    {
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
+        outline.enabled = false;
+        setOutline(Color.yellow, 10f);
+    }
+
+    public void setOutline(Color color, float width)
+    {
+        outline.OutlineColor = color;
+        outline.OutlineWidth = width;
+    }
 
     public string GetSelectionPrompt()
     {
@@ -34,6 +52,10 @@ public abstract class InteractableObject : MonoBehaviour
         }
     }
 
-    public abstract void Interact();
-    
+    public virtual void Interact()
+    {
+        interacting = !interacting;
+        SelectionManager.instance.isInteracting = interacting;
+    }
+
 }

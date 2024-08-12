@@ -5,15 +5,19 @@ public class Door : InteractableObject
     private Animator doorAnimation;
     private bool active;
 
-    public void Start()
+    public new void Start()
     {
+        base.Start(); // Do not remove - child calls parent method
+
         doorAnimation = GetComponent<Animator>();
         selectionPrompt = "Abrir puerta";
         itemName = "Puerta";
     }
 
-    override public void Interact()
+    public override void Interact()
     {
+        base.Interact(); // Do not remove - child calls parent method
+
         active = !active;
         doorAnimation.SetBool("door", active);
 

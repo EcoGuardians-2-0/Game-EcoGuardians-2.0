@@ -39,8 +39,8 @@ public class ControllerPauseUI : MonoBehaviour
 
     public void Resume()
     {
-        HideCursor(); // Oculta y bloquea el cursor
         pauseMenuUI.SetActive(false); // Desactiva el menú de pausa
+        HideCursor();         // Oculta y bloquea el cursor
         Time.timeScale = 1f; // Restaura el tiempo de juego
         gameIsPaused = false; // Actualiza el estado de pausa
     }

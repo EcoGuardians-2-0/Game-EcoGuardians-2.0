@@ -110,6 +110,17 @@ public class DisableObjects : MonoBehaviour
         }
     }
 
+    public void showCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    public void hideCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
     public void ForceDisableControlsImageTVUI() { AnimationsControlsTV.Instance.HideControlsImageTVUI(true); }
 
     public void ForceDisableControlsVideoTVUI() { AnimationsControlsTV.Instance.HideControlsVideoTVUI(true); }

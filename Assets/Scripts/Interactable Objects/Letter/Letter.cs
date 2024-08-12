@@ -11,21 +11,13 @@ public class Letter : InteractableObject
 
     public override void Interact()
     {
-        toggle = !toggle;
-        if (toggle)
-        {
-            letterUI.SetActive(true);
-            DisableObjects.Instance.disableSwitchCamera();
-            DisableObjects.Instance.disableCameras();
-            DisableObjects.Instance.disableCharacterController();
+        base.Interact(); // Do not remove - child calls parent method
 
-        }
-        else
-        {
-            DisableObjects.Instance.disableCharacterController();
-            DisableObjects.Instance.disableSwitchCamera();
-            DisableObjects.Instance.disableCameras();
-            letterUI.SetActive(false);
-        }
+        DisableObjects.Instance.disableSwitchCamera();
+        DisableObjects.Instance.disableCameras();
+        DisableObjects.Instance.disableCharacterController();
+
+        toggle = !toggle;
+        letterUI.SetActive(toggle);
     }
 }
