@@ -7,7 +7,15 @@ public class Letter : InteractableObject
 {
 
     public GameObject letterUI;
-    bool toggle;
+    private bool toggle;
+    private string selectionPromptBefore = "Leer nota";
+    private string selectionPromptAfter = "Dejar de leer nota";
+
+    new void Start()
+    {
+        base.Start();
+        selectionPrompt = selectionPromptBefore;
+    }
 
     public override void Interact()
     {
@@ -18,6 +26,24 @@ public class Letter : InteractableObject
         DisableObjects.Instance.disableCharacterController();
 
         toggle = !toggle;
+
         letterUI.SetActive(toggle);
+
+        if (toggle)
+            turnOn();
+        else
+            turnOff();
     }
+
+    private void turnOn()
+    {
+        selectionPrompt = selectionPromptAfter;
+    }
+
+    private void turnOff()
+    {
+        selectionPrompt = selectionPromptBefore;
+    }
+
+
 }
