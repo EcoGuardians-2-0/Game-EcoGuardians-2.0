@@ -9,7 +9,9 @@ public class DialogueUI : MonoBehaviour
     public GameObject dialogueUI;
     public GameObject dialogueOptionBox;
 
-    public List<GameObject> buttonOptionsUI;
+    [SerializeField]
+    private List<GameObject> buttonOptionsUI;
+    private List<DialogueButtonUI> buttonsUI;
 
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI npcDialogue;
@@ -18,7 +20,18 @@ public class DialogueUI : MonoBehaviour
 
     public void Start()
     {
+        buttonsUI = new List<DialogueButtonUI>();
         dialogueOptionBox.SetActive(false);
+
+        Debug.Log("Hijos de buttonOptionsUI " +  buttonOptionsUI.Count);
+        foreach(GameObject button in buttonOptionsUI)
+        {
+            buttonsUI.Add(new DialogueButtonUI(button));
+        }
+
+        Debug.Log("Hijos de buttonUI " + buttonsUI.Count);
+
+
     }
 
 
@@ -30,9 +43,8 @@ public class DialogueUI : MonoBehaviour
 
     public void changeOption(int optionIndex)
     {
-        Debug.Log("Received index " + optionIndex);
-        deactivateButton(buttonOptionsUI[lastIndex].transform);
-        activateButton(buttonOptionsUI[optionIndex].transform);
+        buttonsUI[lastIndex].deactivateButton();
+        buttonsUI[optionIndex].activateButton();
         lastIndex = optionIndex;
     }
 
@@ -44,19 +56,15 @@ public class DialogueUI : MonoBehaviour
             if (i < options.Count)
             {
                 buttonOptionsUI[i].SetActive(true);
-                Transform button = buttonOptionsUI[i].transform;
-
-                TextMeshProUGUI text = button.GetChild(0).GetComponentInChildren<TextMeshProUGUI>();
-                text.text = options[i];
+                buttonsUI[i].setText(options[i]);
 
                 if (i != 0)
                 {
-                    deactivateButton(button);
+                    buttonsUI[i].deactivateButton();
                 }
                 else
                 {
-                    lastIndex = i;
-                    activateButton(button);
+                    buttonsUI[i].activateButton();
                 }
             }
             else
@@ -64,20 +72,6 @@ public class DialogueUI : MonoBehaviour
                 buttonOptionsUI[i].SetActive(false);
             }
         }
-    }
-
-    private void activateButton(Transform button)
-    {
-        Image panel1 = button.GetChild(0).GetComponent<Image>();
-        panel1.color = new Color(242f / 255f, 1f, 1f, 1f);
-        button.GetChild(1).gameObject.SetActive(true);
-    }
-
-    private void deactivateButton(Transform button)
-    {
-        Image panel1 = button.GetChild(0).GetComponent<Image>();
-        panel1.color = new Color(242f / 255f, 211 / 255f, 211 / 255f, 122f / 255f);
-        button.GetChild(1).gameObject.SetActive(false);
     }
 
     public void displayDialogueOptionBox(bool status)

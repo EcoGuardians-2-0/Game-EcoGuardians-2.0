@@ -9,12 +9,10 @@ public class Character : InteractableObject
 
     public override void Interact()
     {
-        base.Interact();
-
-
 
         if (!DialogueManager.instance.isTalking)
         {
+            SelectionManager.instance.isInteracting = true;
             DisableObjects.Instance.disableCharacterController();
             DisableObjects.Instance.disableCameras();
             DisableObjects.Instance.disableSwitchCamera();
@@ -24,6 +22,7 @@ public class Character : InteractableObject
         {
             if (DialogueManager.instance.isDone)
             {
+                SelectionManager.instance.isInteracting = false;
                 DisableObjects.Instance.disableCharacterController();
                 DisableObjects.Instance.disableCameras();
                 DisableObjects.Instance.disableSwitchCamera();

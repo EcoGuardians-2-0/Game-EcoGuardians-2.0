@@ -140,7 +140,6 @@ public class DialogueManager : MonoBehaviour
 
         checkHasDialogueOptions(currentNode);
 
-
     }
 
     public void EndDialogue()
