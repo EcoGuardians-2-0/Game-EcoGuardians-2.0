@@ -33,6 +33,6 @@ public class DialogueButtonUI
     public void deactivateButton()
     {
         panel1.color = new Color(242f / 255f, 211 / 255f, 211 / 255f, 122f / 255f);
-        hand.SetActive(true);
+        hand.SetActive(false);
     }
 }
