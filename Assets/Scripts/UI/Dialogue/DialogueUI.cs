@@ -14,12 +14,26 @@ public class DialogueUI : MonoBehaviour
     public TextMeshProUGUI npcName;
     public TextMeshProUGUI npcDialogue;
 
+    private int lastIndex;
+
+    public void Start()
+    {
+        dialogueOptionBox.SetActive(false);
+    }
 
 
     public void SetDialogueBox(string npcName, string npcDialogue)
     {
         this.npcName.text = npcName;
         this.npcDialogue.text = npcDialogue;
+    }
+
+    public void changeOption(int optionIndex)
+    {
+        Debug.Log("Received index " + optionIndex);
+        deactivateButton(buttonOptionsUI[lastIndex].transform);
+        activateButton(buttonOptionsUI[optionIndex].transform);
+        lastIndex = optionIndex;
     }
 
     public void setOptions(List<string> options)
@@ -37,11 +51,12 @@ public class DialogueUI : MonoBehaviour
 
                 if (i != 0)
                 {
-                    button.GetChild(1).gameObject.SetActive(false);
+                    deactivateButton(button);
                 }
                 else
                 {
-                    button.GetChild(1).gameObject.SetActive(true);
+                    lastIndex = i;
+                    activateButton(button);
                 }
             }
             else
@@ -49,6 +64,20 @@ public class DialogueUI : MonoBehaviour
                 buttonOptionsUI[i].SetActive(false);
             }
         }
+    }
+
+    private void activateButton(Transform button)
+    {
+        Image panel1 = button.GetChild(0).GetComponent<Image>();
+        panel1.color = new Color(242f / 255f, 1f, 1f, 1f);
+        button.GetChild(1).gameObject.SetActive(true);
+    }
+
+    private void deactivateButton(Transform button)
+    {
+        Image panel1 = button.GetChild(0).GetComponent<Image>();
+        panel1.color = new Color(242f / 255f, 211 / 255f, 211 / 255f, 122f / 255f);
+        button.GetChild(1).gameObject.SetActive(false);
     }
 
     public void displayDialogueOptionBox(bool status)

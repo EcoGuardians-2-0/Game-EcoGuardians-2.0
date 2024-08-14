@@ -12,7 +12,8 @@ public class DialogueManager : MonoBehaviour
 
     private int currentNodeIndex = 0;
     private int currentResponseTracker = 0;
-    private bool isTalking;
+    public bool isTalking;
+    public bool isDone;
 
     private DialogueData npc;
     private DialogueNode currentNode;
@@ -41,11 +42,11 @@ public class DialogueManager : MonoBehaviour
     {
         if (isTalking)
         {
-            currentNode = npc.dialogNodes[currentNodeIndex];
             dialogueUI.SetDialogueBox(currentNode.npcName, currentNode.npcDialogue);
 
             if (currentNode.hasOptions())
             {
+
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     currentResponseTracker++;
@@ -54,7 +55,7 @@ public class DialogueManager : MonoBehaviour
                         currentResponseTracker = currentNode.options.Count - 1;
                     }
                 }
-                else if (Input.GetKeyDown(KeyCode.RightArrow))
+                else if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     currentResponseTracker--;
                     if (currentResponseTracker < 0)
@@ -62,10 +63,9 @@ public class DialogueManager : MonoBehaviour
                         currentResponseTracker = 0;
                     }
                 }
-            }
-            else
-            {
-                dialogueUI.displayDialogueOptionBox(false);
+
+                dialogueUI.changeOption(currentResponseTracker);
+
             }
 
 
@@ -73,30 +73,24 @@ public class DialogueManager : MonoBehaviour
             {
                 if (currentNode.hasOptions())
                 {
-                    Debug.Log("La opcion seleccionada fue " + currentNode.options[currentResponseTracker].optionText);
                     currentNodeIndex = currentNode.options[currentResponseTracker].nextDialogId-1;
-                    Debug.Log("Current index"+currentNodeIndex);
                     currentResponseTracker = 0;
                 }
                 else
                 {
-                    Debug.Log("Dialogo no tiene opciones");
                     if (!currentNode.dialogueHasEnded())
                     {
                         currentNodeIndex = currentNode.nextDialogueID-1;
-                        if (npc.dialogNodes[currentNodeIndex].hasOptions())
-                        {
-                            Debug.Log("Cargar las opciones");
-                            dialogueUI.setOptions(obtainDialogOptions(npc.dialogNodes[currentNodeIndex]));
-                            dialogueUI.displayDialogueOptionBox(true);
-                        }
-                        
                     }
                     else
                     {
+                        isDone = true;
                         character.Interact();
                     }
                 }
+
+                currentNode = npc.dialogNodes[currentNodeIndex];
+                checkHasDialogueOptions(currentNode);
             } 
         }
     }
@@ -112,16 +106,41 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+    public void displayDialogueOptions(bool activate)
+    {
+        dialogueUI.displayDialogueOptionBox(activate);
+    }
+
+    public void checkHasDialogueOptions(DialogueNode node)
+    {
+        if (node.hasOptions())
+        {
+            displayDialogueOptions(true);
+            dialogueUI.setOptions(obtainDialogOptions(node));
+        }
+        else
+        {
+            displayDialogueOptions(false);
+        }
+    }
+
     public void StartConversation(DialogueData npc, Character character)
     {
         currentResponseTracker = 0;
         currentNodeIndex = 0;
         isTalking = true;
+        isDone = false;
 
+        // Activate UI Dialogue
         dialogueUI.dialogueUI.SetActive(true);
-
         this.npc = npc;
         this.character = character;
+
+        currentNode = npc.dialogNodes[currentNodeIndex];
+
+        checkHasDialogueOptions(currentNode);
+
+
     }
 
     public void EndDialogue()

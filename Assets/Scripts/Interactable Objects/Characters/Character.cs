@@ -11,11 +11,27 @@ public class Character : InteractableObject
     {
         base.Interact();
 
-        DisableObjects.Instance.disableCharacterController();
-        DisableObjects.Instance.disableCameras();
-        DisableObjects.Instance.disableSwitchCamera();
 
-        DialogueManager.instance.StartConversation(npc, this);
+
+        if (!DialogueManager.instance.isTalking)
+        {
+            DisableObjects.Instance.disableCharacterController();
+            DisableObjects.Instance.disableCameras();
+            DisableObjects.Instance.disableSwitchCamera();
+            DialogueManager.instance.StartConversation(npc, this);
+        }
+        else
+        {
+            if (DialogueManager.instance.isDone)
+            {
+                DisableObjects.Instance.disableCharacterController();
+                DisableObjects.Instance.disableCameras();
+                DisableObjects.Instance.disableSwitchCamera();
+                DialogueManager.instance.EndDialogue();
+            }
+
+        }
+
     }
 
 }

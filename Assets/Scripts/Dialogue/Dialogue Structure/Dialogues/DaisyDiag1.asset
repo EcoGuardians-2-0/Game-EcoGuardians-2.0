@@ -28,6 +28,9 @@ MonoBehaviour:
     - optionId: 2
       optionText: "\xBFQu\xE9 haces en el parque?"
       nextDialogId: 4
+    - optionId: 2
+      optionText: Adios
+      nextDialogId: 5
     nextDialogueID: 2
   - dialogueID: 3
     npcName: Daisy
@@ -40,5 +43,10 @@ MonoBehaviour:
   - dialogueID: 3
     npcName: Daisy
     npcDialogue: "Ayudo a gente que necesita informaci\xF3n"
+    options: []
+    nextDialogueID: -1
+  - dialogueID: 4
+    npcName: Daisy
+    npcDialogue: Adios
     options: []
     nextDialogueID: -1
