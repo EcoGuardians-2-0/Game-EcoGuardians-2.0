@@ -11,6 +11,9 @@ public abstract class InteractableObject : MonoBehaviour
     [SerializeField]
     protected string itemName;
 
+    [SerializeField]
+    protected Color customColor = Color.yellow;
+
     protected Outline outline;
 
     protected bool interacting;
@@ -22,7 +25,7 @@ public abstract class InteractableObject : MonoBehaviour
         outline = gameObject.AddComponent<Outline>();
         outline.OutlineMode = Outline.Mode.OutlineVisible;
         outline.enabled = false;
-        setOutline(Color.yellow, 10f);
+        setOutline(customColor, 10f);
     }
 
     public void setOutline(Color color, float width)

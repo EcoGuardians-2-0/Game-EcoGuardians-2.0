@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Character : InteractableObject
 {
+    [Header("INK JSON")]
+    [SerializeField]
+    private TextAsset inkJSON;
+
     [SerializeField]
     private DialogueData npc;
 
@@ -16,19 +20,7 @@ public class Character : InteractableObject
             DisableObjects.Instance.disableCharacterController();
             DisableObjects.Instance.disableCameras();
             DisableObjects.Instance.disableSwitchCamera();
-            DialogueManager.instance.StartConversation(npc, this);
-        }
-        else
-        {
-            if (DialogueManager.instance.isDone)
-            {
-                SelectionManager.instance.isInteracting = false;
-                DisableObjects.Instance.disableCharacterController();
-                DisableObjects.Instance.disableCameras();
-                DisableObjects.Instance.disableSwitchCamera();
-                DialogueManager.instance.EndDialogue();
-            }
-
+            DialogueManager.instance.StartConversation(inkJSON);
         }
 
     }

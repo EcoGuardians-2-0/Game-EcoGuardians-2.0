@@ -1,26 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Ink.Runtime;
+using System;
 
 public class DialogueManager : MonoBehaviour
 {
+    [Header("Params")]
+    [SerializeField]
+    private float typingSpeed = 0.04f;
+    public static DialogueManager instance { get; private set; }
 
-    public static DialogueManager instance { get; private set;}
-
+    [Header("Dialogue UI")]
     public DialogueUI dialogueUI;
 
-    private int currentNodeIndex = 0;
-    private int currentResponseTracker = 0;
-    public bool isTalking;
-    public bool isDone;
+    public bool isTalking { get; private set; }
 
-    private DialogueData npc;
-    private DialogueNode currentNode;
-    private Character character;
+    private Story currentStory;
+    private int currentChoiceIndex = 0;
+    private Coroutine displayLineCoroutine;
+    private bool canContinueToNextLine = false;
 
-   
-    
+    private bool submitSkip = false;
+    private bool canSkip;
+
+    private const string SPEAKER_TAG = "speaker";
+
+
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -35,6 +42,8 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        isTalking = false;
+        currentChoiceIndex = 0;
         dialogueUI.dialogueUI.SetActive(false);
     }
 
@@ -42,110 +51,188 @@ public class DialogueManager : MonoBehaviour
     {
         if (isTalking)
         {
-            dialogueUI.SetDialogueBox(currentNode.npcName, currentNode.npcDialogue);
+            HandleInput();
+        }
+    }
 
-            if (currentNode.hasOptions())
+
+    public void StartConversation(TextAsset inkJSON)
+    {
+        currentStory = new Story(inkJSON.text);
+        isTalking = true;
+        dialogueUI.dialogueUI.SetActive(true);
+        ContinueStory();
+    }
+
+    private void EndDialogue()
+    {
+        isTalking = false;
+        dialogueUI.dialogueUI.SetActive(false);
+        SelectionManager.instance.isInteracting = false;
+        DisableObjects.Instance.disableCharacterController();
+        DisableObjects.Instance.disableCameras();
+        DisableObjects.Instance.disableSwitchCamera();
+    }
+
+    private void HandleInput()
+    {
+        List<Choice> choices = currentStory.currentChoices;
+
+
+        if (choices.Count > 0 && canContinueToNextLine)
+        {
+            if (Input.GetKeyDown(KeyCode.RightArrow))
             {
-
-                if (Input.GetKeyDown(KeyCode.RightArrow))
-                {
-                    currentResponseTracker++;
-                    if (currentResponseTracker >= currentNode.options.Count - 1)
-                    {
-                        currentResponseTracker = currentNode.options.Count - 1;
-                    }
-                }
-                else if (Input.GetKeyDown(KeyCode.LeftArrow))
-                {
-                    currentResponseTracker--;
-                    if (currentResponseTracker < 0)
-                    {
-                        currentResponseTracker = 0;
-                    }
-                }
-
-                dialogueUI.changeOption(currentResponseTracker);
-
+                currentChoiceIndex++;
+                if (currentChoiceIndex >= choices.Count)
+                    currentChoiceIndex = 0;
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                currentChoiceIndex--;
+                if (currentChoiceIndex < 0)
+                    currentChoiceIndex = choices.Count - 1;
             }
 
+            dialogueUI.changeOption(currentChoiceIndex);
+        }
 
-            if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            submitSkip = true;
+        }
+
+
+        if (canContinueToNextLine && submitSkip)
+        {
+            if (choices.Count > 0)
             {
-                if (currentNode.hasOptions())
-                {
-                    currentNodeIndex = currentNode.options[currentResponseTracker].nextDialogId-1;
-                    currentResponseTracker = 0;
-                }
-                else
-                {
-                    if (!currentNode.dialogueHasEnded())
-                    {
-                        currentNodeIndex = currentNode.nextDialogueID-1;
-                    }
-                    else
-                    {
-                        isDone = true;
-                        character.Interact();
-                    }
-                }
-
-                currentNode = npc.dialogNodes[currentNodeIndex];
-                checkHasDialogueOptions(currentNode);
-            } 
+                MakeChoice();
+            }
+            else
+            {
+                ContinueStory();
+            }
         }
     }
 
-    public List<string> obtainDialogOptions(DialogueNode node)
+    private IEnumerator CanSkip()
     {
-        List<string> options = new List<string>();
-        for(int i =  0; i < node.options.Count; i++)
+        canSkip = false;
+        yield return new WaitForSeconds(0.05f);
+        canSkip = true;
+    }
+
+    private IEnumerator DisplayLine(string line)
+    {
+        bool isAddingRichTextTag = false;
+        dialogueUI.getDialogueBox().npcDialogue.text = "";
+
+        canContinueToNextLine = false;
+        submitSkip = false;
+        dialogueUI.getDialogueBox().continueIcon.SetActive(false);
+        dialogueUI.displayDialogueOptionBox(false);
+
+        StartCoroutine(CanSkip());
+
+        for (int i = 0; i < line.ToCharArray().Length; i++)
         {
-            options.Add(node.options[i].optionText);
+            char letter = line[i];
+            if (submitSkip && canSkip)
+            {
+                submitSkip = false;
+                dialogueUI.getDialogueBox().npcDialogue.text = line;
+                break;
+            }
+
+            if (letter == '<' || isAddingRichTextTag)
+            {
+                isAddingRichTextTag = true;
+                dialogueUI.getDialogueBox().npcDialogue.text += letter;
+                if (letter == '>')
+                {
+                    isAddingRichTextTag = false;
+                }
+            }
+            else
+            {
+                dialogueUI.getDialogueBox().npcDialogue.text += letter;
+                yield return new WaitForSeconds(typingSpeed);
+            }
         }
-        return options;
 
+        dialogueUI.getDialogueBox().continueIcon.SetActive(true);
+        DisplayChoices();
+        canContinueToNextLine = true;
+        canSkip = false;
     }
 
-    public void displayDialogueOptions(bool activate)
+    public void ContinueStory()
     {
-        dialogueUI.displayDialogueOptionBox(activate);
-    }
-
-    public void checkHasDialogueOptions(DialogueNode node)
-    {
-        if (node.hasOptions())
+        if (currentStory.canContinue)
         {
-            displayDialogueOptions(true);
-            dialogueUI.setOptions(obtainDialogOptions(node));
+            if (displayLineCoroutine != null)
+            {
+                StopCoroutine(displayLineCoroutine);
+            }
+            displayLineCoroutine = StartCoroutine(DisplayLine(currentStory.Continue()));
+            HandleTags(currentStory.currentTags);
         }
         else
         {
-            displayDialogueOptions(false);
+            EndDialogue();
         }
     }
 
-    public void StartConversation(DialogueData npc, Character character)
+    private void HandleTags(List<string> currentTags)
     {
-        currentResponseTracker = 0;
-        currentNodeIndex = 0;
-        isTalking = true;
-        isDone = false;
+        foreach (string tag in currentTags)
+        {
+            string[] splitTag = tag.Split(':');
+            if (splitTag.Length != 2)
+            {
+                Debug.LogError("Tag could  not be parsed: " + tag);
+            }
+            string tagKey = splitTag[0].Trim();
+            string tagValue = splitTag[1].Trim();
 
-        // Activate UI Dialogue
-        dialogueUI.dialogueUI.SetActive(true);
-        this.npc = npc;
-        this.character = character;
+            switch (tagKey)
+            {
+                case SPEAKER_TAG:
+                    dialogueUI.getDialogueBox().npcName.text = tagValue;
+                    break;
+                default:
+                    Debug.LogWarning("Tag  came in but not supporte" + tag);
+                    break;
+            }
+        }
+    }
 
-        currentNode = npc.dialogNodes[currentNodeIndex];
-
-        checkHasDialogueOptions(currentNode);
+    public void DisplayChoices()
+    {
+        List<Choice> choices = currentStory.currentChoices;
+        if (choices.Count > 0)
+        {
+            if (choices.Count > dialogueUI.getChoiceCount())
+            {
+                Debug.LogError("More choices than UI can support");
+            }
+            dialogueUI.displayDialogueOptionBox(true); ;
+            dialogueUI.setOptions(choices);
+        }
 
     }
 
-    public void EndDialogue()
-    {
-        isTalking = false;
 
-        dialogueUI.dialogueUI.SetActive(false);
+
+    private void MakeChoice()
+    {
+        if (canContinueToNextLine)
+        {
+            currentStory.ChooseChoiceIndex(currentChoiceIndex);
+            currentChoiceIndex = 0;
+            ContinueStory();
+        }
     }
+
 }

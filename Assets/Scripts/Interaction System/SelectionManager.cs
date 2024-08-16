@@ -70,7 +70,10 @@ public class SelectionManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    interactable.Interact();
+                    if (!DialogueManager.instance.isTalking)
+                    {
+                        interactable.Interact();
+                    }
                 }
             }
             else

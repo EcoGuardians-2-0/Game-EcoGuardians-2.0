@@ -1,44 +1,41 @@
-using System.Collections;
+using Ink.Runtime;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DialogueUI : MonoBehaviour
 {
     public GameObject dialogueUI;
-    public GameObject dialogueOptionBox;
 
     [SerializeField]
     private List<GameObject> buttonOptionsUI;
-    private List<DialogueButtonUI> buttonsUI;
+    [SerializeField]
+    private GameObject dialogueOptionBox;
+    [SerializeField]
+    private GameObject dialogueBox;
 
-    public TextMeshProUGUI npcName;
-    public TextMeshProUGUI npcDialogue;
+
+    private List<DialogueButtonUI> buttonsUI;
+    private DialogueBoxUI dialogueBoxUI { get; set; }
 
     private int lastIndex;
+
 
     public void Start()
     {
         buttonsUI = new List<DialogueButtonUI>();
         dialogueOptionBox.SetActive(false);
-
-        Debug.Log("Hijos de buttonOptionsUI " +  buttonOptionsUI.Count);
+        dialogueBox.SetActive(true);
         foreach(GameObject button in buttonOptionsUI)
         {
             buttonsUI.Add(new DialogueButtonUI(button));
         }
 
-        Debug.Log("Hijos de buttonUI " + buttonsUI.Count);
-
-
+        dialogueBoxUI = new DialogueBoxUI(dialogueBox);
     }
 
-
-    public void SetDialogueBox(string npcName, string npcDialogue)
-    {
-        this.npcName.text = npcName;
-        this.npcDialogue.text = npcDialogue;
+    public DialogueBoxUI getDialogueBox() {
+        return dialogueBoxUI;
     }
 
     public void changeOption(int optionIndex)
@@ -48,15 +45,14 @@ public class DialogueUI : MonoBehaviour
         lastIndex = optionIndex;
     }
 
-    public void setOptions(List<string> options)
+    public void setOptions(List<Choice> choice)
     {
         for (int i = 0; i < buttonOptionsUI.Count; i++)
         {
-            Debug.Log("Indice es " + i + " y la cantidad de opciones son " + options.Count);
-            if (i < options.Count)
+            if (i < choice.Count)
             {
                 buttonOptionsUI[i].SetActive(true);
-                buttonsUI[i].setText(options[i]);
+                buttonsUI[i].setText(choice[i].text);
 
                 if (i != 0)
                 {
@@ -79,6 +75,10 @@ public class DialogueUI : MonoBehaviour
         dialogueOptionBox.SetActive(status);
     }
 
+    public int getChoiceCount()
+    {
+        return buttonsUI.Count;
+    }
 
 }
 
