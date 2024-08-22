@@ -8,7 +8,6 @@ public class Door : InteractableObject
     public new void Start()
     {
         base.Start(); // Do not remove - child calls parent method
-
         doorAnimation = GetComponent<Animator>();
         selectionPrompt = "Abrir puerta";
         itemName = "Puerta";
@@ -16,14 +15,18 @@ public class Door : InteractableObject
 
     public override void Interact()
     {
-        base.Interact(); // Do not remove - child calls parent method
-
         active = !active;
-        doorAnimation.SetBool("door", active);
 
         if (active)
+        {
+            doorAnimation.Play("DoorOpen", 0, 0.0f);
             selectionPrompt = "Cerrar puerta";
+        }
         else
+        {
+            doorAnimation.Play("DoorClose", 0, 0.0f);
             selectionPrompt = "Abrir puerta";
+        }
+
     }
 }

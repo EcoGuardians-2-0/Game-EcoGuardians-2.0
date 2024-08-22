@@ -7,9 +7,7 @@ public class Character : InteractableObject
     [Header("INK JSON")]
     [SerializeField]
     private TextAsset inkJSON;
-
-    [SerializeField]
-    private DialogueData npc;
+    
 
     public override void Interact()
     {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Ink.Runtime;
 using System;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,15 +17,23 @@ public class DialogueManager : MonoBehaviour
 
     public bool isTalking { get; private set; }
 
+
     private Story currentStory;
     private int currentChoiceIndex = 0;
     private Coroutine displayLineCoroutine;
+    private Coroutine playAnimation;
     private bool canContinueToNextLine = false;
 
     private bool submitSkip = false;
     private bool canSkip;
+    private bool canPlay;
+
+    private NPCAnimationManager npcAnimationManager;
+    private string currentSpeaker;
+    private int currentAnimation;
 
     private const string SPEAKER_TAG = "speaker";
+    private const string ANIMATION_TAG = "animation";
 
 
 
@@ -43,6 +52,7 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         isTalking = false;
+        npcAnimationManager = GetComponent<NPCAnimationManager>();
         currentChoiceIndex = 0;
         dialogueUI.dialogueUI.SetActive(false);
     }
@@ -59,6 +69,8 @@ public class DialogueManager : MonoBehaviour
     public void StartConversation(TextAsset inkJSON)
     {
         currentStory = new Story(inkJSON.text);
+        currentSpeaker = "";
+        currentAnimation = -1;
         isTalking = true;
         dialogueUI.dialogueUI.SetActive(true);
         ContinueStory();
@@ -123,6 +135,20 @@ public class DialogueManager : MonoBehaviour
         canSkip = true;
     }
 
+    private IEnumerator PlayAnimation()
+    {
+        while (canPlay)
+        {
+            if (currentSpeaker != "" && currentAnimation >= 0)
+            {
+                npcAnimationManager.setBlendParameter(currentSpeaker, currentAnimation, 0.5f);
+            }
+
+            yield return null;
+        }
+    }
+
+
     private IEnumerator DisplayLine(string line)
     {
         bool isAddingRichTextTag = false;
@@ -130,10 +156,12 @@ public class DialogueManager : MonoBehaviour
 
         canContinueToNextLine = false;
         submitSkip = false;
+        canPlay = true;
         dialogueUI.getDialogueBox().continueIcon.SetActive(false);
         dialogueUI.displayDialogueOptionBox(false);
 
         StartCoroutine(CanSkip());
+        StartCoroutine(PlayAnimation());
 
         for (int i = 0; i < line.ToCharArray().Length; i++)
         {
@@ -160,7 +188,7 @@ public class DialogueManager : MonoBehaviour
                 yield return new WaitForSeconds(typingSpeed);
             }
         }
-
+        canPlay = false;
         dialogueUI.getDialogueBox().continueIcon.SetActive(true);
         DisplayChoices();
         canContinueToNextLine = true;
@@ -191,7 +219,7 @@ public class DialogueManager : MonoBehaviour
             string[] splitTag = tag.Split(':');
             if (splitTag.Length != 2)
             {
-                Debug.LogError("Tag could  not be parsed: " + tag);
+                Debug.LogError("Tag could not be parsed: " + tag);
             }
             string tagKey = splitTag[0].Trim();
             string tagValue = splitTag[1].Trim();
@@ -199,10 +227,15 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
+                    currentSpeaker = tagValue;
                     dialogueUI.getDialogueBox().npcName.text = tagValue;
                     break;
+                case ANIMATION_TAG:
+                    Debug.Log("Animation" + tagValue);
+                    currentAnimation = int.Parse(tagValue);
+                    break;
                 default:
-                    Debug.LogWarning("Tag  came in but not supporte" + tag);
+                    Debug.LogWarning("Tag came in but not supported" + tag);
                     break;
             }
         }
