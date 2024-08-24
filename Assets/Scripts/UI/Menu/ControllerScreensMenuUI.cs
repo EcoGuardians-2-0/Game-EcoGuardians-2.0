@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class ControllerScreensMenuUI : MonoBehaviour
 {
@@ -14,63 +16,79 @@ public class ControllerScreensMenuUI : MonoBehaviour
     [SerializeField] private TMP_Text sensTextValue = null;
     public int mainControllerSen = 4;
 
-    [Header("Levels To Load")]
-    public string newGameLevel;
-    public string levelToLoad;
-    [SerializeField] private GameObject noSavedGame = null;
-
-    private Camera mainCamera;
     private bool menuP = false;
-    public GameObject menuPUI;
-    public GameObject ajustesUI;
-    public GameObject pausaUI;
+    [Header("Screens")]
+    public GameObject pauseUI;
+    public GameObject menu;
+    public GameObject settings;
+    public GameObject audioUI;
+    public GameObject controls;
+    public GameObject game;
+    public GameObject panelExit;
+    public ControllerPauseUI controllerPauseUI;
 
-    private void Start()
+
+    public void Update()
     {
-        showCursor();
+        checkEsc();
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void MenuTrue(bool Menu)
     {
-        if (Menu == true)
-        {
-            menuP = true;
-        }
+        menuP = Menu;
     }
 
-    public void NewGameDialogYes()
-    {
-        hideCursor();
-        SceneManager.LoadScene(newGameLevel);
-
-    }
     public void Regresar()
     {
-        if (menuP == true)
+        if (menuP)
         {
-            menuPUI.SetActive(true);
+            menu.SetActive(true);
             menuP = false;
         }
         else
         {
-            ajustesUI.SetActive(false);
-            pausaUI.SetActive(true);
+            settings.SetActive(false);
+            pauseUI.SetActive(true);
             menuP = false;
         }
-
     }
 
-    public void LoadGame()
+    private void checkEsc()
     {
-        if (PlayerPrefs.HasKey("SavedLevel"))
+        if (Input.GetKeyDown(KeyCode.Escape) && settings.activeSelf)
         {
-            PlayerPrefs.GetString("SavedLevel");
-            SceneManager.LoadScene(levelToLoad);
+            if (!menuP)
+            {
+                settings.SetActive(false);
+                pauseUI.SetActive(true);
+                controllerPauseUI.InGame(true);
+            }
+            else
+            {
+                settings.SetActive(false);
+                menu.SetActive(true);
+                controllerPauseUI.FromMenu(false);
+            }
+
         }
-        else
+        if (Input.GetKeyDown(KeyCode.Escape) && audioUI.activeSelf)
         {
-            noSavedGame.SetActive(true);
+            audioUI.SetActive(false);
+            settings.SetActive(true);
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && game.activeSelf)
+        {
+            game.SetActive(false);
+            settings.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && controls.activeSelf)
+        {
+            controls.SetActive(false);
+            settings.SetActive(true);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && panelExit.activeSelf)
+            panelExit.gameObject.SetActive(false);
     }
 
     public void ExitButton()
@@ -87,18 +105,6 @@ public class ControllerScreensMenuUI : MonoBehaviour
     public void VolumeApply()
     {
         PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
-    }
-
-    public void showCursor()
-    {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-    }
-
-    public void hideCursor()
-    {
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void SetControllerSen(float sensitivity)

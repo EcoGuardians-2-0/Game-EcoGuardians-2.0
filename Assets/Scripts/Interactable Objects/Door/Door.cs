@@ -3,7 +3,7 @@ using UnityEngine;
 public class Door : InteractableObject
 {
     private Animator doorAnimation;
-    private bool active;
+    private bool active = false;
 
     public new void Start()
     {
@@ -19,12 +19,12 @@ public class Door : InteractableObject
 
         if (active)
         {
-            doorAnimation.Play("DoorOpen", 0, 0.0f);
+            doorAnimation.SetBool("door", active);
             selectionPrompt = "Cerrar puerta";
         }
         else
         {
-            doorAnimation.Play("DoorClose", 0, 0.0f);
+            doorAnimation.SetBool("door", active);
             selectionPrompt = "Abrir puerta";
         }
 
