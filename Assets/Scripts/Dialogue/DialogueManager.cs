@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
 {
     [Header("Params")]
     [SerializeField]
-    private float typingSpeed = 0.04f;
+    private float typingSpeed = 0.02f;
     public static DialogueManager instance { get; private set; }
 
     [Header("Dialogue UI")]
@@ -31,7 +31,6 @@ public class DialogueManager : MonoBehaviour
     public bool hasSkipped;
     public bool hasFinished;
 
-    private NPCAnimationManager npcAnimationManager;
     public string currentSpeaker;
     public int currentAnimation;
 
@@ -55,7 +54,6 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         isTalking = false;
-        npcAnimationManager = GetComponent<NPCAnimationManager>();
         currentChoiceIndex = 0;
         dialogueUI.dialogueUI.SetActive(false);
     }

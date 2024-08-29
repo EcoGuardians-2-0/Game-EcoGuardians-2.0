@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 675912658067267899}
   - component: {fileID: 5958642194965701208}
   - component: {fileID: 1000027795961246853}
-  - component: {fileID: 4570120822215714427}
   m_Layer: 0
   m_Name: DialogueManager
   m_TagString: Untagged
@@ -135,6 +134,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   typingSpeed: 0.04
   dialogueUI: {fileID: 1000027795961246853}
+  canPlay: 0
+  hasSkipped: 0
+  hasFinished: 0
+  currentSpeaker: 
+  currentAnimation: 0
 --- !u!114 &1000027795961246853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,23 +159,6 @@ MonoBehaviour:
   - {fileID: 0}
   dialogueOptionBox: {fileID: 0}
   dialogueBox: {fileID: 0}
---- !u!114 &4570120822215714427
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3565475684219632006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06cf61f25a3f35a438572134c5b76928, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterAnimatorList:
-  - characterName: Daisy
-    animator: {fileID: 0}
-  - characterName: BOP
-    animator: {fileID: 0}
 --- !u!1 &3733739295227729927
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +271,37 @@ Transform:
   - {fileID: 675912658067267899}
   - {fileID: 7352677005402012931}
   m_Father: {fileID: 4769830109506449710}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7764981394700529137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7447190211230070863}
+  m_Layer: 0
+  m_Name: HeadFocus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7447190211230070863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7764981394700529137}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.037, y: 1.598, z: -0.005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4363453902300928350}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &6710565259552756505
 PrefabInstance:
@@ -1815,7 +1833,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 7038754273576372807, guid: 0b50129cbff0b7044bee5c7314e61ea3, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7447190211230070863}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0b50129cbff0b7044bee5c7314e61ea3, type: 3}
 --- !u!4 &4363453902300928350 stripped

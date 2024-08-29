@@ -11,7 +11,7 @@ public class NPCBehaviour : StateMachineBehaviour
     private int _numberOfBoredAnimations;
 
     private bool isTalking;
-    private float _dampingTime = 0.2f;
+    private float _dampingTime = 0.6f;
     private int _boredAnimation;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -27,9 +27,6 @@ public class NPCBehaviour : StateMachineBehaviour
             if (DialogueManager.instance.canPlay && name == DialogueManager.instance.currentSpeaker)
             {
                 isTalking = true;
-
-                animator.speed = 1.0f;
-                isTalking = true;
                 _boredAnimation = DialogueManager.instance.currentAnimation;
                 animator.SetFloat("Blend", _boredAnimation - 1);
             }
@@ -38,11 +35,6 @@ public class NPCBehaviour : StateMachineBehaviour
         {
             if (DialogueManager.instance.hasSkipped || stateInfo.normalizedTime % 1 > 0.98)
             {
-                if (DialogueManager.instance.hasSkipped)
-                {
-                    _dampingTime = 0.4f;
-                    animator.speed = 1.2f;
-                }
                 ResetIdle();
             }
         }
