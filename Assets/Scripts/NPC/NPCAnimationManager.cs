@@ -32,17 +32,4 @@ public class NPCAnimationManager : MonoBehaviour
             Debug.LogWarning($"Character {characterName} not found in NPCAnimationManager");
         }
     }
-
-    public void setBlendParameter(string characterName, int value)
-    {
-        Debug.Log($"Valor pasaddo {value}");
-        if (characterAnimators.TryGetValue(characterName, out Animator animator))
-        {
-            animator.SetFloat("Blend", value);
-        }
-        else
-        {
-            Debug.LogWarning($"Character {characterName} not found in NPCAnimationManager");
-        }
-    }
 }

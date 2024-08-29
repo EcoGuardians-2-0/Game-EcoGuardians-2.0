@@ -26,11 +26,14 @@ public class DialogueManager : MonoBehaviour
 
     private bool submitSkip = false;
     private bool canSkip;
-    private bool canPlay;
+
+    public bool canPlay;
+    public bool hasSkipped;
+    public bool hasFinished;
 
     private NPCAnimationManager npcAnimationManager;
-    private string currentSpeaker;
-    private int currentAnimation;
+    public string currentSpeaker;
+    public int currentAnimation;
 
     private const string SPEAKER_TAG = "speaker";
     private const string ANIMATION_TAG = "animation";
@@ -135,20 +138,6 @@ public class DialogueManager : MonoBehaviour
         canSkip = true;
     }
 
-    private IEnumerator PlayAnimation()
-    {
-        while (canPlay)
-        {
-            if (currentSpeaker != "" && currentAnimation >= 0)
-            {
-                npcAnimationManager.setBlendParameter(currentSpeaker, currentAnimation, 0.5f);
-            }
-
-            yield return null;
-        }
-    }
-
-
     private IEnumerator DisplayLine(string line)
     {
         bool isAddingRichTextTag = false;
@@ -157,11 +146,14 @@ public class DialogueManager : MonoBehaviour
         canContinueToNextLine = false;
         submitSkip = false;
         canPlay = true;
+        hasSkipped = false;
+        hasFinished = false;
+
         dialogueUI.getDialogueBox().continueIcon.SetActive(false);
         dialogueUI.displayDialogueOptionBox(false);
 
+
         StartCoroutine(CanSkip());
-        StartCoroutine(PlayAnimation());
 
         for (int i = 0; i < line.ToCharArray().Length; i++)
         {
@@ -169,6 +161,7 @@ public class DialogueManager : MonoBehaviour
             if (submitSkip && canSkip)
             {
                 submitSkip = false;
+                hasSkipped = true;
                 dialogueUI.getDialogueBox().npcDialogue.text = line;
                 break;
             }
@@ -188,7 +181,10 @@ public class DialogueManager : MonoBehaviour
                 yield return new WaitForSeconds(typingSpeed);
             }
         }
+
         canPlay = false;
+        hasFinished = true;
+
         dialogueUI.getDialogueBox().continueIcon.SetActive(true);
         DisplayChoices();
         canContinueToNextLine = true;

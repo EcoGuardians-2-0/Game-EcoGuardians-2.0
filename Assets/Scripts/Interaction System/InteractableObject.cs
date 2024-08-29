@@ -44,7 +44,13 @@ public abstract class InteractableObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+            handleCollision(other);
         }
+    }
+
+    protected virtual void handleCollision(Collider other)
+    {
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -54,11 +60,15 @@ public abstract class InteractableObject : MonoBehaviour
             playerInRange = false;
         }
     }
-
     public virtual void Interact()
     {
         interacting = !interacting;
         SelectionManager.instance.isInteracting = interacting;
+    }
+
+    public string getItemName()
+    {
+        return itemName;
     }
 
 }
