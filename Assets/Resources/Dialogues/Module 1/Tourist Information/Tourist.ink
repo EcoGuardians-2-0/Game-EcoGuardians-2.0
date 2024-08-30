@@ -1,7 +1,7 @@
 -> intro
 
 === intro ===
-    Hola mi nombre es Carlo y soy una guia en <color=\#00FF00>AWAQ</color>. #speaker:Carol #animation:1
+    Hola mi nombre es Sofia y soy una guia en <color=\#00FF00>AWAQ</color>. #speaker:Sofia #animation:1
 * -> question
 
 === question ===
