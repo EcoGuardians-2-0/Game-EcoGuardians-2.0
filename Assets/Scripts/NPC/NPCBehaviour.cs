@@ -11,7 +11,7 @@ public class NPCBehaviour : StateMachineBehaviour
     private int _numberOfBoredAnimations;
 
     private bool isTalking;
-    private float _dampingTime = 0.6f;
+    private float _dampingTime = 0.2f;
     private int _boredAnimation;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

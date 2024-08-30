@@ -8,15 +8,37 @@ public class Character : InteractableObject
     [SerializeField]
     private TextAsset inkJSON;
 
-    Animator animator;
+    private Animator animator;
+    private Transform objTarget;
     public bool ikActive = false;
-    public Transform objTarget;
+    private float lookWeight;
 
     new void Start()
     {
         base.Start();
         animator = GetComponent<Animator>();
     }
+
+    public void Update()
+    {
+        if (playerInRange)
+        {
+            lookWeight = Mathf.Lerp(lookWeight, 1, Time.deltaTime * 2.5f);
+
+            if (objTarget != null)
+            {
+                Vector3 direction = objTarget.position - transform.position;
+                direction.y = 0f;
+                Quaternion rotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Lerp(transform.rotation, rotation, Time.deltaTime * 2f);
+            }
+        }
+        else
+        {
+            lookWeight = Mathf.Lerp(lookWeight, 0, Time.deltaTime * .5f);
+        }
+    }
+
     public override void Interact()
     {
 
@@ -34,7 +56,7 @@ public class Character : InteractableObject
     protected override void handleCollision(Collider other)
     {
         string name = other.gameObject.name;
-        Debug.Log("Game Object: " + name);
+        objTarget= other.GetComponentsInChildren<Transform>()[1];
     }
 
     private void OnAnimatorIK()
@@ -43,10 +65,9 @@ public class Character : InteractableObject
         {
             if (ikActive)
             {
-                if (objTarget != null && playerInRange)
+                if (objTarget != null)
                 {
-                    Debug.Log("Hello there");
-                    animator.SetLookAtWeight(1);
+                    animator.SetLookAtWeight(lookWeight);
                     animator.SetLookAtPosition(objTarget.position);
                 }
             }

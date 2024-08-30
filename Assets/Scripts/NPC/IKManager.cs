@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HeadLook : MonoBehaviour
+public class IKManager : MonoBehaviour
 {
     Animator animator;
     public bool ikActive = false;
     public Transform objTarget;
+    public bool isInRange;
 
     void Start()
     {
@@ -25,7 +26,7 @@ public class HeadLook : MonoBehaviour
         {
             if (ikActive)
             {
-                if(objTarget != null)
+                if(objTarget != null && isInRange)
                 {
                     animator.SetLookAtWeight(1);
                     animator.SetLookAtPosition(objTarget.position);

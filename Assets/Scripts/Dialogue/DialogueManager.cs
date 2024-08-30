@@ -9,7 +9,7 @@ public class DialogueManager : MonoBehaviour
 {
     [Header("Params")]
     [SerializeField]
-    private float typingSpeed = 0.02f;
+    private float typingSpeed = 0.04f;
     public static DialogueManager instance { get; private set; }
 
     [Header("Dialogue UI")]
