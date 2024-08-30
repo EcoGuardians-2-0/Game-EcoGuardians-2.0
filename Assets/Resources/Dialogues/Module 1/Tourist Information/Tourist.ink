@@ -12,7 +12,7 @@
         Ayudo a<color=\#FFFF00> resolver inquietudes</color>.
         -> question
     + [Nada estoy bien]
-        Okay estaré aquí por si me necesitas. #animation:2
+        Okay estaré aquí por si me necesitas.
         -> DONE
 
 === JOKE ===
