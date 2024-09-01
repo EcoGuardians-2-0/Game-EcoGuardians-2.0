@@ -84,6 +84,7 @@ public class DialogueManager : MonoBehaviour
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
+        CameraUtilityManager.Instance.SetCameraOff();
     }
 
     private void HandleInput()
