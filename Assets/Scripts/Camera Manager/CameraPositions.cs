@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class CameraPositions
 {
+    private static int currentConfigIndex = 0;
+
     public static void GetRandomConfig(CinemachineVirtualCamera camera)
     {
         // Get the type of the class CameraPositions
@@ -21,15 +23,31 @@ public class CameraPositions
             return;
         }
 
-        // Select a random index from the array of 'Config' methods
-        int randomIndex = UnityEngine.Random.Range(0, configMethods.Length);
+        // Handle cases where there's only one config method
+        int randomIndex;
+        if (configMethods.Length == 1)
+        {
+            randomIndex = 0; // Only one method, so we use it.
+        }
+        else
+        {
+            // Select a random index from the array of 'Config' methods
+            do
+            {
+                randomIndex = UnityEngine.Random.Range(0, configMethods.Length);
+            } while (randomIndex == currentConfigIndex);
+        }
+
+        // Update the current config index
+        currentConfigIndex = randomIndex;
 
         // Create an instance of CameraPositions to invoke the selected method
         CameraPositions instance = new CameraPositions();
 
         // Invoke the randomly selected method
-        configMethods[randomIndex].Invoke(instance, new object[] { camera});
+        configMethods[randomIndex].Invoke(instance, new object[] { camera });
     }
+
 
 
     public void Config1(CinemachineVirtualCamera camera)

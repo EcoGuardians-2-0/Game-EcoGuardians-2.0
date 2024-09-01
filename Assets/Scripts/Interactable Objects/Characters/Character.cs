@@ -49,6 +49,8 @@ public class Character : InteractableObject
             DisableObjects.Instance.disableCameras();
             DisableObjects.Instance.disableSwitchCamera();
             DialogueManager.instance.StartConversation(inkJSON);
+
+            CameraUtilityManager.Instance.SetCameraOnCharacter(transform);
         }
 
     }
