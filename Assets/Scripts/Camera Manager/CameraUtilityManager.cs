@@ -72,9 +72,8 @@ public class CameraUtilityManager : MonoBehaviour
     {
         while (DialogueManager.instance.isTalking)
         {
-            Debug.Log("Changing camera values");
             CameraPositions.GetRandomConfig(utilityCamera);
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(secondsToChangeCamera);
         }
     }
 }
