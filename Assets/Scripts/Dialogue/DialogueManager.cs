@@ -15,6 +15,10 @@ public class DialogueManager : MonoBehaviour
     [Header("Dialogue UI")]
     public DialogueUI dialogueUI;
 
+    [Header("Globals Ink File")]
+    [SerializeField]
+    private TextAsset loadGlobalsJSON;
+
     public bool isTalking { get; private set; }
 
 
@@ -37,6 +41,8 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string ANIMATION_TAG = "animation";
 
+    private DialogueVariables dialogueVariables;
+
 
 
     private void Awake()
@@ -56,6 +62,7 @@ public class DialogueManager : MonoBehaviour
         isTalking = false;
         currentChoiceIndex = 0;
         dialogueUI.dialogueUI.SetActive(false);
+        dialogueVariables = new DialogueVariables();
     }
 
     void Update()
@@ -72,6 +79,10 @@ public class DialogueManager : MonoBehaviour
         currentStory = new Story(inkJSON.text);
         currentSpeaker = "";
         currentAnimation = -1;
+
+        dialogueVariables.initializeVariables(inkJSON);
+        dialogueVariables.StartListening(currentStory);
+
         isTalking = true;
         dialogueUI.dialogueUI.SetActive(true);
         ContinueStory();
@@ -79,6 +90,7 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        dialogueVariables.StopListening(currentStory);
         isTalking = false;
         dialogueUI.dialogueUI.SetActive(false);
         SelectionManager.instance.isInteracting = false;
