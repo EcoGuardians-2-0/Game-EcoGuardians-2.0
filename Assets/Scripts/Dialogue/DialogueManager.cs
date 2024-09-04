@@ -41,7 +41,7 @@ public class DialogueManager : MonoBehaviour
     private const string SPEAKER_TAG = "speaker";
     private const string ANIMATION_TAG = "animation";
 
-    private DialogueVariables dialogueVariables;
+    public DialogueVariables dialogueVariables { get; private set; }
 
 
 
@@ -234,6 +234,7 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
+                    Debug.Log("Speaker:" + tagValue);
                     currentSpeaker = tagValue;
                     dialogueUI.getDialogueBox().npcName.text = tagValue;
                     break;
@@ -263,7 +264,10 @@ public class DialogueManager : MonoBehaviour
 
     }
 
-
+    public Ink.Runtime.Object GetVariableState(string variableName)
+    {
+        return dialogueVariables.searchVariable(variableName);
+    }
 
     private void MakeChoice()
     {

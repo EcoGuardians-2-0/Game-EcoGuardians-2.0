@@ -1,28 +1,53 @@
--> intro
+INCLUDE ../../Globals/globals.ink
 
-=== intro ===
-    Hola mi nombre es Lala y soy una guia en <color=\#00FF00>AWAQ</color>. #speaker:Alexa #animation:1
-* -> question
+VAR already_talked = false
 
-=== question ===
-    Dime, ¿En qué te puedo ayudar? #animation:3
-    + [Cuentame un chiste]
-        -> JOKE
-    + [¿Qué haces en el parque?]
-        Ayudo a<color=\#FFFF00> resolver inquietudes</color>.
-        -> question
-    + [Nada estoy bien]
-        Okay estaré aquí por si me necesitas.
-        -> DONE
+{ already_talked:
+    -> intro2
+    - else:
+    -> intro
+}
 
-=== JOKE ===
-    -¿Qué le dijo<color=\#A020F0> una mora a otra </color>? #animation:5
-    -¡Tu me ena-moras!
-    + [Fue muy gracioso]
-        -> question
-    + [No me gusto el chiste]
-        Okay tal vez no fue gracioso pero...
-        -> question
+
+=== intro
+    Hola, Soy María, la enfermera de la estación. Estoy aquí para ayudarte con cualquier problema de salud que puedas tener. #speaker:Alexa #animation:1
+    -> question
+
+=== intro2
+    ¡Hola amig@¡ ¿Cómo te ha ido?
+    -> question
+    
+
+=== question
+
+    {  already_talked:
+        ¿Necesitas algo más de mi parte? #animation: 3
+      - else:
+        ¿De qué te gustaría hablar? #animation: 3
+    }
+    
+    +[¿Qué es lo más inusual que has tenido que tratar?]
+        -> q1
+    +[¿Qué te gusta hacer cuando no estás trabajando?]
+        -> q2
+    +[Seguire explorando la estación]
+        -> f1
+
+=== q1
+    Una vez tuve que tratar con un compañero con una rara reacción a una planta local. #animation: 5
+    -> question
+
+=== q2
+    Cuando no estoy en la enfermería, me gusta explorar la fauna local.
+    -> question
+
+=== f1
+    ¡Cuidate y recuerda, estoy aquí si necesitas algo! #animation: 1
+    {  already_talked == false:
+        ~global_mision_completada = "quest_001"
+    }
+    ~already_talked = true
+    -> DONE
 
 * -> END
     
