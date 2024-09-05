@@ -33,22 +33,19 @@ VAR already_talked = false
     ->DONE
 
 === second_time
-   ¡Hola de nuevo! ¿Cómo te fue con mis compañeros? #speaker: carlos #animation:1
+   ¡Hola de nuevo! ¿Cómo te fue con mis compañeros? #speaker: Carlos #animation:1
    -> question
 
 === question
     Dime, ¿Tienes alguna pregunta? # animation: 3
-    
-   * [Todo bien, ¿qué haces aquí?] 
-        -> work_question
-   
-   * [Nada más, adiós]
+   + [Todo bien, ¿qué haces aquí?]
+        -> end_dialogue
+   + [Nada más, adiós]
         -> end_dialogue    
    
 === work_question
-    Soy responsable de monitorear la salud de todos los seres vivos en esta estación. <>
-    Es un trabajo fascinante pero demandante. # animation: 5
-    -> question
+    Soy responsable de monitorear la salud de todos los seres vivos en esta estación. # animation: 5
+    *-> question
 
 === end_dialogue
     ¡Hasta luego! <>
@@ -57,11 +54,8 @@ VAR already_talked = false
 
     
 === cuestionario ==
-    Estas listo para hacer el cuestionario.
+    Estas listo para hacer el cuestionario. #speaker: Carlos # animation: 1
     ->DONE
     
 
 * -> END
-    
-
-

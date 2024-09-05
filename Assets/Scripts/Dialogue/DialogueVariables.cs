@@ -37,7 +37,8 @@ public class DialogueVariables
 
                 if (name.StartsWith("global"))
                 {
-                    variables2["globals"][name] =  value;
+                    if (currentStoryName.StartsWith("Load"))
+                        variables2["globals"][name] =  value;
                 }
                 else
                 {

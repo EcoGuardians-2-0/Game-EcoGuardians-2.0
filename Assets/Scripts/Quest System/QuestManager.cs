@@ -82,7 +82,8 @@ public class QuestManager : MonoBehaviour
      * Returns: 
      *      -> int - the number of active titles
      */
-    public int GetActiveTitlesCount() {
+    public int GetActiveTitlesCount()
+    {
         return activeTitles.Count;
     }
 
@@ -136,10 +137,13 @@ public class QuestManager : MonoBehaviour
      */
     public void CompleteQuest(string questId)
     {
+        Debug.Log("Quest id: " + questId);
         if (activeQuests.ContainsKey(questId))
         {
             GameObject quest = activeQuests[questId];
             GameObject checkBox = quest.transform.Find("Checkbox").gameObject;
+            checkBox.AddComponent<Toggle>();
+            checkBox.GetComponent<Toggle>().isOn = true;
             RawImage rawImage = checkBox.GetComponent<RawImage>();
 
             if (rawImage.texture != spriteCompleted.texture)
@@ -211,8 +215,10 @@ public class QuestManager : MonoBehaviour
                 for (int i = 0; i < 2; i++)
                     LayoutRebuilder.ForceRebuildLayoutImmediate(QuestListParent.GetComponent<RectTransform>());
 
-            } else {
-                Debug.LogWarning("Can't add title: " + titleId + " because textMeshPro couldn't be found."); 
+            }
+            else
+            {
+                Debug.LogWarning("Can't add title: " + titleId + " because textMeshPro couldn't be found.");
                 Destroy(newTitle);
             }
         }
@@ -243,8 +249,23 @@ public class QuestManager : MonoBehaviour
         {
             Destroy(noQuestsTitle);
             noQuestsTitle = null;
-        } else
+        }
+        else
             Debug.LogWarning("Title with ID " + titleId + " does not exist.");
+    }
+
+    public bool AllQuestsCompleted()
+    {
+        int questsToDelete = 0;
+        foreach (var questEntry in activeQuests)
+        {
+            Toggle toggle = questEntry.Value.GetComponentInChildren<Toggle>();
+            if (toggle != null && toggle.isOn)
+            {
+                questsToDelete++;
+            }
+        }
+        return activeQuests.Count == questsToDelete;
     }
 
     /*

@@ -44,10 +44,6 @@ public class Character : InteractableObject
 
         if (!DialogueManager.instance.isTalking)
         {
-            SelectionManager.instance.isInteracting = true;
-            DisableObjects.Instance.disableCharacterController();
-            DisableObjects.Instance.disableCameras();
-            DisableObjects.Instance.disableSwitchCamera();
             DialogueManager.instance.StartConversation(inkJSON);
 
             //CameraUtilityManager.Instance.SetCameraOnCharacter(transform);

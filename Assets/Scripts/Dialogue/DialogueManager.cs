@@ -31,12 +31,12 @@ public class DialogueManager : MonoBehaviour
     private bool submitSkip = false;
     private bool canSkip;
 
-    public bool canPlay;
-    public bool hasSkipped;
-    public bool hasFinished;
+    public bool canPlay { get; private set; }
+    public bool hasSkipped { get; private set; }
+    public bool hasFinished { get; private set; }
 
-    public string currentSpeaker;
-    public int currentAnimation;
+    public string currentSpeaker { get; private set;}
+    public int currentAnimation { get; private set;}
 
     private const string SPEAKER_TAG = "speaker";
     private const string ANIMATION_TAG = "animation";
@@ -63,6 +63,7 @@ public class DialogueManager : MonoBehaviour
         currentChoiceIndex = 0;
         dialogueUI.dialogueUI.SetActive(false);
         dialogueVariables = new DialogueVariables();
+        dialogueVariables.initializeVariables(loadGlobalsJSON);
     }
 
     void Update()
@@ -76,6 +77,11 @@ public class DialogueManager : MonoBehaviour
 
     public void StartConversation(TextAsset inkJSON)
     {
+        SelectionManager.instance.isInteracting = true;
+        DisableObjects.Instance.disableCharacterController();
+        DisableObjects.Instance.disableCameras();
+        DisableObjects.Instance.disableSwitchCamera();
+
         currentStory = new Story(inkJSON.text);
         currentSpeaker = "";
         currentAnimation = -1;
@@ -151,6 +157,8 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator DisplayLine(string line)
     {
+        Debug.Log("Story" + line);
+
         bool isAddingRichTextTag = false;
         dialogueUI.getDialogueBox().npcDialogue.text = "";
 
@@ -263,12 +271,6 @@ public class DialogueManager : MonoBehaviour
         }
 
     }
-
-    public Ink.Runtime.Object GetVariableState(string variableName)
-    {
-        return dialogueVariables.searchVariable(variableName);
-    }
-
     private void MakeChoice()
     {
         if (canContinueToNextLine)
@@ -277,6 +279,11 @@ public class DialogueManager : MonoBehaviour
             currentChoiceIndex = 0;
             ContinueStory();
         }
+    }
+
+    public Ink.Runtime.Object GetVariableState(string variableName)
+    {
+        return dialogueVariables.searchVariable(variableName);
     }
 
 }

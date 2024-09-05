@@ -31,13 +31,13 @@ public class TestQuestManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K))
         {
             // Marcar la tarea como activa
-            questManager.AddQuest("TEST " + questManager.GetActiveQuestsCount(), "Carlos es gay " + questManager.GetActiveQuestsCount());
+            questManager.AddQuest("TEST " + questManager.GetActiveQuestsCount(), "Quest example " + questManager.GetActiveQuestsCount());
         }
 
         if (Input.GetKeyDown(KeyCode.H))
         {
             // Marcar la tarea como activa
-            questManager.AddTitle("TEST " + questManager.GetActiveTitlesCount(), "Carlos es gay JAJAJA " + questManager.GetActiveTitlesCount());
+            questManager.AddTitle("TEST " + questManager.GetActiveTitlesCount(), "Quests' title " + questManager.GetActiveTitlesCount());
         }
 
         if (Input.GetKeyDown(KeyCode.J))

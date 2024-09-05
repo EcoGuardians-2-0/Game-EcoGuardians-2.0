@@ -3,9 +3,9 @@ INCLUDE ../../Globals/globals.ink
 VAR already_talked = false
 
 { already_talked:
-    -> intro2
+        -> intro2
     - else:
-    -> intro
+        -> intro
 }
 
 
@@ -44,9 +44,13 @@ VAR already_talked = false
 === f1
     ¡Cuidate y recuerda, estoy aquí si necesitas algo! #animation: 1
     {  already_talked == false:
-        ~global_mision_completada = "quest_001"
+        ~already_talked = true
     }
-    ~already_talked = true
+    
+    { global_misiones_1 == true:
+        ~global_mision_completada = "quest_1"
+    }
+    
     -> DONE
 
 * -> END

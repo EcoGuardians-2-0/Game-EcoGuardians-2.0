@@ -38,7 +38,10 @@ public class JSONReader
         // Add quests to the quest manager, the first quest is the title
         for (int i = 0; i < questList.quests.Length; i++)
         {
-            questManager.AddQuest(questList.quests[i].stringid, questList.quests[i].description);
+            if (i == 0)
+                questManager.AddTitle(questList.quests[i].stringid, questList.quests[i].description);
+            else
+                questManager.AddQuest(questList.quests[i].stringid, questList.quests[i].description);
         }
     }
 }
