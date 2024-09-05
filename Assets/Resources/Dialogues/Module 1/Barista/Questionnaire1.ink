@@ -7,8 +7,9 @@ VAR current_question = 1
 Estas a punto de responder algunas preguntas.
 
 ¿Estás listo?
-+ [Sí] -> questionnaire
-* [No] 
+* [Sí]
+    -> questionnaire
+* [No]
     Vale avisame cuando quieras realizar el cuestionario.
     -> END
 
