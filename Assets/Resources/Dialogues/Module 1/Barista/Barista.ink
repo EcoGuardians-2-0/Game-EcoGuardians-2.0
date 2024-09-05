@@ -1,15 +1,21 @@
 INCLUDE ../../Globals/globals.ink
+INCLUDE Questionnaire1.ink
 
 VAR already_talked = false
+VAR failed_test = 0
 
-{ global_cuestionario_1:
-    -> cuestionario
-    -  else:
-    { already_talked:
-        -> second_time
-    - else:
-        -> intro
+{ global_pass_1 == false:
+    {   global_cuestionario_1:
+        -> cuestionario
+        -else:
+        {   already_talked: 
+             -> second_time
+            -else:
+             -> intro
+        }
     }
+    -else:
+        ->suerte
 }
 
 // Carlos' introduction
@@ -39,7 +45,7 @@ VAR already_talked = false
 === question
     Dime, ¿Tienes alguna pregunta? # animation: 3
    + [Todo bien, ¿qué haces aquí?]
-        -> end_dialogue
+        -> work_question
    + [Nada más, adiós]
         -> end_dialogue    
    
@@ -52,10 +58,30 @@ VAR already_talked = false
     Recuerda hablar con mis otros compañeros para cumplir el reto.
     * -> DONE
 
+=== suerte
+    Dirigite al siguiente módulo, allí encontrás a más de mis compañeros.
+    * -> DONE
     
 === cuestionario ==
-    Estas listo para hacer el cuestionario. #speaker: Carlos # animation: 1
-    ->DONE
+    {   failed_test > 0:
+            Has vuelto a intentar el cuestionario, te deseo mucha suerte.#speaker: Carlos # animation: 1
+        -else:
+            Veo que estás preparado para realizar el cuestionario #speaker: Carlos # animation: 1
+    }
+    ->start->evaluacion
+
+== evaluacion
+    {score>= passing_score:
+        ~ global_pass_1 = true
+        !Felicidades has pasado el primer cuestionario!
+        Sigue las escalera y entraras al restaurante, alli podras conocer al chef.
+     -else:
+        ~failed_test++
+        Lo siento pero no has alcanzado el puntaje suficiente.
+        Puedes volver a intentarlo de nuevo.
+    }
+    ~score = 0
+    *->DONE
     
 
 * -> END

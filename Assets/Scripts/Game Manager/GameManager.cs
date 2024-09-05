@@ -38,7 +38,8 @@ public class GameManager : MonoBehaviour
             if (mission_name != "")
             {
                 questManager.CompleteQuest(mission_name);
-                mission_name = "";
+                Ink.Runtime.StringValue mission = new Ink.Runtime.StringValue("");
+                DialogueManager.instance.dialogueVariables.variables2["globals"]["global_mision_completada"] = mission;
             }
 
             if(questManager.AllQuestsCompleted())
