@@ -51,7 +51,7 @@ VAR failed_test = 0
    
 === work_question
     Soy responsable de monitorear la salud de todos los seres vivos en esta estación. # animation: 5
-    *-> question
+    -> question
 
 === end_dialogue
     ¡Hasta luego! <>

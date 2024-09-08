@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     private float? jumpButtonPressedTime;
     private bool isJumping;
     private bool isGrounded;
-    public bool isInGame = false;
+    public bool isInGame;
     private float inputMagnitude;
 
     public bool GetIsGrounded(){ return isGrounded; }
