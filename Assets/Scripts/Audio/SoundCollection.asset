@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0be198cc54a4e64db541f1384c318ba, type: 3}
+  m_Name: SoundCollection
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: environment
+    volume: 1
+    mixer: {fileID: 6828741450809782553, guid: 179b00d65c207db44a1825e51452105b, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: c8871fd4f6fe0ca4195372c7e71467e2, type: 3}
+  - name: doorOpenGlass
+    volume: 1
+    mixer: {fileID: 43938841088214050, guid: 01813cf4dce6b2e428eefbce4353239c, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 3b337b670440f20498dffdc0418fe920, type: 3}
+  - name: doorClosedGlass
+    volume: 1
+    mixer: {fileID: 43938841088214050, guid: 01813cf4dce6b2e428eefbce4353239c, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 2719bdc8c82c43a4faef541ecf2e3a2d, type: 3}
+  - name: doorOpenWood
+    volume: 1
+    mixer: {fileID: 43938841088214050, guid: 01813cf4dce6b2e428eefbce4353239c, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: f677351afc9770e42aee78010e4f2765, type: 3}
+  - name: doorClosedWood
+    volume: 1
+    mixer: {fileID: 43938841088214050, guid: 01813cf4dce6b2e428eefbce4353239c, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: 67708b77846437f4aa8e55a2246d1844, type: 3}
+  - name: dialogSpeaking
+    volume: 1
+    mixer: {fileID: 0}
+    sounds: []
+  - name: dialogForward
+    volume: 1
+    mixer: {fileID: 0}
+    sounds: []
+  - name: dialogHover
+    volume: 1
+    mixer: {fileID: 0}
+    sounds: []
+  - name: uiHover
+    volume: 1
+    mixer: {fileID: 321081603194565148, guid: 5e41f0ab607a57848a1552ef582df9cb, type: 2}
+    sounds:
+    - {fileID: 8300000, guid: ddd39787d5af69b4fb8fcac9cf375740, type: 3}
