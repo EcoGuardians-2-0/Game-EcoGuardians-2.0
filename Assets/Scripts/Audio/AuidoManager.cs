@@ -45,7 +45,7 @@ public class AudioManager : MonoBehaviour
     private void LoadFootstepCollections()
     {
         footstepCollections = new Dictionary<string, FootstepCollection>();
-        FootstepCollection[] collections = Resources.LoadAll<FootstepCollection>("FootstepsCollection");
+        FootstepCollection[] collections = Resources.LoadAll<FootstepCollection>("FootStepsCollection");
         foreach (var collection in collections)
         {
             footstepCollections[collection.name] = collection;

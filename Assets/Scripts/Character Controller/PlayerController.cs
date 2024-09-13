@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
     [SerializeField]
     private float jumpHeight;
 
@@ -17,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpButtonGracePeriod;
 
-    [SerializeField] 
+    [SerializeField]
     private float jumpHorizontalSpeed;
 
     [SerializeField]
@@ -32,19 +31,32 @@ public class PlayerController : MonoBehaviour
     private float? jumpButtonPressedTime;
     private bool isJumping;
     private bool isGrounded;
+    private bool wasGrounded;
     public bool isInGame;
     private float inputMagnitude;
+    private AudioSource playerAudioSource;
 
-    public bool GetIsGrounded(){ return isGrounded; }
+    private float walkSFXInterval = 0.5f;
+    private float runSFXInterval = 0.3f;
+    private float nextSFXTime;
+    private SurfaceDetector surfaceDetector;
+    private float lastFootstepTime;
+
+    public bool GetIsGrounded() { return isGrounded; }
 
     void Start()
     {
+        isInGame = false;
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         originalStepOffset = characterController.stepOffset;
+        nextSFXTime = 0f;
+        playerAudioSource = GetComponent<AudioSource>();
+        wasGrounded = true;
+        surfaceDetector = gameObject.AddComponent<SurfaceDetector>();
+        lastFootstepTime = 0f;
     }
 
-    // Update is called once per frame
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -52,20 +64,22 @@ public class PlayerController : MonoBehaviour
 
         Vector3 movementDirection;
 
-        if (!isInGame)
-        {
-            jumpHeight = 0f;
-            inputMagnitude = 0f;
-            movementDirection = Vector3.zero;
-        }
-        else
+        if (isInGame)
         {
             jumpHeight = 1f;
             movementDirection = new Vector3(horizontalInput, 0, verticalInput);
             inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         }
+        else
+        {
+            jumpHeight = 0f;
+            inputMagnitude = 0f;
+            movementDirection = Vector3.zero;
+        }
 
-        if (!Input.GetKey(KeyCode.LeftShift)){
+        bool isRunning = Input.GetKey(KeyCode.LeftShift);
+        if (!isRunning)
+        {
             inputMagnitude /= 2;
         }
 
@@ -75,8 +89,8 @@ public class PlayerController : MonoBehaviour
         movementDirection.Normalize();
 
         float gravity = Physics.gravity.y * gravityMultiplier;
-        
-        if(isJumping && ySpeed > 0 && !Input.GetButton("Jump"))
+
+        if (isJumping && ySpeed > 0 && !Input.GetButton("Jump"))
         {
             gravity *= 2;
         }
@@ -88,12 +102,17 @@ public class PlayerController : MonoBehaviour
             lastGroundedTime = Time.time;
         }
 
+        // Detect jump start
         if (Input.GetButtonDown("Jump") && isInGame)
         {
             jumpButtonPressedTime = Time.time;
+            if (isGrounded)
+            {
+                OnJumpStart();
+            }
         }
 
-        if (Time.time -lastGroundedTime <= jumpButtonGracePeriod)
+        if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
         {
             characterController.stepOffset = originalStepOffset;
             ySpeed = -0.5f;
@@ -103,13 +122,14 @@ public class PlayerController : MonoBehaviour
             isJumping = false;
             animator.SetBool("isFalling", false);
 
-            if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod) 
+            if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
             {
                 ySpeed = Mathf.Sqrt(jumpHeight * -3 * gravity);
                 animator.SetBool("isJumping", true);
                 isJumping = true;
                 jumpButtonPressedTime = null;
                 lastGroundedTime = null;
+                OnJumpStart();
             }
         }
         else
@@ -117,22 +137,36 @@ public class PlayerController : MonoBehaviour
             characterController.stepOffset = 0;
             animator.SetBool("isGrounded", false);
             isGrounded = false;
-            if((isJumping && ySpeed < 0) || (ySpeed < -10f))
+            if ((isJumping && ySpeed < 0) || (ySpeed < -10f))
             {
                 animator.SetBool("isFalling", true);
             }
         }
 
-        if(movementDirection != Vector3.zero)
+        // Check surface less frequently
+        if (Time.time - lastFootstepTime >= 0.5f)
+        {
+            surfaceDetector.CheckSurface();
+            lastFootstepTime = Time.time;
+        }
+
+        if (movementDirection != Vector3.zero && isGrounded)
         {
             animator.SetBool("isMoving", true);
             Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed);
+
+            if (Time.time >= nextSFXTime)
+            {
+                AudioManager.Instance.PlayFootstepSound(isRunning);
+                nextSFXTime = Time.time + (isRunning ? runSFXInterval : walkSFXInterval);
+            }
         }
         else
         {
             animator.SetBool("isMoving", false);
+            nextSFXTime = 0f;
         }
 
         if (!isGrounded)
@@ -142,8 +176,15 @@ public class PlayerController : MonoBehaviour
 
             characterController.Move(velocity * Time.deltaTime);
         }
-    }
 
+        // Detect landing
+        if (!wasGrounded && isGrounded)
+        {
+            OnLand();
+        }
+
+        wasGrounded = isGrounded;
+    }
 
     private void OnAnimatorMove()
     {
@@ -161,12 +202,12 @@ public class PlayerController : MonoBehaviour
     {
         var ray = new Ray(transform.position, Vector3.down);
 
-        if(Physics.Raycast(ray, out RaycastHit hitInfo, 0.2f))
+        if (Physics.Raycast(ray, out RaycastHit hitInfo, 0.2f))
         {
             var slopeRotation = Quaternion.FromToRotation(Vector3.up, hitInfo.normal);
-            var  adjustedVelocity = slopeRotation * velocity;
+            var adjustedVelocity = slopeRotation * velocity;
 
-            if(adjustedVelocity.y < 0)
+            if (adjustedVelocity.y < 0)
             {
                 return adjustedVelocity;
             }
@@ -175,4 +216,13 @@ public class PlayerController : MonoBehaviour
         return velocity;
     }
 
+    private void OnJumpStart()
+    {
+        AudioManager.Instance.PlayJumpSound();
+    }
+
+    private void OnLand()
+    {
+        AudioManager.Instance.PlayLandSound();
+    }
 }
