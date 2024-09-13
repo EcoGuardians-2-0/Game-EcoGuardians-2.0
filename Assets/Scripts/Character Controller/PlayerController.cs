@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -34,13 +32,11 @@ public class PlayerController : MonoBehaviour
     private bool wasGrounded;
     public bool isInGame;
     private float inputMagnitude;
-    private AudioSource playerAudioSource;
 
-    private float walkSFXInterval = 0.5f;
-    private float runSFXInterval = 0.3f;
-    private float nextSFXTime;
     private SurfaceDetector surfaceDetector;
-    private float lastFootstepTime;
+    private float lastSurfaceCheckTime;
+
+    public bool IsRunning { get; private set; }
 
     public bool GetIsGrounded() { return isGrounded; }
 
@@ -50,11 +46,9 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         originalStepOffset = characterController.stepOffset;
-        nextSFXTime = 0f;
-        playerAudioSource = GetComponent<AudioSource>();
         wasGrounded = true;
         surfaceDetector = gameObject.AddComponent<SurfaceDetector>();
-        lastFootstepTime = 0f;
+        lastSurfaceCheckTime = 0f;
     }
 
     void Update()
@@ -77,8 +71,8 @@ public class PlayerController : MonoBehaviour
             movementDirection = Vector3.zero;
         }
 
-        bool isRunning = Input.GetKey(KeyCode.LeftShift);
-        if (!isRunning)
+        IsRunning = Input.GetKey(KeyCode.LeftShift);
+        if (!IsRunning)
         {
             inputMagnitude /= 2;
         }
@@ -144,36 +138,27 @@ public class PlayerController : MonoBehaviour
         }
 
         // Check surface less frequently
-        if (Time.time - lastFootstepTime >= 0.5f)
+        if (Time.time - lastSurfaceCheckTime >= 0.5f)
         {
             surfaceDetector.CheckSurface();
-            lastFootstepTime = Time.time;
+            lastSurfaceCheckTime = Time.time;
         }
 
         if (movementDirection != Vector3.zero && isGrounded)
         {
             animator.SetBool("isMoving", true);
             Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed);
-
-            if (Time.time >= nextSFXTime)
-            {
-                AudioManager.Instance.PlayFootstepSound(isRunning);
-                nextSFXTime = Time.time + (isRunning ? runSFXInterval : walkSFXInterval);
-            }
         }
         else
         {
             animator.SetBool("isMoving", false);
-            nextSFXTime = 0f;
         }
 
         if (!isGrounded)
         {
             Vector3 velocity = movementDirection * inputMagnitude * jumpHorizontalSpeed;
             velocity.y = ySpeed;
-
             characterController.Move(velocity * Time.deltaTime);
         }
 
@@ -193,7 +178,6 @@ public class PlayerController : MonoBehaviour
             Vector3 velocity = animator.deltaPosition;
             velocity = AdjustVelocityToSlope(velocity);
             velocity.y = ySpeed * Time.deltaTime;
-
             characterController.Move(velocity);
         }
     }
