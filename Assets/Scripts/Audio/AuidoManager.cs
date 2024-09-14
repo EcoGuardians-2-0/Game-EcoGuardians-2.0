@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
 {
+    // Audio sources
+    [Header("Audio Sources")]
     [SerializeField] private AudioSource globalAudioSource, musicAudioSource;
     [SerializeField] private SoundsSO soundCollection;
 

@@ -5,12 +5,19 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEditor;
+using UnityEngine.Audio;
 
 public class ControllerScreensMenuUI : MonoBehaviour
-{
+{   
+
+    // Get the audio mixers
+    [Header("Audio Mixers")]
+    [SerializeField]
+    public AudioMixer mainMixer;
 
     [Header("Volume Setting")]
-    [SerializeField] private TMP_Text volumeTextValue = null;
+    [SerializeField] private TMP_Text sfxVolumeValue = null;
+    [SerializeField] private TMP_Text musicVolumeValue = null;
 
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
@@ -96,15 +103,18 @@ public class ControllerScreensMenuUI : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    public void SetVolume(float volume)
+    public void setSFXVolume(float sfxVolume)
     {
-        AudioListener.volume = volume;
-        volumeTextValue.text = volume.ToString("0.0");
+        // Get the related audio mixers SFX volume and set it
+        mainMixer.SetFloat("sfxVolume", sfxVolume);
+        sfxVolumeValue.text = sfxVolume.ToString("0.0");
     }
 
-    public void VolumeApply()
+    public void setMusicVolume(float musicVolume)
     {
-        PlayerPrefs.SetFloat("masterVolume", AudioListener.volume);
+        // Get the related audio mixers Music volume and set it
+        mainMixer.SetFloat("musicVolume", musicVolume);
+        musicVolumeValue.text = musicVolume.ToString("0.0");
     }
 
     public void SetControllerSen(float sensitivity)
