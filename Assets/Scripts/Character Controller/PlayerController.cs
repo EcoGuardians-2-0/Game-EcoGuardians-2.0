@@ -89,8 +89,6 @@ public class PlayerController : MonoBehaviour
             gravity *= 2;
         }
 
-        ySpeed += gravity * Time.deltaTime;
-
         if (characterController.isGrounded)
         {
             lastGroundedTime = Time.time;
@@ -109,7 +107,13 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
         {
             characterController.stepOffset = originalStepOffset;
-            ySpeed = -0.5f;
+
+            // Only reset ySpeed to a small value when the player is grounded and not jumping
+            if (!isJumping)
+            {
+                ySpeed = -0.5f; // Slight downward force to keep grounded
+            }
+
             animator.SetBool("isGrounded", true);
             isGrounded = true;
             animator.SetBool("isJumping", false);
@@ -118,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
             if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
             {
-                ySpeed = Mathf.Sqrt(jumpHeight * -3 * gravity);
+                ySpeed = Mathf.Sqrt(jumpHeight * -2 * gravity); // Apply proper jump force
                 animator.SetBool("isJumping", true);
                 isJumping = true;
                 jumpButtonPressedTime = null;
@@ -131,10 +135,17 @@ public class PlayerController : MonoBehaviour
             characterController.stepOffset = 0;
             animator.SetBool("isGrounded", false);
             isGrounded = false;
+
             if ((isJumping && ySpeed < 0) || (ySpeed < -10f))
             {
                 animator.SetBool("isFalling", true);
             }
+        }
+
+        // Always apply gravity when the player is not grounded
+        if (!characterController.isGrounded)
+        {
+            ySpeed += gravity * Time.deltaTime;
         }
 
         // Check surface less frequently
@@ -203,10 +214,18 @@ public class PlayerController : MonoBehaviour
     private void OnJumpStart()
     {
         AudioManager.Instance.PlayJumpSound();
+        Debug.Log("Jump");
     }
 
     private void OnLand()
     {
-        AudioManager.Instance.PlayLandSound();
+        Debug.Log(ySpeed);
+
+        if (ySpeed < -2f)
+        {
+            Debug.Log("Fall");
+            AudioManager.Instance.PlayLandSound();
+            Debug.Log("Land");
+        }
     }
 }

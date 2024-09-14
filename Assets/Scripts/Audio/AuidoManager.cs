@@ -7,7 +7,11 @@ public class AudioManager : MonoBehaviour
 {
     // Audio sources
     [Header("Audio Sources")]
-    [SerializeField] private AudioSource globalAudioSource, musicAudioSource;
+    [SerializeField] private AudioSource sfxAudioSource;
+    [SerializeField] private AudioSource musicAudioSource;
+
+    // Sound collection
+    [Header("Sound Collection")]
     [SerializeField] private SoundsSO soundCollection;
 
     private static AudioManager instance;
@@ -37,9 +41,10 @@ public class AudioManager : MonoBehaviour
 
     private void InitializeAudioManager()
     {
-        if (globalAudioSource == null)
+        if (sfxAudioSource == null || musicAudioSource == null)
         {
-            globalAudioSource = gameObject.AddComponent<AudioSource>();
+            sfxAudioSource = gameObject.AddComponent<AudioSource>();
+            musicAudioSource = gameObject.AddComponent<AudioSource>();
         }
         LoadFootstepCollections();
     }
@@ -70,7 +75,7 @@ public class AudioManager : MonoBehaviour
         }
 
         AudioClip randomClip = soundList.sounds[UnityEngine.Random.Range(0, soundList.sounds.Length)];
-        AudioSource targetSource = source ? source : globalAudioSource;
+        AudioSource targetSource = source ? source : sfxAudioSource;
 
         targetSource.outputAudioMixerGroup = soundList.mixer;
         targetSource.PlayOneShot(randomClip, volume * soundList.volume);
@@ -93,7 +98,7 @@ public class AudioManager : MonoBehaviour
         if (sounds != null && sounds.Count > 0)
         {
             AudioClip clip = sounds[UnityEngine.Random.Range(0, sounds.Count)];
-            globalAudioSource.PlayOneShot(clip);
+            sfxAudioSource.PlayOneShot(clip);
         }
     }
 
@@ -101,7 +106,7 @@ public class AudioManager : MonoBehaviour
     {
         if (footstepCollections.TryGetValue(currentSurfaceType, out FootstepCollection collection) && collection.jumpSound != null)
         {
-            globalAudioSource.PlayOneShot(collection.jumpSound);
+            sfxAudioSource.PlayOneShot(collection.jumpSound);
         }
     }
 
@@ -109,7 +114,7 @@ public class AudioManager : MonoBehaviour
     {
         if (footstepCollections.TryGetValue(currentSurfaceType, out FootstepCollection collection) && collection.landSound != null)
         {
-            globalAudioSource.PlayOneShot(collection.landSound);
+            sfxAudioSource.PlayOneShot(collection.landSound);
         }
     }
 }
