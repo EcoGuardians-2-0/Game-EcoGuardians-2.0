@@ -2,22 +2,27 @@ using UnityEngine;
 
 public class StepCall : MonoBehaviour
 {
-    private PlayerController playerController;
-
-    private void Start()
-    {
-        playerController = GetComponent<PlayerController>();
-    }
+    private float lastStepTime = 0f;
+    private float stepCooldown = 0.2f; // Adjust the cooldown duration as needed
 
     // Walking animation event Step
     public void Step()
     {
-        bool isRunning = playerController.IsRunning;
-        AudioManager.Instance.PlayFootstepSound(isRunning);
+        if (Time.time - lastStepTime >= stepCooldown)
+        {
+            lastStepTime = Time.time;
+            Debug.Log("Step1");
+            AudioManager.Instance.PlayFootstepSound(false);
+        }
     }
 
     public void StepRun()
     {
-        AudioManager.Instance.PlayFootstepSound(true);
+        if (Time.time - lastStepTime >= stepCooldown)
+        {
+            lastStepTime = Time.time;
+            Debug.Log("StepRun1");
+            AudioManager.Instance.PlayFootstepSound(true);
+        }
     }
 }
