@@ -539,6 +539,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 6715376137038358487}
     m_Modifications:
+    - target: {fileID: 529724654112903980, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1989359036271964392, guid: 179b00d65c207db44a1825e51452105b, type: 2}
     - target: {fileID: 609190974847078409, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -579,10 +583,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1689684335465743802, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 6828741450809782553, guid: 179b00d65c207db44a1825e51452105b, type: 2}
     - target: {fileID: 5290793793958563056, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
       propertyPath: mainMixer
       value: 
       objectReference: {fileID: 24100000, guid: 179b00d65c207db44a1825e51452105b, type: 2}
+    - target: {fileID: 5290793793958563056, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
+      propertyPath: sfxAudioSource
+      value: 
+      objectReference: {fileID: 1902070981}
     - target: {fileID: 5357439450060778940, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -1470,6 +1482,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e653bab7fb20e499bda25e1b646fea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!82 &1902070981 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 529724654112903980, guid: bc4d92bb93c493945baf68a18a4657eb, type: 3}
+  m_PrefabInstance: {fileID: 649177183}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1925260954
 GameObject:
   m_ObjectHideFlags: 0
@@ -8176,6 +8193,22 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4288092327413551161, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_Value
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288092327413551161, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_MaxValue
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288092327413551161, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_MinValue
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288092327413551161, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_WholeNumbers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4288092327413551161, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 9193272992668138064}
@@ -8348,8 +8381,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7242177216370961905, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242177216370961905, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7242177216370961905, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7271813289511346156, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7271813289511346156, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
       propertyPath: m_AnchorMax.y
@@ -8358,6 +8403,10 @@ PrefabInstance:
     - target: {fileID: 7588022450201608639, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603905784441343337, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
+      propertyPath: m_text
+      value: 750
       objectReference: {fileID: 0}
     - target: {fileID: 7776941024820588433, guid: d82988989bbc97a4abce53921bdf2222, type: 3}
       propertyPath: m_AnchoredPosition.x
