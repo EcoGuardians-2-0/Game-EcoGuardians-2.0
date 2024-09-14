@@ -6,46 +6,58 @@ using System.Collections.Generic;
 public class AudioManager : MonoBehaviour
 {
     // Audio sources
-    [Header("Audio Sources")]
-    [SerializeField] private AudioSource sfxAudioSource;
-    [SerializeField] private AudioSource musicAudioSource;
+    private AudioSource sfxAudioSource;
+    private AudioSource musicAudioSource;
 
     // Sound collection
-    [Header("Sound Collection")]
-    [SerializeField] private SoundsSO soundCollection;
-
-    private static AudioManager instance;
-    public static AudioManager Instance => instance;
+    private SoundsSO soundCollection;
 
     private Dictionary<string, FootstepCollection> footstepCollections;
     private string currentSurfaceType = "";
 
-    private void Awake()
+    // This is really the only blurb of code you need to implement a Unity singleton
+    private static AudioManager _Instance;
+    public static AudioManager Instance
     {
-        if (instance == null)
+        get
         {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-            InitializeAudioManager();
-        }
-        else if (instance != this)
-        {
-            Destroy(gameObject);
+            if (!_Instance)
+            {
+                _Instance = new GameObject().AddComponent<AudioManager>();
+                // name it for easy recognition
+                _Instance.name = _Instance.GetType().ToString();
+                // mark root as DontDestroyOnLoad();
+                DontDestroyOnLoad(_Instance.gameObject);
+            }
+            return _Instance;
         }
     }
 
-    private void Start()
+    private void Awake()
     {
+        InitializeAudioManager();
         PlaySound(SoundType.environment, musicAudioSource);
     }
 
     private void InitializeAudioManager()
     {
-        if (sfxAudioSource == null || musicAudioSource == null)
+        // Load the SoundsSO scriptable object from the Resources folder
+        soundCollection = Resources.Load<SoundsSO>("Audio/SoundCollection");
+
+        if (soundCollection == null)
         {
-            sfxAudioSource = gameObject.AddComponent<AudioSource>();
-            musicAudioSource = gameObject.AddComponent<AudioSource>();
+            Debug.LogError("SoundCollection not found in Resources folder!");
         }
+        else
+        {
+            // Initialize AudioSource components
+            sfxAudioSource = gameObject.AddComponent<AudioSource>();
+            sfxAudioSource.outputAudioMixerGroup = soundCollection.sfxMixer;
+
+            musicAudioSource = gameObject.AddComponent<AudioSource>();
+            musicAudioSource.outputAudioMixerGroup = soundCollection.musicMixer;
+        }
+
         LoadFootstepCollections();
     }
 

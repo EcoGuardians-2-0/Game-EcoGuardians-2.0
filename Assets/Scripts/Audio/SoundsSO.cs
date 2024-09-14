@@ -5,6 +5,9 @@ using UnityEngine.Audio;
 
 public class SoundsSO : ScriptableObject
 {
+    // General audio mixers
+    public AudioMixerGroup musicMixer;
+    public AudioMixerGroup sfxMixer;
     public SoundList[] sounds;
 }
 

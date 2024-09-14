@@ -34,6 +34,22 @@ public class ControllerScreensMenuUI : MonoBehaviour
     public GameObject panelExit;
     public ControllerPauseUI controllerPauseUI;
 
+    private static ControllerScreensMenuUI _Instance;
+    public static ControllerScreensMenuUI Instance
+    {
+        get
+        {
+            if (!_Instance)
+            {
+                _Instance = new GameObject().AddComponent<ControllerScreensMenuUI>();
+                // name it for easy recognition
+                _Instance.name = _Instance.GetType().ToString();
+                // mark root as DontDestroyOnLoad();
+                DontDestroyOnLoad(_Instance.gameObject);
+            }
+            return _Instance;
+        }
+    }
 
     public void Update()
     {
