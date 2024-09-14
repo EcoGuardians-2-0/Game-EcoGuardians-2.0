@@ -8,5 +8,7 @@ public enum SoundType
     dialogSpeaking,
     dialogForward,
     dialogHover,
-    uiHover
+    uiHover,
+    Act1BackgroundMusic,
+    Act2BackgroundMusic,
 }

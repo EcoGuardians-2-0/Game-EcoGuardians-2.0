@@ -4,6 +4,8 @@ using UnityEngine;
 using Ink.Runtime;
 using System;
 using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -19,13 +21,14 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextAsset loadGlobalsJSON;
 
-    public bool isTalking { get; private set; }
+    [Header("Events")]
+    public UnityEvent<string> onActivityStarted;
 
+    public bool isTalking { get; private set; }
 
     private Story currentStory;
     private int currentChoiceIndex = 0;
     private Coroutine displayLineCoroutine;
-    private Coroutine playAnimation;
     private bool canContinueToNextLine = false;
 
     private bool submitSkip = false;
@@ -35,15 +38,14 @@ public class DialogueManager : MonoBehaviour
     public bool hasSkipped { get; private set; }
     public bool hasFinished { get; private set; }
 
-    public string currentSpeaker { get; private set;}
-    public int currentAnimation { get; private set;}
+    public string currentSpeaker { get; private set; }
+    public int currentAnimation { get; private set; }
 
     private const string SPEAKER_TAG = "speaker";
     private const string ANIMATION_TAG = "animation";
+    private const string START_ACTIVITY_TAG = "Activity";
 
     public DialogueVariables dialogueVariables { get; private set; }
-
-
 
     private void Awake()
     {
@@ -73,7 +75,6 @@ public class DialogueManager : MonoBehaviour
             HandleInput();
         }
     }
-
 
     public void StartConversation(TextAsset inkJSON)
     {
@@ -110,7 +111,6 @@ public class DialogueManager : MonoBehaviour
     {
         List<Choice> choices = currentStory.currentChoices;
 
-
         if (choices.Count > 0 && canContinueToNextLine)
         {
             if (Input.GetKeyDown(KeyCode.RightArrow))
@@ -134,7 +134,6 @@ public class DialogueManager : MonoBehaviour
             submitSkip = true;
         }
 
-
         if (canContinueToNextLine && submitSkip)
         {
             if (choices.Count > 0)
@@ -157,7 +156,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator DisplayLine(string line)
     {
-        Debug.Log("Story" + line);
+        Debug.Log("Story: " + line);
 
         bool isAddingRichTextTag = false;
         dialogueUI.getDialogueBox().npcDialogue.text = "";
@@ -170,7 +169,6 @@ public class DialogueManager : MonoBehaviour
 
         dialogueUI.getDialogueBox().continueIcon.SetActive(false);
         dialogueUI.displayDialogueOptionBox(false);
-
 
         StartCoroutine(CanSkip());
 
@@ -235,6 +233,7 @@ public class DialogueManager : MonoBehaviour
             if (splitTag.Length != 2)
             {
                 Debug.LogError("Tag could not be parsed: " + tag);
+                continue;
             }
             string tagKey = splitTag[0].Trim();
             string tagValue = splitTag[1].Trim();
@@ -242,16 +241,21 @@ public class DialogueManager : MonoBehaviour
             switch (tagKey)
             {
                 case SPEAKER_TAG:
-                    Debug.Log("Speaker:" + tagValue);
+                    Debug.Log("Speaker: " + tagValue);
                     currentSpeaker = tagValue;
                     dialogueUI.getDialogueBox().npcName.text = tagValue;
                     break;
                 case ANIMATION_TAG:
-                    Debug.Log("Animation" + tagValue);
+                    Debug.Log("Animation: " + tagValue);
                     currentAnimation = int.Parse(tagValue);
                     break;
+                case START_ACTIVITY_TAG:
+                    Debug.Log("Activity: " + tagValue);
+                    // Trigger the event based on the activity number
+                    onActivityStarted.Invoke(tagValue); 
+                    break;
                 default:
-                    Debug.LogWarning("Tag came in but not supported" + tag);
+                    Debug.LogWarning("Tag not supported: " + tag);
                     break;
             }
         }
@@ -266,11 +270,11 @@ public class DialogueManager : MonoBehaviour
             {
                 Debug.LogError("More choices than UI can support");
             }
-            dialogueUI.displayDialogueOptionBox(true); ;
+            dialogueUI.displayDialogueOptionBox(true);
             dialogueUI.setOptions(choices);
         }
-
     }
+
     private void MakeChoice()
     {
         if (canContinueToNextLine)
@@ -281,9 +285,13 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    private void ChangeScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
     public Ink.Runtime.Object GetVariableState(string variableName)
     {
         return dialogueVariables.searchVariable(variableName);
     }
-
 }

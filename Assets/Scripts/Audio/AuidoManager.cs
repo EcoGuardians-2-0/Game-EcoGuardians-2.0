@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Audio;
 using System;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class AudioManager : MonoBehaviour
@@ -36,7 +37,7 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         InitializeAudioManager();
-        PlaySound(SoundType.environment, musicAudioSource);
+        PlayMusic(SoundType.environment);
     }
 
     private void InitializeAudioManager()
@@ -128,5 +129,28 @@ public class AudioManager : MonoBehaviour
         {
             sfxAudioSource.PlayOneShot(collection.landSound);
         }
+    }
+
+
+    public void PlayMusic(SoundType soundType)
+    {
+        if (soundCollection == null || soundCollection.sounds == null)
+        {
+            Debug.LogError("SoundCollection not set or is empty!");
+            return;
+        }
+    
+        SoundList soundList = soundCollection.sounds[(int)soundType];
+        if (soundList.sounds == null || soundList.sounds.Length == 0)
+        {
+            Debug.LogWarning($"No sounds found for SoundType: {soundType}");
+            return;
+        }
+    
+        AudioClip randomClip = soundList.sounds[UnityEngine.Random.Range(0, soundList.sounds.Length)];
+        musicAudioSource.clip = randomClip;
+        musicAudioSource.outputAudioMixerGroup = soundList.mixer;
+        musicAudioSource.volume = soundList.volume;
+        musicAudioSource.Play();
     }
 }
