@@ -21,7 +21,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
-    public int mainControllerSen = 4;
+    public float mainControllerSen = 5f;
 
     private bool menuP = false;
     [Header("Screens")]
@@ -119,8 +119,8 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     public void SetControllerSen(float sensitivity)
     {
-        mainControllerSen = Mathf.RoundToInt(sensitivity);
-        sensTextValue.text = sensitivity.ToString("0");
+        mainControllerSen = sensitivity;
+        sensTextValue.text = sensitivity.ToString("0.0");
     }
 
     public void GameplayApply()

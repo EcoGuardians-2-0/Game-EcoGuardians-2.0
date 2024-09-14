@@ -214,18 +214,13 @@ public class PlayerController : MonoBehaviour
     private void OnJumpStart()
     {
         AudioManager.Instance.PlayJumpSound();
-        Debug.Log("Jump");
     }
 
     private void OnLand()
     {
-        Debug.Log(ySpeed);
-
         if (ySpeed < -2f)
         {
-            Debug.Log("Fall");
             AudioManager.Instance.PlayLandSound();
-            Debug.Log("Land");
         }
     }
 }
