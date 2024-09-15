@@ -93,12 +93,15 @@ public class Act1GameController : MonoBehaviour
             {
                 secondGuess = true;
                 secondGuessIndex = buttonIndex;
-                secondGuessPuzzle = gamePuzzles[secondGuessIndex].name;
-                StartCoroutine(FlipCard(btns[secondGuessIndex], gamePuzzles[secondGuessIndex]));
+                if (secondGuessIndex != firstGuessIndex)
+                {
+                    secondGuessPuzzle = gamePuzzles[secondGuessIndex].name;
+                    StartCoroutine(FlipCard(btns[secondGuessIndex], gamePuzzles[secondGuessIndex]));
 
-                countGuesses++;
+                    countGuesses++;
 
-                StartCoroutine(CheckIfPuzzleMatch());
+                    StartCoroutine(CheckIfPuzzleMatch());
+                }
             }
         }
         else
@@ -147,7 +150,7 @@ public class Act1GameController : MonoBehaviour
     {
         yield return new WaitForSeconds(flipDuration);  
 
-        if (firstGuessPuzzle == secondGuessPuzzle && firstGuessIndex != secondGuessIndex)
+        if (firstGuessPuzzle == secondGuessPuzzle)
         {
             // Wait for a short time before fading out
             yield return new WaitForSeconds(0.5f); 
