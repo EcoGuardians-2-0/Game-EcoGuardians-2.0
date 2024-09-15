@@ -285,11 +285,6 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void ChangeScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-
     public Ink.Runtime.Object GetVariableState(string variableName)
     {
         return dialogueVariables.searchVariable(variableName);

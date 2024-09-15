@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,8 @@ public class GameManager : MonoBehaviour
 
         // Register for activity start events
         DialogueManager.instance.onActivityStarted.AddListener(HandleActivityStart);
+        // Register for game start events
+        ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
 
     // Update is called once per frame
@@ -78,8 +81,15 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("StartActivity1");
         AudioManager.Instance.PlayMusic(SoundType.Act1BackgroundMusic);
+        //Hide world
+        WorldManager.Instance.HideWorld();
     }
 
+    // Handle game start event
+    private void HandleGameStart(string arg0)
+    {
+        AudioManager.Instance.PlayMusic(SoundType.Act2BackgroundMusic);
+    }
 
     public void ActivateQuests(string module)
     {

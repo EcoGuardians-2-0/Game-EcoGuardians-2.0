@@ -37,7 +37,7 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         InitializeAudioManager();
-        PlayMusic(SoundType.environment);
+        PlayMusic(SoundType.MainMenuBackgroundMusic);
     }
 
     private void InitializeAudioManager()
@@ -131,7 +131,6 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-
     public void PlayMusic(SoundType soundType)
     {
         if (soundCollection == null || soundCollection.sounds == null)
@@ -151,6 +150,8 @@ public class AudioManager : MonoBehaviour
         musicAudioSource.clip = randomClip;
         musicAudioSource.outputAudioMixerGroup = soundList.mixer;
         musicAudioSource.volume = soundList.volume;
+        // Set loop to true so the music plays indefinitely
+        musicAudioSource.loop = true;
         musicAudioSource.Play();
     }
 }

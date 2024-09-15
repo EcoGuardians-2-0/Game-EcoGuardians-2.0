@@ -6,9 +6,10 @@ using TMPro;
 using UnityEngine.EventSystems;
 using UnityEditor;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 
 public class ControllerScreensMenuUI : MonoBehaviour
-{   
+{
 
     // Get the audio mixers
     [Header("Audio Mixers")]
@@ -22,6 +23,9 @@ public class ControllerScreensMenuUI : MonoBehaviour
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
     public float mainControllerSen = 5f;
+
+    [Header("Events")]
+    public UnityEvent<string> onGameStarted;
 
     private bool menuP = false;
     [Header("Screens")]
@@ -51,10 +55,21 @@ public class ControllerScreensMenuUI : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {
+        if (_Instance != null && _Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            _Instance = this;
+        }
+    }
+
     public void Update()
     {
         checkEsc();
-        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void MenuTrue(bool Menu)
@@ -142,5 +157,10 @@ public class ControllerScreensMenuUI : MonoBehaviour
     public void GameplayApply()
     {
         PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+    }
+
+    public void startNewGame()
+    {
+        onGameStarted.Invoke("NewGame");
     }
 }

@@ -2,27 +2,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float jumpHeight;
-
-    [SerializeField]
-    private float gravityMultiplier;
-
-    [SerializeField]
-    private float rotationSpeed;
-
-    [SerializeField]
-    private float jumpButtonGracePeriod;
-
-    [SerializeField]
-    private float jumpHorizontalSpeed;
-
-    [SerializeField]
-    private Transform cameraTransform;
+    [SerializeField] private float jumpHeight = 1f;
+    [SerializeField] private float gravityMultiplier = 2f;
+    [SerializeField] private float rotationSpeed = 720f;
+    [SerializeField] private float jumpButtonGracePeriod = 0.2f;
+    [SerializeField] private float jumpHorizontalSpeed = 5f;
+    [SerializeField] private Transform cameraTransform;
 
     private CharacterController characterController;
     private Animator animator;
-
     private float originalStepOffset;
     private float ySpeed;
     private float? lastGroundedTime;
@@ -38,11 +26,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsRunning { get; private set; }
 
-    public bool GetIsGrounded() { return isGrounded; }
-
     void Start()
     {
-        isInGame = false;
         animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
         originalStepOffset = characterController.stepOffset;
@@ -56,19 +41,18 @@ public class PlayerController : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        Vector3 movementDirection;
+        Vector3 movementDirection = new Vector3(horizontalInput, 0, verticalInput);
 
-        if (isInGame)
-        {
-            jumpHeight = 1f;
-            movementDirection = new Vector3(horizontalInput, 0, verticalInput);
-            inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
-        }
-        else
+        if (!isInGame)
         {
             jumpHeight = 0f;
             inputMagnitude = 0f;
             movementDirection = Vector3.zero;
+        }
+        else
+        {
+            jumpHeight = 1f;
+            inputMagnitude = Mathf.Clamp01(movementDirection.magnitude);
         }
 
         IsRunning = Input.GetKey(KeyCode.LeftShift);
@@ -89,12 +73,13 @@ public class PlayerController : MonoBehaviour
             gravity *= 2;
         }
 
+        ySpeed += gravity * Time.deltaTime;
+
         if (characterController.isGrounded)
         {
             lastGroundedTime = Time.time;
         }
 
-        // Detect jump start
         if (Input.GetButtonDown("Jump") && isInGame)
         {
             jumpButtonPressedTime = Time.time;
@@ -107,13 +92,7 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
         {
             characterController.stepOffset = originalStepOffset;
-
-            // Only reset ySpeed to a small value when the player is grounded and not jumping
-            if (!isJumping)
-            {
-                ySpeed = -0.5f; // Slight downward force to keep grounded
-            }
-
+            ySpeed = -0.5f;
             animator.SetBool("isGrounded", true);
             isGrounded = true;
             animator.SetBool("isJumping", false);
@@ -122,12 +101,11 @@ public class PlayerController : MonoBehaviour
 
             if (Time.time - jumpButtonPressedTime <= jumpButtonGracePeriod)
             {
-                ySpeed = Mathf.Sqrt(jumpHeight * -2 * gravity); // Apply proper jump force
+                ySpeed = Mathf.Sqrt(jumpHeight * -3 * gravity);
                 animator.SetBool("isJumping", true);
                 isJumping = true;
                 jumpButtonPressedTime = null;
                 lastGroundedTime = null;
-                OnJumpStart();
             }
         }
         else
@@ -135,45 +113,37 @@ public class PlayerController : MonoBehaviour
             characterController.stepOffset = 0;
             animator.SetBool("isGrounded", false);
             isGrounded = false;
-
             if ((isJumping && ySpeed < 0) || (ySpeed < -10f))
             {
                 animator.SetBool("isFalling", true);
             }
         }
 
-        // Always apply gravity when the player is not grounded
-        if (!characterController.isGrounded)
-        {
-            ySpeed += gravity * Time.deltaTime;
-        }
-
-        // Check surface less frequently
         if (Time.time - lastSurfaceCheckTime >= 0.5f)
         {
             surfaceDetector.CheckSurface();
             lastSurfaceCheckTime = Time.time;
         }
 
-        if (movementDirection != Vector3.zero && isGrounded)
+        if (movementDirection != Vector3.zero)
         {
             animator.SetBool("isMoving", true);
             Quaternion toRotation = Quaternion.LookRotation(movementDirection, Vector3.up);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotation, rotationSpeed * Time.deltaTime);
         }
         else
         {
             animator.SetBool("isMoving", false);
         }
 
+        Vector3 velocity;
         if (!isGrounded)
         {
-            Vector3 velocity = movementDirection * inputMagnitude * jumpHorizontalSpeed;
+            velocity = movementDirection * inputMagnitude * jumpHorizontalSpeed;
             velocity.y = ySpeed;
             characterController.Move(velocity * Time.deltaTime);
         }
 
-        // Detect landing
         if (!wasGrounded && isGrounded)
         {
             OnLand();
@@ -213,14 +183,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnJumpStart()
     {
-        AudioManager.Instance.PlayJumpSound();
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayJumpSound();
+        }
     }
 
     private void OnLand()
     {
-        if (ySpeed < -2f)
+        if (ySpeed < -2f && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayLandSound();
         }
     }
+
+    public void setCameraTransform(Transform cameraTransform)
+    {
+        this.cameraTransform = cameraTransform;
+    }
+
+    public bool GetIsGrounded() { return isGrounded; }
 }

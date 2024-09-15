@@ -11,4 +11,5 @@ public enum SoundType
     uiHover,
     Act1BackgroundMusic,
     Act2BackgroundMusic,
+    MainMenuBackgroundMusic,
 }

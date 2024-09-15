@@ -49,6 +49,19 @@ public class DisableObjects : MonoBehaviour
             camera.enabled = !camera.enabled;
     }
 
+    // Disable the camera movement
+    public void DisableCameraMovement()
+    {
+        foreach (CinemachineVirtualCamera camera in cameras)
+        {
+            var pov = camera.GetCinemachineComponent<CinemachinePOV>();
+            if (pov != null)
+            {
+                pov.enabled = false;
+            }
+        }
+    }
+
     public void disableSwitchCamera()
     {
         switchCamera.enabled = !switchCamera.enabled;
@@ -121,7 +134,21 @@ public class DisableObjects : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
     public void ForceDisableControlsImageTVUI() { AnimationsControlsTV.Instance.HideControlsImageTVUI(true); }
 
     public void ForceDisableControlsVideoTVUI() { AnimationsControlsTV.Instance.HideControlsVideoTVUI(true); }
+
+    //Disable everything
+    public void DisableAll()
+    {
+        disableCameras();
+        disableSwitchCamera();
+        disableCharacterController();
+        TogglePlayer();
+        ToggleMinimap();
+        ToggleSelectionCursor();
+        DisableCameraMovement();
+        showCursor();
+    }
 }
