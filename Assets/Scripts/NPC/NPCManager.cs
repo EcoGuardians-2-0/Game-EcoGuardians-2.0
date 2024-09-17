@@ -23,12 +23,12 @@ public class CharacterManager: MonoBehaviour {
 
     public void spawnCharacter(int index)
     {
-        if (characterPrefabs[0] != null && spawnPoint != null)
+        if (characterPrefabs[index] != null && spawnPoint != null)
         {
             currentCharacter = Instantiate(characterPrefabs[index], spawnPoint.position, spawnPoint.rotation);
             currentCharacter.transform.SetParent(spawnPoint);
             currentCharacter.tag = characterTag;
-            currentCharacter.name = characterPrefabs[0].name;
+            currentCharacter.name = characterPrefabs[index].name;
 
             if (currentCharacter.GetComponent<CharacterController>() == null)
             {

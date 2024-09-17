@@ -28,8 +28,9 @@ public class SwitchCamera : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             thirdActive = !thirdActive;
-            UpdateActiveCamera();
         }
+
+        UpdateActiveCamera();
 
         float currentSavedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
         if (currentSavedSensitivity != lastAppliedSensitivity)

@@ -36,6 +36,16 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
+        if (_Instance == null)
+        {
+            _Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         InitializeAudioManager();
         PlayMusic(SoundType.MainMenuBackgroundMusic);
     }
