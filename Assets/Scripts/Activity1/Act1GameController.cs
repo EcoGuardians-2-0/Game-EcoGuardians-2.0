@@ -1,216 +1,234 @@
-using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Act1GameController : MonoBehaviour
-{
+{   
     [SerializeField]
-    private Sprite bgImage;
-    public Sprite[] puzzles;
-    public List<Sprite> gamePuzzles = new List<Sprite>();
+    private Transform GoBackButton;
+    [SerializeField]
+    private Transform HelpIcon;
+    [SerializeField]
+    private Transform HelpIconPopUp;
+    [SerializeField]
+    private Transform MenuField;
+    [SerializeField] 
+    private Transform puzzleFieldLevelOne;
+    [SerializeField]
+    private Transform puzzleFieldLevelTwo;
+    [SerializeField]
+    private Transform puzzleFieldLevelThree;
+    [SerializeField]
+    private GameObject menuButton;
+    [SerializeField]
+    private Sprite Yellow_Star;
+    [SerializeField]
+    private Sprite Black_Star;
+    [SerializeField] 
+    private int numberOfLevels = 3;
+    [SerializeField]
+    private Act1LevelController levelController;
     public List<Button> btns = new List<Button>();
-    private bool firstGuess, secondGuess;
-    private int countGuesses;
-    private int countCorrectGuesses;
-    private int gameGuesses;
-    private int firstGuessIndex, secondGuessIndex;
-    private string firstGuessPuzzle, secondGuessPuzzle;
+    public List<int> levelsProgress = new List<int>();
 
-    [SerializeField]
-    private float flipDuration = 0.5f;  // Duration of flip animation
+    // Scriptable Object progress
+    private Act1ProgressSO act1ProgressSO;
 
     void Awake()
     {
-        puzzles = Resources.LoadAll<Sprite>("Sprites/Activity1/Cards");
+        act1ProgressSO = Resources.Load<Act1ProgressSO>("Activity1Progress/Activity1 progressSO");
+        AddMenuButtons();
+        GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
     }
 
-    void Start()
+    public void AddMenuButtons()
     {
-        GetButtons();
-        AddListeners();
-        AddGamePuzzles();
-        Shuffle(gamePuzzles);
-        gameGuesses = gamePuzzles.Count / 2;
+        // Modify depeding on the number of levels
+        for (int i = 0; i < numberOfLevels; i++)
+        {
+            GameObject btn = Instantiate(menuButton);
+            btn.name = "" + i;
+            btn.transform.SetParent(MenuField, false);
+
+            // Capture the current value of i
+            int levelIndex = i;
+
+            // Add click listener 
+            btn.GetComponent<Button>().onClick.AddListener(() => OnMenuButtonClick(levelIndex));
+        }
+        InstantiateMenuButtons();
     }
 
-    // Get all the buttons in the game and add them to the list
-    public void GetButtons()
+    public void OnMenuButtonClick(int level)
     {
-        GameObject[] objects = GameObject.FindGameObjectsWithTag("PuzzleButton");
+        switch (level)
+        {
+            case 0:
+                BeginLevelOne();
+                break;
+            case 1:
+                BeginLevelTwo();
+                break;
+            case 2:
+                BeginLevelThree();
+                break;
+        }
+    }
+
+    public void InstantiateMenuButtons()
+    {
+        string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
+
+        GameObject[] objects = GameObject.FindGameObjectsWithTag("LevelSelectionButton");
 
         for (int i = 0; i < objects.Length; i++)
         {
+            // Add the button to the list 
             btns.Add(objects[i].GetComponent<Button>());
-            btns[i].image.sprite = bgImage;
-        }
-    }
 
-    // Add the puzzles to the game 
-    void AddGamePuzzles()
-    {
-        // Add each puzzle twice
-        int looper = btns.Count;
-        int index = 0;
+            Transform starContainer = btns[i].transform.Find("StarContainer");
+            Transform textTransform = btns[i].transform.Find("LevelNumber");
+            Text starText = textTransform.GetComponent<Text>();
 
-        for (int i = 0; i < looper; i++)
-        {
-            if (index == puzzles.Length)
-            {
-                index = 0;
-            }
+            starText.text = (i + 1).ToString();
 
-            gamePuzzles.Add(puzzles[index]);
+            // Get the levels progress
+            int starsToDisplay = GetLevelsProgress(i);
+            // Calculate the number of stars to display     
 
-            index++;
-        }
-    }
-
-    // Add listeners to the buttons to pick a puzzle
-    public void AddListeners()
-    {
-        foreach (Button btn in btns)
-        {
-            btn.onClick.AddListener(() => PickAPuzzle());
-        }
-    }
-
-    public void PickAPuzzle()
-    {
-        string name = UnityEngine.EventSystems.EventSystem.current.currentSelectedGameObject.name;
-        int buttonIndex;
-
-        if (int.TryParse(name, out buttonIndex) && buttonIndex >= 0 && buttonIndex < gamePuzzles.Count)
-        {
-            if (!firstGuess)
-            {
-                firstGuess = true;
-                firstGuessIndex = buttonIndex;
-                firstGuessPuzzle = gamePuzzles[firstGuessIndex].name;
-                StartCoroutine(FlipCard(btns[firstGuessIndex], gamePuzzles[firstGuessIndex]));
-            }
-            else if (!secondGuess)
-            {
-                secondGuess = true;
-                secondGuessIndex = buttonIndex;
-                if (secondGuessIndex != firstGuessIndex)
-                {
-                    secondGuessPuzzle = gamePuzzles[secondGuessIndex].name;
-                    StartCoroutine(FlipCard(btns[secondGuessIndex], gamePuzzles[secondGuessIndex]));
-
-                    countGuesses++;
-
-                    StartCoroutine(CheckIfPuzzleMatch());
+            foreach (string starName in starNames)
+            {   
+                // Get the star transform
+                Transform starTransform = starContainer.transform.Find(starName);
+                
+                // Get the Image and Text components of the star
+                Image starImage = starTransform.GetComponent<Image>();
+                
+                // Set the star to corresponding sprite
+                if (starsToDisplay == 0)
+                    starImage.sprite = Black_Star;
+                else {
+                    starImage.sprite = Yellow_Star;
+                    starsToDisplay--;
                 }
             }
         }
-        else
-        {
-            Debug.LogError("Invalid button index: " + name);
-        }
     }
 
-    IEnumerator FlipCard(Button btn, Sprite targetSprite)
+    public int GetLevelsProgress(int index)
     {
-        btn.interactable = false;  // Prevent multiple clicks during animation
-
-        // Flip animation
-        float elapsedTime = 0f;
-        Quaternion startRotation = btn.transform.rotation;
-        Quaternion middleRotation = Quaternion.Euler(0f, 90f, 0f);
-        Quaternion endRotation = Quaternion.Euler(0f, 0f, 0f);
-
-        // First half of the flip
-        while (elapsedTime < flipDuration / 2)
+        int temp = 0;
+        if (index == 0)
         {
-            btn.transform.rotation = Quaternion.Slerp(startRotation, middleRotation, elapsedTime / (flipDuration / 2));
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            temp = act1ProgressSO.level1Progress;
         }
-
-        // Change the sprite
-        btn.image.sprite = targetSprite;
-
-        elapsedTime = 0f;
-
-        // Second half of the flip
-        while (elapsedTime < flipDuration / 2)
+        else if (index == 1)
         {
-            btn.transform.rotation = Quaternion.Slerp(middleRotation, endRotation, elapsedTime / (flipDuration / 2));
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            temp = act1ProgressSO.level2Progress;
         }
-
-        // Re-enable button after animation
-        btn.transform.rotation = endRotation;
-        btn.interactable = true; 
+        else if (index == 2)
+        {
+            temp = act1ProgressSO.level3Progress;
+        }
+        return temp;
     }
 
-    IEnumerator CheckIfPuzzleMatch()
+    public void BeginLevelOne()
     {
-        yield return new WaitForSeconds(flipDuration);  
 
-        if (firstGuessPuzzle == secondGuessPuzzle)
-        {
-            // Wait for a short time before fading out
-            yield return new WaitForSeconds(0.5f); 
+        puzzleFieldLevelOne.gameObject.SetActive(true);
 
-            btns[firstGuessIndex].interactable = false;
-            btns[secondGuessIndex].interactable = false;
-
-            // Fade out animation
-            StartCoroutine(FadeOutCard(btns[firstGuessIndex]));
-            StartCoroutine(FadeOutCard(btns[secondGuessIndex]));
-
-            CheckIfGameIsFinished();
-        }
-        else
-        {
-            // Wait for a short time before fading out
-            yield return new WaitForSeconds(0.5f);
-            StartCoroutine(FlipCard(btns[firstGuessIndex], bgImage));
-            StartCoroutine(FlipCard(btns[secondGuessIndex], bgImage));
-        }
-
-        firstGuess = secondGuess = false;
+        HandleInfoAndBackButton();
+        
+        DisableMenu();
+        
+        levelController.InstantiateLevel(1);
     }
 
-    IEnumerator FadeOutCard(Button btn)
+    public void BeginLevelTwo()
     {
-        float elapsedTime = 0f;
-        Color startColor = btn.image.color;
-        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
 
-        while (elapsedTime < flipDuration)
-        {
-            btn.image.color = Color.Lerp(startColor, endColor, elapsedTime / flipDuration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+        puzzleFieldLevelTwo.gameObject.SetActive(true);
+        HandleInfoAndBackButton();
 
-        btn.image.color = endColor;
+        // Set the current Object unactive and display the puzzle field
+        DisableMenu();
+
+        // Call the levelController to add the cards first to the level
+        levelController.InstantiateLevel(2);
     }
 
-    public void CheckIfGameIsFinished()
+    public void BeginLevelThree()
     {
-        countCorrectGuesses++;
 
-        if (countCorrectGuesses == gameGuesses)
-        {
-            Debug.Log("Game Finished!");
-            Debug.Log("It took you " + countGuesses + " guesses to finish the game.");
-        }
+        puzzleFieldLevelThree.gameObject.SetActive(true);
+
+
+        HandleInfoAndBackButton();
+
+        // Set the current Object unactive and display the puzzle field
+        DisableMenu();
+
+        // Call the levelController to add the cards first to the level
+        levelController.InstantiateLevel(3);
     }
 
-    // Shuffle the puzzles in the game
-    public void Shuffle(List<Sprite> list)
+    // Handle the information icon on clik
+    public void OnHelpIconClick()
     {
-        for (int i = 0; i < list.Count; i++)
+        HelpIconPopUp.gameObject.SetActive(true);
+    }
+
+    // Handle the back button on the help icon popup
+    public void OnBackButtonClick()
+    {
+        HelpIconPopUp.gameObject.SetActive(false);
+    }
+
+    // Method to enable the go back button to the menu
+    public void EnableBackButton()
+    {
+        // Set the current Object unactive and display the puzzle field
+        GoBackButton.gameObject.SetActive(true);
+    }
+
+    public void DisableInfoIcon()
+    {
+        HelpIcon.gameObject.SetActive(false);
+    }
+
+    public void HandleInfoAndBackButton()
+    {
+        DisableInfoIcon();
+        EnableBackButton();
+    }
+
+    // On click listener for the back button
+    public void OnBackButtonClicked()
+    {
+        // Set the current Object unactive and display the puzzle field
+        MenuField.gameObject.SetActive(true);
+        GoBackButton.gameObject.SetActive(false);
+        
+        if(puzzleFieldLevelOne.gameObject.activeSelf)
         {
-            Sprite temp = list[i];
-            int randomIndex = Random.Range(i, list.Count);
-            list[i] = list[randomIndex];
-            list[randomIndex] = temp;
+            puzzleFieldLevelOne.gameObject.SetActive(false);
         }
+        else if(puzzleFieldLevelTwo.gameObject.activeSelf)
+        {
+            puzzleFieldLevelTwo.gameObject.SetActive(false);
+        }
+        else if(puzzleFieldLevelThree.gameObject.activeSelf)
+        {
+            puzzleFieldLevelThree.gameObject.SetActive(false);
+        }
+
+        HelpIcon.gameObject.SetActive(true);
+    }
+
+    public void DisableMenu()
+    {
+        MenuField.gameObject.SetActive(false);
     }
 }
