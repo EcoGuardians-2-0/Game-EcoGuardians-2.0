@@ -42,6 +42,7 @@ public class AudioManager : MonoBehaviour
 
     private void InitializeAudioManager()
     {
+        Debug.Log("Hello there");
         // Load the SoundsSO scriptable object from the Resources folder
         soundCollection = Resources.Load<SoundsSO>("Audio/SoundCollection");
 
