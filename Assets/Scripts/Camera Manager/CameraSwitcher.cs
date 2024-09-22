@@ -8,6 +8,7 @@ public class CameraSwitcher : MonoBehaviour
     public float rotationSpeed = 10f; // Velocidad de rotación
     public Camera rotatingCamera;  // Cámara giratoria
     public Camera mainCamera;      // Cámara principal
+    public Camera selectionCamera;
 
     void Update()
     {
@@ -18,6 +19,11 @@ public class CameraSwitcher : MonoBehaviour
     public void ChangeCamera(bool cam)
     {
         rotatingCamera.gameObject.SetActive(cam);
+    }
+
+    public void ChangeCamera2(bool cam2)
+    {
+        selectionCamera.gameObject.SetActive(cam2);
     }
 
 }

@@ -12,6 +12,23 @@ public class FollowTarget : MonoBehaviour
 
     void Start()
     {
+        Transform parentTransform = transform.parent;
+        if (parentTransform != null)
+        {
+            foreach (Transform sibling in parentTransform)
+            {
+                if (sibling != transform)
+                {
+                    player = sibling.gameObject;
+                    break;
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Parent transform not found (MiniMapIcon for player).");
+        }
+
         // Get the reference to the PlayerController of the player
         playerController = player.GetComponent<PlayerController>();
 
@@ -33,9 +50,7 @@ public class FollowTarget : MonoBehaviour
         Vector3 playerPosition = player.transform.position;
 
         // Check if the player is grounded
-        bool isGrounded = playerController.GetIsGrounded();
-
-        if (isGrounded)
+        if (playerController.GetIsGrounded())
         {
             // Update the fixed Y position when the player is grounded
             fixedY = playerPosition.y + yOffset;

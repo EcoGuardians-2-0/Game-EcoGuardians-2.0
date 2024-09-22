@@ -48,10 +48,30 @@ public class DisableObjects : MonoBehaviour
         disableCameras();
     }
 
+
+    public void setPlayer(GameObject player, PlayerController characterController)
+    {
+        this.player = player;
+        this.characterController = characterController;
+    }
+
     public void disableCameras()
     {
         foreach (CinemachineVirtualCamera camera in cameras)
             camera.enabled = !camera.enabled;
+    }
+
+    // Disable the camera movement
+    public void DisableCameraMovement()
+    {
+        foreach (CinemachineVirtualCamera camera in cameras)
+        {
+            var pov = camera.GetCinemachineComponent<CinemachinePOV>();
+            if (pov != null)
+            {
+                pov.enabled = false;
+            }
+        }
     }
 
     public void disableSwitchCamera()
@@ -126,7 +146,21 @@ public class DisableObjects : MonoBehaviour
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
+
     public void ForceDisableControlsImageTVUI() { AnimationsControlsTV.Instance.HideControlsImageTVUI(true); }
 
     public void ForceDisableControlsVideoTVUI() { AnimationsControlsTV.Instance.HideControlsVideoTVUI(true); }
+
+    //Disable everything
+    public void DisableAll()
+    {
+        disableCameras();
+        disableSwitchCamera();
+        disableCharacterController();
+        TogglePlayer();
+        ToggleMinimap();
+        ToggleSelectionCursor();
+        DisableCameraMovement();
+        showCursor();
+    }
 }

@@ -13,6 +13,24 @@ public class ControllerPauseUI : MonoBehaviour
     public GameObject pauseMenuUI;
     public DisableObjects disableObjects;
     public Vector2 screenCenter;
+    
+    private static ControllerPauseUI _Instance;
+    public static ControllerPauseUI Instance
+    {
+        get
+        {
+            if (!_Instance)
+            {
+                _Instance = new GameObject().AddComponent<ControllerPauseUI>();
+                // name it for easy recognition
+                _Instance.name = _Instance.GetType().ToString();
+                // mark root as DontDestroyOnLoad();
+                DontDestroyOnLoad(_Instance.gameObject);
+            }
+            return _Instance;
+        }
+    }
+
 
     void Update()
     {
@@ -49,7 +67,7 @@ public class ControllerPauseUI : MonoBehaviour
     public void Pause()
     {
         disableObjects.showCursor();
-        pauseMenuUI.SetActive(true); // Activa el menú de pausa
+        pauseMenuUI.SetActive(true); // Activa el menï¿½ de pausa
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         Time.timeScale = 0f; // Detiene el tiempo de juego
         gameIsPaused = true; // Actualiza el estado de pausa

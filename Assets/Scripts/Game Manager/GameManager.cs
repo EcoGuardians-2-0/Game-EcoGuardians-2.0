@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,13 +17,18 @@ public class GameManager : MonoBehaviour
     {
         currentModule = 1;
         questActive = false;
+
+        // Register for activity start events
+        DialogueManager.instance.onActivityStarted.AddListener(HandleActivityStart);
+        // Register for game start events
+        ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
 
     // Update is called once per frame
     void Update()
     {
         // Retrieve Ink variable
-        Ink.Runtime.Object global_mission = DialogueManager.instance.GetVariableState("global_misiones_"+currentModule);
+        Ink.Runtime.Object global_mission = DialogueManager.instance.GetVariableState("global_misiones_" + currentModule);
 
         if (questActive)
         {
@@ -42,7 +48,7 @@ public class GameManager : MonoBehaviour
                 DialogueManager.instance.dialogueVariables.variables2["globals"]["global_mision_completada"] = mission;
             }
 
-            if(questManager.AllQuestsCompleted())
+            if (questManager.AllQuestsCompleted())
             {
                 Ink.Runtime.BoolValue questionnaire = new Ink.Runtime.BoolValue(true);
                 DialogueManager.instance.dialogueVariables.variables2["globals"]["global_cuestionario_" + currentModule] = questionnaire;
@@ -59,8 +65,30 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+    }
 
+    private void HandleActivityStart(string activityNumber)
+    {
+        switch (activityNumber)
+        {
+            case "1":
+                StartActivity1();
+                break;
+        }
+    }
 
+    private void StartActivity1()
+    {
+        Debug.Log("StartActivity1");
+        AudioManager.Instance.PlayMusic(SoundType.Act1BackgroundMusic);
+        //Hide world
+        WorldManager.Instance.HideWorld();
+    }
+
+    // Handle game start event
+    private void HandleGameStart(string arg0)
+    {
+        AudioManager.Instance.PlayMusic(SoundType.Act2BackgroundMusic);
     }
 
     public void ActivateQuests(string module)

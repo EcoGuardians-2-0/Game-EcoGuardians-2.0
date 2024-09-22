@@ -7,7 +7,24 @@ public class ControllerGraphics : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
     public int quality;
-    // Start is called before the first frame update
+
+    private static ControllerGraphics _Instance;
+    public static ControllerGraphics Instance
+    {
+        get
+        {
+            if (!_Instance)
+            {
+                _Instance = new GameObject().AddComponent<ControllerGraphics>();
+                // name it for easy recognition
+                _Instance.name = _Instance.GetType().ToString();
+                // mark root as DontDestroyOnLoad();
+                DontDestroyOnLoad(_Instance.gameObject);
+            }
+            return _Instance;
+        }
+    }
+
     void Start()
     {
         quality = PlayerPrefs.GetInt("QualityNumber", 1);
