@@ -67,6 +67,8 @@ public class CharacterManager: MonoBehaviour {
                 currentCharacter.GetComponent<SwitchCamera>().ThirdCam = characterCameras[0];
                 currentCharacter.GetComponent<SwitchCamera>().FirstCam = characterCameras[1];
             }
+            DisableObjects.Instance.setSwitchCamera(currentCharacter.GetComponent<SwitchCamera>());
+
         }
     }
 

@@ -42,19 +42,19 @@ public class DisableObjects : MonoBehaviour
         else
             Instance = this;
     }
-
     private void Start()
     {
         disableCameras();
     }
-
-
     public void setPlayer(GameObject player, PlayerController characterController)
     {
         this.player = player;
         this.characterController = characterController;
     }
-
+    public void setSwitchCamera(SwitchCamera switchCamera)
+    {
+        this.switchCamera = switchCamera;
+    }
     public void disableCameras()
     {
         foreach (CinemachineVirtualCamera camera in cameras)
