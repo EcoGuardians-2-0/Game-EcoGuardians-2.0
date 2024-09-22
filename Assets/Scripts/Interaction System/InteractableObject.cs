@@ -2,14 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractableObject : MonoBehaviour
+public abstract class InteractableObject : MonoBehaviour
 {
-    public string ItemName;
-    public bool playerInRange;
 
-    public string GetItemName()
+    [SerializeField]
+    protected string selectionPrompt;
+
+    [SerializeField]
+    protected string itemName;
+
+    [SerializeField]
+    protected Color customColor = Color.yellow;
+
+    protected Outline outline;
+
+    protected bool interacting;
+
+    public bool playerInRange;
+    
+    protected virtual void Start()
     {
-        return ItemName;
+        outline = gameObject.AddComponent<Outline>();
+        outline.OutlineMode = Outline.Mode.OutlineVisible;
+        outline.enabled = false;
+        setOutline(customColor, 10f);
+    }
+
+    public void setOutline(Color color, float width)
+    {
+        outline.OutlineColor = color;
+        outline.OutlineWidth = width;
+    }
+
+    public string GetSelectionPrompt()
+    {
+        return selectionPrompt;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -17,7 +44,13 @@ public class InteractableObject : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+            handleCollision(other);
         }
+    }
+
+    protected virtual void handleCollision(Collider other)
+    {
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -27,4 +60,15 @@ public class InteractableObject : MonoBehaviour
             playerInRange = false;
         }
     }
+    public virtual void Interact()
+    {
+        interacting = !interacting;
+        SelectionManager.instance.isInteracting = interacting;
+    }
+
+    public string getItemName()
+    {
+        return itemName;
+    }
+
 }

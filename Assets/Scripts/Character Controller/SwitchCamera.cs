@@ -1,53 +1,85 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
+
 public class SwitchCamera : MonoBehaviour
 {
     [Header("Camera to assign")]
     public CinemachineVirtualCamera FirstCam;
     public CinemachineVirtualCamera ThirdCam;
 
-    private bool thirdActive = true;
+    [Header("Sensitivity Settings")]
+    private float minSensitivity = 200f; // Adjusted min sensitivity
+    private float maxSensitivity = 1000f; // Adjusted max sensitivity
+    private float defaultSensitivity = 700f; // Default sensitivity
 
-    // Update is called once per frame
+    private bool thirdActive = true;
+    private float lastAppliedSensitivity;
+
+    private void Start()
+    {
+        // Set the default sens when the game starts
+        PlayerPrefs.SetFloat("masterSen", defaultSensitivity);
+
+        UpdateCameraSensitivity();
+    }
+
     void Update()
     {
-
         if (Input.GetKeyDown(KeyCode.C))
         {
             thirdActive = !thirdActive;
         }
 
+        UpdateActiveCamera();
+
+        float currentSavedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
+        if (currentSavedSensitivity != lastAppliedSensitivity)
+        {
+            Debug.Log($"Sensitivity changed from {lastAppliedSensitivity} to {currentSavedSensitivity}");
+            UpdateCameraSensitivity();
+        }
+    }
+
+    void UpdateActiveCamera()
+    {
         if (thirdActive)
         {
             FirstCam.Priority = 10;
             ThirdCam.Priority = 11;
-            if (Input.GetAxis("CameraRecentre") == 1)
-            {
-                ThirdCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalRecentering.m_enabled = true;
-                ThirdCam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalRecentering.m_enabled = true;
-            }
-            else
-            {
-                ThirdCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalRecentering.m_enabled = false;
-                ThirdCam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalRecentering.m_enabled = false;
-            }
+            UpdateRecentering(ThirdCam);
         }
         else
         {
             ThirdCam.Priority = 10;
             FirstCam.Priority = 11;
-            if (Input.GetAxis("CameraRecentre") == 1)
-            {
-                FirstCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalRecentering.m_enabled = true;
-                FirstCam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalRecentering.m_enabled = true;
-            }
-            else
-            {
-                FirstCam.GetCinemachineComponent<CinemachinePOV>().m_VerticalRecentering.m_enabled = false;
-                FirstCam.GetCinemachineComponent<CinemachinePOV>().m_HorizontalRecentering.m_enabled = false;
-            }
+            UpdateRecentering(FirstCam);
         }
+    }
+
+    void UpdateRecentering(CinemachineVirtualCamera camera)
+    {
+        bool recentering = Input.GetAxis("CameraRecentre") == 1;
+        var pov = camera.GetCinemachineComponent<CinemachinePOV>();
+        pov.m_VerticalRecentering.m_enabled = recentering;
+        pov.m_HorizontalRecentering.m_enabled = recentering;
+    }
+
+    void UpdateCameraSensitivity()
+    {
+        float savedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
+
+        float appliedSensitivity = Mathf.Clamp(savedSensitivity, minSensitivity, maxSensitivity);
+        
+        // Update First Person Camera sensitivity
+        var firstPersonPOV = FirstCam.GetCinemachineComponent<CinemachinePOV>();
+        firstPersonPOV.m_HorizontalAxis.m_MaxSpeed = appliedSensitivity;
+        firstPersonPOV.m_VerticalAxis.m_MaxSpeed = appliedSensitivity;
+
+        // Update Third Person Camera sensitivity
+        var thirdPersonPOV = ThirdCam.GetCinemachineComponent<CinemachinePOV>();
+        thirdPersonPOV.m_HorizontalAxis.m_MaxSpeed = appliedSensitivity;
+        thirdPersonPOV.m_VerticalAxis.m_MaxSpeed = appliedSensitivity;
+
+        lastAppliedSensitivity = savedSensitivity;
     }
 }

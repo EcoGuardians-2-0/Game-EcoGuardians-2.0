@@ -4,16 +4,38 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
- 
+
 public class SelectionManager : MonoBehaviour
 {
 
-    public GameObject interaction_Info_UI;
+    public static SelectionManager instance;
+    public bool isInteracting;
+    public bool onTarget;
+
+    [SerializeField]
+    private GameObject textBox;
+
     Text interaction_text;
+
+    private InteractableObject interactable;
+    private InteractableObject lastInteractable;
+
+    private void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     private void Start()
     {
-        interaction_text = interaction_Info_UI.GetComponent<Text>();
+        onTarget = false;
+        interaction_text = textBox.GetComponentInChildren<Image>().GetComponentInChildren<Text>();
     }
 
     void Update()
@@ -21,24 +43,53 @@ public class SelectionManager : MonoBehaviour
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
         bool isHit = Physics.Raycast(ray, out hit);
+
+
+        if (lastInteractable != null && (!isHit || lastInteractable != hit.transform.GetComponent<InteractableObject>() || !lastInteractable.playerInRange))
+        {
+            lastInteractable.GetComponent<Outline>().enabled = false;
+            lastInteractable = null;
+        }
+
         if (isHit)
         {
             var selectionTransform = hit.transform;
 
-            if (selectionTransform.GetComponent<InteractableObject>())
+            interactable = selectionTransform.GetComponent<InteractableObject>();
+
+            if (interactable != null && interactable.playerInRange)
             {
-                interaction_text.text = selectionTransform.GetComponent<InteractableObject>().GetItemName();
-                interaction_Info_UI.SetActive(true);
+                if (interactable != lastInteractable)
+                {
+                    lastInteractable = interactable;
+                }
+
+
+                interactable.GetComponent<Outline>().enabled = !isInteracting;
+                SetText(interactable.GetSelectionPrompt());
+
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    if (!DialogueManager.instance.isTalking)
+                    {
+                        interactable.Interact();
+                    }
+                }
             }
             else
             {
-                interaction_Info_UI.SetActive(false);
+                textBox.SetActive(false);
             }
-
         }
         else
         {
-            interaction_Info_UI.SetActive(false);
+            textBox.SetActive(false);
         }
+    }
+
+    private void SetText(string toolTiptext)
+    {
+        interaction_text.text = toolTiptext;
+        textBox.SetActive(true);
     }
 }
