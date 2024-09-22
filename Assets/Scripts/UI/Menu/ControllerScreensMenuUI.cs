@@ -30,7 +30,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     public void Update()
     {
-        checkEsc();
+        checkP();
         EventSystem.current.SetSelectedGameObject(null);
     }
 
@@ -54,9 +54,9 @@ public class ControllerScreensMenuUI : MonoBehaviour
         }
     }
 
-    private void checkEsc()
+    private void checkP()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && settings.activeSelf)
+        if (Input.GetKeyDown(KeyCode.P) && settings.activeSelf)
         {
             if (!menuP)
             {
@@ -72,28 +72,30 @@ public class ControllerScreensMenuUI : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && audioUI.activeSelf)
+        if (Input.GetKeyDown(KeyCode.P) && audioUI.activeSelf)
         {
             audioUI.SetActive(false);
             settings.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && game.activeSelf)
+        if (Input.GetKeyDown(KeyCode.P) && game.activeSelf)
         {
             game.SetActive(false);
             settings.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && controls.activeSelf)
+        if (Input.GetKeyDown(KeyCode.P) && controls.activeSelf)
         {
             controls.SetActive(false);
             settings.SetActive(true);
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && panelExit.activeSelf)
+        if (Input.GetKeyDown(KeyCode.P) && panelExit.activeSelf)
             panelExit.gameObject.SetActive(false);
     }
 
     public void ExitButton()
     {
         Time.timeScale = 1f;
+        SceneManager.LoadScene("Game");
+
     }
 
     public void SetVolume(float volume)

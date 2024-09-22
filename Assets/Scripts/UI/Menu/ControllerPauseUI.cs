@@ -7,16 +7,16 @@ using UnityEngine.SceneManagement;
 
 public class ControllerPauseUI : MonoBehaviour
 {
-    public bool gameIsPaused = false; // Indica si el juego está pausado
+    public bool gameIsPaused = false;
     private bool canPause = false;
     private bool menuP = false;
-    public GameObject pauseMenuUI; // UI del menú de pausa
+    public GameObject pauseMenuUI;
     public DisableObjects disableObjects;
     public Vector2 screenCenter;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && canPause)
+        if (Input.GetKeyDown(KeyCode.P) && canPause)
         {
             if (gameIsPaused)
                 Resume();

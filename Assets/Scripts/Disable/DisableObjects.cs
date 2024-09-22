@@ -43,6 +43,11 @@ public class DisableObjects : MonoBehaviour
             Instance = this;
     }
 
+    private void Start()
+    {
+        disableCameras();
+    }
+
     public void disableCameras()
     {
         foreach (CinemachineVirtualCamera camera in cameras)
