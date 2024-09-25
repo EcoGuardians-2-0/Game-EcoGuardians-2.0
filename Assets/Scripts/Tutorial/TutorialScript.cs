@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public class TutorialScript : MonoBehaviour
 {
-    public UnityEngine.UI.Image[] keyUI;
+    public Image[] keyUI;
+    public GameObject tutorialUI;
     public KeyCode[] keyCodes = { KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.W };
     private Color targetColor = new Color32(44, 87, 41, 255);
     private Color principalColor = new Color32(0, 0, 0, 255);
@@ -53,6 +54,12 @@ public class TutorialScript : MonoBehaviour
 
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            StartCoroutine(FinishTutorial());
+        }
+
         if (Welcome.activeSelf)
             WelcomeKeyDown();
         else if (T1.activeSelf)
@@ -233,9 +240,15 @@ public class TutorialScript : MonoBehaviour
         if (E2_UI.color == targetColor)
         {
             T8.SetActive(false);
-            WallCollider.SetActive(false);
-            StartCoroutine(ActivateAndDeactivate());
+            StartCoroutine(FinishTutorial());
         }
+    }
+
+    private IEnumerator FinishTutorial()
+    {
+        WallCollider.SetActive(value: false);
+        yield return ActivateAndDeactivate();
+        gameObject.SetActive(false);
     }
 
     private IEnumerator ActivateAndDeactivate()
@@ -243,5 +256,6 @@ public class TutorialScript : MonoBehaviour
         AlertaEmpezar.SetActive(true);
         yield return new WaitForSeconds(3f);
         AlertaEmpezar.SetActive(false);
+        tutorialUI.SetActive(false);
     }
 }
