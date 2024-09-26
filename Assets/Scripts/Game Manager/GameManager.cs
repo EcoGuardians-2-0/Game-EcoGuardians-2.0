@@ -64,22 +64,29 @@ public class GameManager : MonoBehaviour
     {
     }
 
+    // Quest Events to be handled by GameManager
+
+    // Triggered by character assgining player quests
     private void HandleQuestAssigned()
     {
         Debug.Log("Quests Assigned");
         ActivateQuests(MODULE_NAME + currentModule);
     }
+
+    // Triggered when player completes a quest
     private void HandleQuestCompleted(string taskName)
     {
         questManager.CompleteQuest(taskName);
     }
 
+    // Triggered when player has completed all quests
     private void HandleAllQuestCompleted()
     {
         DialogueManager.instance.SetVariable("global_cuestionario_"+currentModule, DialogueVariableSetter.SetVariable(true));
         StartCoroutine(clearQuests());
     }
 
+    // Called in order to clear quests from UI
     private IEnumerator clearQuests()
     {
         yield return StartCoroutine(questManager.ClearCompletedQuests());
