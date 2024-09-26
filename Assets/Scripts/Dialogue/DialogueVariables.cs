@@ -59,6 +59,14 @@ public class DialogueVariables
         printDictionaries();
     }
 
+    public void setVariableValue(string variableName, Ink.Runtime.Object value)
+    {
+        if (variables["globals"].ContainsKey(variableName))
+        {
+            variables["globals"][variableName] = value;
+        }
+    }
+
     private void VariableChanged(string name, Ink.Runtime.Object value)
     {
         if (name.StartsWith("global"))
@@ -71,34 +79,6 @@ public class DialogueVariables
             variables[currentStoryName][name] = value;
         }
     }
-
-    public Ink.Runtime.Object searchVariable(string variableName)
-    {
-        Ink.Runtime.Object variableValue = null;
-
-        if (variableName.StartsWith("global"))
-        {
-            variables["globals"].TryGetValue(variableName, out variableValue);
-        }
-        else
-        {
-            variables[currentStoryName].TryGetValue(variableName, out variableValue);
-        }
-        return variableValue;
-    }
-
-    private void printDictionaries()
-    {
-        foreach(KeyValuePair<string, Dictionary<string, Ink.Runtime.Object>> scripts in variables)
-        {
-            Debug.Log("Script: " + scripts.Key);
-            foreach(KeyValuePair<string, Ink.Runtime.Object> variables in scripts.Value)
-            {
-                Debug.Log("Variable name: " + variables.Key + " = " +  variables.Value);
-            }
-        }
-    }
-
     private void VariablesToStory(Story story)
     {
         Debug.Log(story.variablesState);
@@ -114,6 +94,17 @@ public class DialogueVariables
             else
             {
                 story.variablesState.SetGlobal(name, variables[currentStoryName][name]);
+            }
+        }
+    }
+    private void printDictionaries()
+    {
+        foreach (KeyValuePair<string, Dictionary<string, Ink.Runtime.Object>> scripts in variables)
+        {
+            Debug.Log("Script: " + scripts.Key);
+            foreach (KeyValuePair<string, Ink.Runtime.Object> variables in scripts.Value)
+            {
+                Debug.Log("Variable name: " + variables.Key + " = " + variables.Value);
             }
         }
     }

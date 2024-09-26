@@ -21,8 +21,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextAsset loadGlobalsJSON;
 
-    [Header("Events")]
-    public UnityEvent<string> onActivityStarted;
+
 
     public bool isTalking { get; private set; }
 
@@ -249,11 +248,6 @@ public class DialogueManager : MonoBehaviour
                     Debug.Log("Animation: " + tagValue);
                     currentAnimation = int.Parse(tagValue);
                     break;
-                case START_ACTIVITY_TAG:
-                    Debug.Log("Activity: " + tagValue);
-                    // Trigger the event based on the activity number
-                    onActivityStarted.Invoke(tagValue); 
-                    break;
                 default:
                     Debug.LogWarning("Tag not supported: " + tag);
                     break;
@@ -285,8 +279,8 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public Ink.Runtime.Object GetVariableState(string variableName)
+    public void SetVariable(string name, Ink.Runtime.Object value)
     {
-        return dialogueVariables.searchVariable(variableName);
+        dialogueVariables.setVariableValue(name, value);
     }
 }

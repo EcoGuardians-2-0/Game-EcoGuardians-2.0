@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using static UnityEngine.Rendering.DebugUI;
+using System.Collections;
 
 /*
  * Class QuestManager
@@ -23,6 +24,10 @@ public class QuestManager : MonoBehaviour
     [SerializeField]
     private Sprite spriteCompleted;
 
+    // Count of quests
+    private int totalQuests = 0;
+    private int totalQuestsCompleted = 0;
+
     // Dictionary to store the active quests
     private Dictionary<string, GameObject> activeQuests = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> activeTitles = new Dictionary<string, GameObject>();
@@ -40,6 +45,7 @@ public class QuestManager : MonoBehaviour
     {
         GameObject newTitle = Instantiate(titlePrefab, QuestListParent);
         newTitle.name = "Title: " + "NoQuests";
+
 
         GameObject Content = newTitle.transform.Find("Content").gameObject;
         GameObject Text_Content = Content.transform.Find("Text Content").gameObject;
@@ -100,6 +106,7 @@ public class QuestManager : MonoBehaviour
     {
         if (!activeQuests.ContainsKey(questId))
         {
+            totalQuests++;
             SetOffTasksTitle();
 
             GameObject newQuest = Instantiate(questPrefab, QuestListParent);
@@ -140,6 +147,7 @@ public class QuestManager : MonoBehaviour
         Debug.Log("Quest id: " + questId);
         if (activeQuests.ContainsKey(questId))
         {
+            totalQuestsCompleted++;
             GameObject quest = activeQuests[questId];
             GameObject checkBox = quest.transform.Find("Checkbox").gameObject;
             checkBox.AddComponent<Toggle>();
@@ -150,6 +158,9 @@ public class QuestManager : MonoBehaviour
                 AnimationsQuest.Instance.CompleteQuestAnimation(checkBox);
 
             rawImage.texture = spriteCompleted.texture;
+
+            if (totalQuests == totalQuestsCompleted)
+                GameManager.AllQuestsCompleted();
         }
         else
             Debug.LogWarning("Quest with ID " + questId + " does not exist.");
@@ -254,44 +265,40 @@ public class QuestManager : MonoBehaviour
             Debug.LogWarning("Title with ID " + titleId + " does not exist.");
     }
 
-    public bool AllQuestsCompleted()
-    {
-        int questsToDelete = 0;
-        foreach (var questEntry in activeQuests)
-        {
-            Toggle toggle = questEntry.Value.GetComponentInChildren<Toggle>();
-            if (toggle != null && toggle.isOn)
-            {
-                questsToDelete++;
-            }
-        }
-        return activeQuests.Count == questsToDelete;
-    }
+
 
     /*
      * Method ClearCompletedQuests
      * 
      * Description: Clears all completed quests from the dictionary of active quests
      */
-    public void ClearCompletedQuests()
+    public IEnumerator ClearCompletedQuests()
     {
-        List<string> questsToRemove = new List<string>();
+        totalQuests = 0;
+        totalQuestsCompleted = 0;
 
         foreach (var questEntry in activeQuests)
         {
             Toggle toggle = questEntry.Value.GetComponentInChildren<Toggle>();
             if (toggle != null && toggle.isOn)
             {
-                Destroy(questEntry.Value);
-                questsToRemove.Add(questEntry.Key);
+                GameObject activeQuest = activeQuests[questEntry.Key];
+                AnimationsQuest.Instance.DeleteQuestAnimation(activeQuest);
+                yield return new WaitForSeconds(0.5f);
             }
         }
 
-        foreach (string questId in questsToRemove)
+        foreach (var titleEntry in activeTitles)
         {
-            activeQuests.Remove(questId);
+            GameObject activeTitle = activeTitles[titleEntry.Key];
+            AnimationsQuest.Instance.DeleteQuestAnimation(activeTitle);
+            yield return new WaitForSeconds(0.5f);
         }
+
+        activeQuests.Clear(); 
+        activeTitles.Clear();
     }
+
 
     /*
      * Method SetNoTasksTitle
