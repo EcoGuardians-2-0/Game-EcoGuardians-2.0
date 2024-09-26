@@ -7,17 +7,15 @@ using System.IO;
 public class DialogueVariables
 {
 
-    public Dictionary<string, Dictionary<string, Ink.Runtime.Object>> variables2;
-
+    public Dictionary<string, Dictionary<string, Ink.Runtime.Object>> variables;
     private string currentStoryName;
-
-    public Dictionary<string, Ink.Runtime.Object> variables;
-
+    private DialogueNotifier eventNotifier;
 
     public DialogueVariables()
     {
-        variables2 = new Dictionary<string, Dictionary<string, Ink.Runtime.Object>>();
-        variables2["globals"] = new Dictionary<string, Ink.Runtime.Object>();
+        eventNotifier = new DialogueNotifier();
+        variables = new Dictionary<string, Dictionary<string, Ink.Runtime.Object>>();
+        variables["globals"] = new Dictionary<string, Ink.Runtime.Object>();
     }
 
     public void initializeVariables(TextAsset textAsset)
@@ -28,9 +26,9 @@ public class DialogueVariables
         Debug.Log("Script inicializado: " + currentStoryName);
 
 
-        if (!variables2.ContainsKey(currentStoryName))
+        if (!variables.ContainsKey(currentStoryName))
         {
-            variables2[currentStoryName] = new Dictionary<string, Ink.Runtime.Object>();
+            variables[currentStoryName] = new Dictionary<string, Ink.Runtime.Object>();
             foreach (string name in storyVariables.variablesState)
             {
                 Ink.Runtime.Object value = storyVariables.variablesState.GetVariableWithName(name);
@@ -38,11 +36,11 @@ public class DialogueVariables
                 if (name.StartsWith("global"))
                 {
                     if (currentStoryName.StartsWith("Load"))
-                        variables2["globals"][name] =  value;
+                        variables["globals"][name] =  value;
                 }
                 else
                 {
-                    variables2[currentStoryName][name] = value;
+                    variables[currentStoryName][name] = value;
                 }
             }
         }
@@ -65,11 +63,12 @@ public class DialogueVariables
     {
         if (name.StartsWith("global"))
         {
-            variables2["globals"][name] = value;
+            variables["globals"][name] = value;
+            eventNotifier.CheckForEventTrigger(name, value);
         }
         else
         {
-            variables2[currentStoryName][name] = value;
+            variables[currentStoryName][name] = value;
         }
     }
 
@@ -79,18 +78,18 @@ public class DialogueVariables
 
         if (variableName.StartsWith("global"))
         {
-            variables2["globals"].TryGetValue(variableName, out variableValue);
+            variables["globals"].TryGetValue(variableName, out variableValue);
         }
         else
         {
-            variables2[currentStoryName].TryGetValue(variableName, out variableValue);
+            variables[currentStoryName].TryGetValue(variableName, out variableValue);
         }
         return variableValue;
     }
 
     private void printDictionaries()
     {
-        foreach(KeyValuePair<string, Dictionary<string, Ink.Runtime.Object>> scripts in variables2)
+        foreach(KeyValuePair<string, Dictionary<string, Ink.Runtime.Object>> scripts in variables)
         {
             Debug.Log("Script: " + scripts.Key);
             foreach(KeyValuePair<string, Ink.Runtime.Object> variables in scripts.Value)
@@ -110,11 +109,11 @@ public class DialogueVariables
         {
             if (name.StartsWith("global"))
             {
-                story.variablesState.SetGlobal(name, variables2["globals"][name]);
+                story.variablesState.SetGlobal(name, variables["globals"][name]);
             }
             else
             {
-                story.variablesState.SetGlobal(name, variables2[currentStoryName][name]);
+                story.variablesState.SetGlobal(name, variables[currentStoryName][name]);
             }
         }
     }

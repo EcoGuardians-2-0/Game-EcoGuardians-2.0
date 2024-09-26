@@ -9,14 +9,41 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private QuestManager questManager;
 
+    public static event Action OnQuestAssigned;
+    public static event Action<string> OnQuestCompleted;
+
     private bool questActive;
+
+    private string module;
     private int currentModule;
+
+    public static void QuestCompleted(string taskName)
+    {
+        if(OnQuestCompleted != null)
+        {
+            OnQuestCompleted.Invoke(taskName);
+        }
+    }
+
+    public static void QuestAssigned()
+    {
+        if (OnQuestAssigned != null)
+        {
+            OnQuestAssigned.Invoke();
+        }
+    }
+    private void OnEnable()
+    {
+        OnQuestAssigned += HandleQuestAssigned;
+        OnQuestCompleted += HandleQuestCompleted;
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         currentModule = 1;
         questActive = false;
+        module = "module";
 
         // Register for activity start events
         DialogueManager.instance.onActivityStarted.AddListener(HandleActivityStart);
@@ -45,26 +72,25 @@ public class GameManager : MonoBehaviour
             {
                 questManager.CompleteQuest(mission_name);
                 Ink.Runtime.StringValue mission = new Ink.Runtime.StringValue("");
-                DialogueManager.instance.dialogueVariables.variables2["globals"]["global_mision_completada"] = mission;
+                DialogueManager.instance.dialogueVariables.variables["globals"]["global_mision_completada"] = mission;
             }
 
             if (questManager.AllQuestsCompleted())
             {
                 Ink.Runtime.BoolValue questionnaire = new Ink.Runtime.BoolValue(true);
-                DialogueManager.instance.dialogueVariables.variables2["globals"]["global_cuestionario_" + currentModule] = questionnaire;
+                DialogueManager.instance.dialogueVariables.variables["globals"]["global_cuestionario_" + currentModule] = questionnaire;
             }
         }
-        else
-        {
-            if (global_mission != null)
-            {
-                if (((Ink.Runtime.BoolValue)global_mission).value)
-                {
-                    ActivateQuests("module1");
-                    questActive = true;
-                }
-            }
-        }
+    }
+
+    private void HandleQuestAssigned()
+    {
+        Debug.Log("Quests Assigned");
+        ActivateQuests(module + currentModule);
+    }
+    private void HandleQuestCompleted(string taskName)
+    {
+        questManager.CompleteQuest(taskName);
     }
 
     private void HandleActivityStart(string activityNumber)
