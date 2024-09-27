@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1638994630544185239
+--- !u!1001 &770078517899422393
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.9
+      objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -52,8 +64,88 @@ PrefabInstance:
       propertyPath: m_Name
       value: BOP
       objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 4da71580375d78147bd39928e56af161, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3341790078761686547}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9050919654527683933}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6665181831718007428}
   m_SourcePrefab: {fileID: 100100000, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+--- !u!1 &463509593935370216 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 561c89ae894eca24789a9c52869abf61, type: 3}
+  m_PrefabInstance: {fileID: 770078517899422393}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &-3341790078761686547
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463509593935370216}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3, y: 2, z: 4}
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!136 &9050919654527683933
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463509593935370216}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.3
+  m_Height: 1.95
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.95, z: 0}
+--- !u!114 &-6665181831718007428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463509593935370216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f6254e27c8d5a42a40f0d723307173, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionPrompt: Talk to barista
+  itemName: Renato
+  customColor: {r: 0.47058824, g: 0.9254902, b: 0.3529412, a: 1}
+  playerInRange: 0
+  inkJSON: {fileID: 4900000, guid: 9e163c18acac6ce40bf738cd417a9ec6, type: 3}
+  ikActive: 1
