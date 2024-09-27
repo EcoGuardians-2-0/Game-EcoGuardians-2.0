@@ -147,17 +147,25 @@ public class QuestManager : MonoBehaviour
         Debug.Log("Quest id: " + questId);
         if (activeQuests.ContainsKey(questId))
         {
-            totalQuestsCompleted++;
             GameObject quest = activeQuests[questId];
             GameObject checkBox = quest.transform.Find("Checkbox").gameObject;
-            checkBox.AddComponent<Toggle>();
-            checkBox.GetComponent<Toggle>().isOn = true;
-            RawImage rawImage = checkBox.GetComponent<RawImage>();
 
-            if (rawImage.texture != spriteCompleted.texture)
-                AnimationsQuest.Instance.CompleteQuestAnimation(checkBox);
-
-            rawImage.texture = spriteCompleted.texture;
+            // This is to know whether the toggle has been previously activated which means the task has been completed.
+            // Basically, the condition checks if the toggle hasn't been created and if it has then that is not on (so it means it's not a task that's been completed).
+            if(!(checkBox.GetComponent<Toggle>()  != null && checkBox.GetComponent<Toggle>().isOn))
+            {
+                totalQuestsCompleted++;
+                checkBox.AddComponent<Toggle>();
+                checkBox.GetComponent<Toggle>().isOn = true;
+                RawImage rawImage = checkBox.GetComponent<RawImage>();
+                if (rawImage.texture != spriteCompleted.texture)
+                    AnimationsQuest.Instance.CompleteQuestAnimation(checkBox);
+                rawImage.texture = spriteCompleted.texture;
+            }
+            else
+            {
+                Debug.Log("Toggle exists and is also on");
+            }
 
             if (totalQuests == totalQuestsCompleted)
                 GameManager.AllQuestsCompleted();
