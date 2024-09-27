@@ -16,9 +16,6 @@ public class GameManager : MonoBehaviour
     private const string MODULE_NAME = "module";
     private const string QUESTIONNAIRE = "questionnaire";
     private int currentModule;
-
-    private string questionnaire;
-
     public static void QuestCompleted(string taskName)
     {
         if(OnQuestCompleted != null)
@@ -54,7 +51,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentModule = 1;
-        questionnaire = "global_cuestionario_";
         // Register for game start events
         ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
