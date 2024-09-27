@@ -151,7 +151,7 @@ public class QuestManager : MonoBehaviour
             GameObject checkBox = quest.transform.Find("Checkbox").gameObject;
 
             // This is to know whether the toggle has been previously activated which means the task has been completed.
-            // Basically, the condition checks if the toggle hasn't been created and if it has then that is not on (so it means it's not a task that's been completed).
+            // Basically, the condition checks if the toggle hasn't been created and if it has then it means the task has been completed.
             if(!(checkBox.GetComponent<Toggle>()  != null && checkBox.GetComponent<Toggle>().isOn))
             {
                 totalQuestsCompleted++;
