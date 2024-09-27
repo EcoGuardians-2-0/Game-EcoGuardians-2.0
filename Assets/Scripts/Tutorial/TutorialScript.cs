@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject WallCollider;
     public GameObject TvOn;
     public GameObject Pausa;
-    public GameObject AlertaEmpezar;
+    public GameObject AlertStart;
     public Graphic Enter_UI;
     public Graphic A2_UI;
     public Graphic S2_UI;
@@ -34,56 +35,46 @@ public class TutorialScript : MonoBehaviour
     public Graphic P_UI;
     public Graphic P2_UI;
     public Graphic C_UI;
+    public Graphic C2_UI;
     public Graphic Ctrl_UI;
     public Graphic Tab_UI;
     public Graphic Tab2_UI;
-    public Button EnterB;
     private float keyHoldTime = 0f;
     private bool isKeyHeld = false;
     private float shiftKeyStartTime = 0f; 
     private bool isHoldingShiftAndKey = false;
-
     private float[] keyStartTimes;
     private bool[] isColorChanged;
+    private bool isTimerActive = false;
+    private float timer = 0f;
+    private float alertDuration = 3f;
+
     void Start()
     {
         keyStartTimes = new float[keyCodes.Length];
         isColorChanged = new bool[keyCodes.Length];
     }
-
+    
     void Update()
     {
-        if (Welcome.activeSelf)
-            WelcomeKeyDown();
-        else if (T1.activeSelf)
+        if (T1.activeSelf && T1 != null)
             VerifyKeyDownT1();
-        else if (T2.activeSelf)
+        else if (T2.activeSelf && T2 != null)
             VerifyKeyDownT2();
-        else if (T3.activeSelf)
+        else if (T3.activeSelf && T3 != null)
             VerifyKeyDownT3();
-        else if (T4.activeSelf)
+        else if (T4.activeSelf && T4 != null)
             VerifyKeyDownT4();
-        else if (T5.activeSelf)
+        else if (T5.activeSelf && T5 != null)
             VerifyKeyDownT5();
-        else if (T6.activeSelf)
+        else if (T6.activeSelf && T6 != null)
             VerifyKeyDownT6();
-        else if (T7.activeSelf)
+        else if (T7.activeSelf && T7 != null)
             VerifyKeyDownT7();
-        else if (T8.activeSelf)
+        else if (T8.activeSelf && T8 != null)
             VerifyKeyDownT8();
-
-    }
-
-    public void WelcomeKeyDown()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-            Enter_UI.color = targetColor;
-        if (Enter_UI.color == targetColor)
-        {
-            Welcome.SetActive(false);
-            T1.SetActive(true);
-            EnterB.onClick.Invoke();
-        }
+        if (isTimerActive)
+            ActivateAndDeactivate();
     }
 
     public void VerifyKeyDownT1()
@@ -172,10 +163,12 @@ public class TutorialScript : MonoBehaviour
     public void VerifyKeyDownT5()
     {
 
+        if (Input.GetKeyDown(KeyCode.C) && C_UI.color == targetColor)
+            C2_UI.color = targetColor;
         if (Input.GetKeyDown(KeyCode.C))
             C_UI.color = targetColor;
 
-        if (C_UI.color == targetColor)
+        if (C2_UI.color == targetColor)
         {
             T5.SetActive(false);
             T6.SetActive(true);
@@ -233,15 +226,25 @@ public class TutorialScript : MonoBehaviour
         if (E2_UI.color == targetColor)
         {
             T8.SetActive(false);
-            WallCollider.SetActive(false);
-            StartCoroutine(ActivateAndDeactivate());
+            StartGame();
         }
     }
-
-    private IEnumerator ActivateAndDeactivate()
+    public void StartGame()
     {
-        AlertaEmpezar.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        AlertaEmpezar.SetActive(false);
+        WallCollider.SetActive(false);
+        AlertStart.SetActive(true);
+        isTimerActive = true;
+        timer = 0f;
+    }
+
+    private void ActivateAndDeactivate()
+    {
+        timer += Time.deltaTime;
+
+        if (timer >= alertDuration)
+        {
+            AlertStart.SetActive(false);
+            isTimerActive = false;
+        }
     }
 }

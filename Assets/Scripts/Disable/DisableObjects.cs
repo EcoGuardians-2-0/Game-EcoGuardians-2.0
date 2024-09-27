@@ -32,6 +32,12 @@ public class DisableObjects : MonoBehaviour
     [SerializeField]
     private GameObject controlsVideoTVUI;
 
+    [SerializeField]
+    private GameObject welcomeUI;
+
+    [SerializeField]
+    private GameObject T1;
+
     private bool isFirstTimeImageTV = true;
     private bool isFirstTimeVideoTV = true;
 
@@ -42,10 +48,23 @@ public class DisableObjects : MonoBehaviour
         else
             Instance = this;
     }
+
     private void Start()
     {
         disableCameras();
     }
+
+    private void Update()
+    {
+        if (welcomeUI.activeSelf && Input.GetKeyDown(KeyCode.Return))
+        {
+            welcomeUI.SetActive(false);
+            T1.SetActive(true);
+            disableCharacterController();
+        }
+           
+    }
+
     public void setPlayer(GameObject player, PlayerController characterController)
     {
         this.player = player;
