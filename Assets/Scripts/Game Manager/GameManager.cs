@@ -47,6 +47,21 @@ public class GameManager : MonoBehaviour
         OnAllQuestsCompleted += HandleAllQuestCompleted;
     }
 
+    private void OnDisable()
+    {
+        OnQuestAssigned -= HandleQuestAssigned;
+        OnQuestCompleted -= HandleQuestCompleted;
+        OnAllQuestsCompleted -= HandleAllQuestCompleted;
+    }
+
+    private void OnDestroy()
+    {
+        OnQuestAssigned -= HandleQuestAssigned;
+        OnQuestCompleted -= HandleQuestCompleted;
+        OnAllQuestsCompleted -= HandleAllQuestCompleted;
+    }
+
+
     // Start is called before the first frame update
     void Start()
     {
