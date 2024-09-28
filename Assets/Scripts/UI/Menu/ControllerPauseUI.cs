@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
+// using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -13,7 +13,7 @@ public class ControllerPauseUI : MonoBehaviour
     public GameObject pauseMenuUI;
     public DisableObjects disableObjects;
     public Vector2 screenCenter;
-    
+
     private static ControllerPauseUI _Instance;
     public static ControllerPauseUI Instance
     {
@@ -83,5 +83,5 @@ public class ControllerPauseUI : MonoBehaviour
         gameIsPaused = isPaused;
     }
 
-    
+
 }
