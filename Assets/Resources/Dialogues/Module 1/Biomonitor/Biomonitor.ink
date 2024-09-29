@@ -4,7 +4,6 @@ INCLUDE ../../Random/RandomBioMonitor.ink
 
 VAR already_talked = false
 VAR failed_test = 0
-~global_cuestionario_1 = true
 
 { global_pass_1 == false:
     {   global_cuestionario_1:

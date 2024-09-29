@@ -16,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private const string MODULE_NAME = "module";
     private const string QUESTIONNAIRE = "questionnaire";
-    private int currentModule;
+    private static int currentModule;
     private bool doingQuestionnaire;
     public static void QuestCompleted(string taskName)
     {
@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviour
     private void HandleQuestionnaireCompleted()
     {
         doingQuestionnaire = false;
+        WallAlert.DisableWall(currentModule);
         currentModule++;
     }
 
