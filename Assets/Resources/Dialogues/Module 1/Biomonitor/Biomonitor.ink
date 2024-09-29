@@ -1,8 +1,10 @@
 INCLUDE ../../Globals/globals.ink
 INCLUDE Questionnaire1.ink
+INCLUDE ../../Random/RandomBioMonitor.ink
 
 VAR already_talked = false
 VAR failed_test = 0
+~global_cuestionario_1 = true
 
 { global_pass_1 == false:
     {   global_cuestionario_1:
@@ -20,18 +22,10 @@ VAR failed_test = 0
 
 // Carlos' introduction
 === intro
-    ¡Hola! Soy Carlos, un biomonitor de la estacion biológica. <>
-    Te contare un poco sobre mí. # speaker: Carlos # animation: 1
-    
-    Veo que estas visitando nuestra estación por primera vez y noto <>
-    que te gustaría explorar un poco.
-    
-    Te propongo un reto. # animation: 5
-    
-    ¿Por qué no hablas con mis compañeros aqui abajo en sus oficinas? Cuando <>
-    regreses te preguntaré sobre lo que hacen en la estación.
-    
-    Si aciertas la mayoría, te dejare continuar tu recorrido.
+    ¡Hola! Soy Carlos, veo que estas visitando nuestra estación  por primera vez y noot que te gustaría conocerla. #speaker: Carlos # animation: 1
+    Primero que todo, nos encontramos en Aguadas, Caldas. En la Estación Biológica del Norte de Caldas o por sus siglas, EBNC.
+    Vamos a hacer esto. Te ayudaré a explorarla, mientras que cumplas determinadas tareas y retos que te colocaré para que sea más divertido.
+    Tengo una idea: ¿por qué no hablas con mis compañeros en sus oficinas aquí abajo? Cuando regreses, te preguntaré sobre lo que hacen en la estación.
     // Assigning missions to character
     ~ global_misiones_1 = true
     // Marking character as already talked
@@ -39,24 +33,8 @@ VAR failed_test = 0
     ->DONE
 
 === second_time
-   ¡Hola de nuevo! ¿Cómo te fue con mis compañeros? #speaker: Carlos #animation:1
-   -> question
+   -> ChooseRandomDialogueBio1
 
-=== question
-    Dime, ¿Tienes alguna pregunta? # animation: 3
-   + [Todo bien, ¿qué haces aquí?]
-        -> work_question
-   + [Nada más, adiós]
-        -> end_dialogue    
-   
-=== work_question
-    Soy responsable de monitorear la salud de todos los seres vivos en esta estación. # animation: 5
-    -> question
-
-=== end_dialogue
-    ¡Hasta luego! <>
-    Recuerda hablar con mis otros compañeros para cumplir el reto.
-    * -> DONE
 
 === suerte
     Dirigite al siguiente módulo, allí encontrás a más de mis compañeros.
@@ -64,21 +42,40 @@ VAR failed_test = 0
     
 === cuestionario ==
     {   failed_test > 0:
-            Has vuelto a intentar el cuestionario, te deseo mucha suerte.#speaker: Carlos # animation: 1
+            Veo que ya habías intentado el cuestionario antes.<>
+            No te preocupes, ¡Se que esta vez lo pasaras!
+            ¿Te gustaría intentarlo de nuevo o prefieres esperar un poco más?
+                +[Claro]
+                    ¡Perfecto! Comencemos con el cuestionario. Estoy seguro de que lo harás mucho mejor esta vez.
+                    ->start->evaluacion
+                +[En un rato lo haré gracias]
+                    Está bien, no hay prisa. Cuando te sientas listo,estaré aquí para el cuestionario. 
+                    ¡Solo házmelo saber!
+                    -> DONE
         -else:
-            Veo que estás preparado para realizar el cuestionario #speaker: Carlos # animation: 1
+            ¡Genial, ya hablaste con mis compañeros! 
+            Como te habia comentado, prepare un cuestionario para ver que tanto has conocido de la estación.
+            ¿Te sientes preparado para hacerlo ahora?
+                +[Claro]
+                    ¡Excelente decisión! Estoy seguro de que lo harás muy bien.
+                    ->start->evaluacion
+                +[En un rato lo haré gracias]
+                    Está bien, no hay problema. Si prefieres pensarlo un poco más, aquí estaré cuando estés listo para intentarlo.
+                    -> DONE
     }
-    ->start->evaluacion
-
+    
 == evaluacion
     {score>= passing_score:
-        ~ global_pass_1 = true
-        !Felicidades has pasado el primer cuestionario!
-        Sigue las escalera y entraras al restaurante, alli podras conocer al chef.
+        ~global_pass_1 = true
+        ~global_mision_completada = "questionnaire1"
+        ¡Increíble! Has respondido todas las preguntas correctamente.<>
+        Has pasado el cuestionario del primer modulo.
+        Subiendo las escaleras te encontrás el segundo modulo.<>
+        El restaurante y baño público hacen parte del segundo modulo.
      -else:
         ~failed_test++
-        Lo siento pero no has alcanzado el puntaje suficiente.
-        Puedes volver a intentarlo de nuevo.
+        Cuando te sientas preparado nuevamente puedes volver <> 
+        a hacer el cuestionario para continuar.
     }
     ~score = 0
     *->DONE

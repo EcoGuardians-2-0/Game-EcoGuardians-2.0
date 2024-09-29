@@ -16,5 +16,9 @@ public class DialogueNotifier
             string missionName = value.ToString();
             GameManager.QuestCompleted(missionName);
         }
+        else if (variableName.StartsWith("global_pass"))
+        {
+            GameManager.QuestionnaireCompleted();
+        }
     }
 }

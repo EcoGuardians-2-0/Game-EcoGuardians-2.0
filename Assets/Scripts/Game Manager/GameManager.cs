@@ -12,10 +12,12 @@ public class GameManager : MonoBehaviour
     public static event Action OnQuestAssigned;
     public static event Action<string> OnQuestCompleted;
     public static event Action OnAllQuestsCompleted;
+    public static event Action OnQuestionnaireCompleted;
 
     private const string MODULE_NAME = "module";
     private const string QUESTIONNAIRE = "questionnaire";
     private int currentModule;
+    private bool doingQuestionnaire;
     public static void QuestCompleted(string taskName)
     {
         if(OnQuestCompleted != null)
@@ -40,11 +42,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public static void QuestionnaireCompleted()
+    {
+        if(OnQuestionnaireCompleted != null)
+        {
+            OnQuestionnaireCompleted.Invoke();
+        }
+    }
+
     private void OnEnable()
     {
         OnQuestAssigned += HandleQuestAssigned;
         OnQuestCompleted += HandleQuestCompleted;
         OnAllQuestsCompleted += HandleAllQuestCompleted;
+        OnQuestionnaireCompleted += HandleQuestionnaireCompleted;
     }
 
     private void OnDisable()
@@ -52,6 +63,8 @@ public class GameManager : MonoBehaviour
         OnQuestAssigned -= HandleQuestAssigned;
         OnQuestCompleted -= HandleQuestCompleted;
         OnAllQuestsCompleted -= HandleAllQuestCompleted;
+        OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
+
     }
 
     private void OnDestroy()
@@ -59,6 +72,8 @@ public class GameManager : MonoBehaviour
         OnQuestAssigned -= HandleQuestAssigned;
         OnQuestCompleted -= HandleQuestCompleted;
         OnAllQuestsCompleted -= HandleAllQuestCompleted;
+        OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
+
     }
 
 
@@ -66,6 +81,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentModule = 1;
+        doingQuestionnaire = false;
         // Register for game start events
         ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
@@ -97,11 +113,20 @@ public class GameManager : MonoBehaviour
         StartCoroutine(clearQuests());
     }
 
+    private void HandleQuestionnaireCompleted()
+    {
+        doingQuestionnaire = false;
+        currentModule++;
+    }
+
     // Called in order to clear quests from UI
     private IEnumerator clearQuests()
     {
         yield return StartCoroutine(questManager.ClearCompletedQuests());
-        ActivateQuests(QUESTIONNAIRE + currentModule);
+        if (doingQuestionnaire)
+        {
+            ActivateQuests(QUESTIONNAIRE + currentModule);
+        }
     }
     private void HandleActivityStart(string activityNumber)
     {

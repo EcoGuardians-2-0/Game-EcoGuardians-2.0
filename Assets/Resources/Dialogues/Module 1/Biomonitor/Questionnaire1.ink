@@ -3,15 +3,9 @@ VAR total_questions = 3
 VAR passing_score =  2
 VAR current_question = 1
 === start
-!Bienvenido al cuestionario del biomonitor! <>
-Estas a punto de responder algunas preguntas.
-
-¿Estás listo?
-* [Sí]
-    -> questionnaire
-* [No]
-    Vale avisame cuando quieras realizar el cuestionario.
-    -> END
+Empezaremos con el cuestionario. En total son {total_questions}, <>
+y necesitas un mínimo de {passing_score} respuestas correctas para continuar al siguiente módulo.
+-> questionnaire
 
 === correct
     ¡Correcta! ¡Buen trabajo!
@@ -36,28 +30,48 @@ Tu puntaje final es {score} de {total_questions}.
         - 1: ->q1
         - 2: ->q2
         - 3: ->q3
+        - 4: ->q4
+        - 5: ->q5
         - else: ->finish_test
     }
 
 === q1
-Pregunta 1:<>
-¿Cuál es el planeta más cercano al sol?
-    + [Mercurio] -> correct
-    + [Venus] -> incorrect
-    + [Marte] -> incorrect
+Pregunta {current_question}:<>
+¿Qué tipo de aves se pueden observar desde el café mirador?
+    + [Patos y gansos] -> incorrect
+    + [Tucanes, colíbres y águilas] -> correct
+    + [Halcones y búhos] -> incorrect
+    + [Pinguinos y flamencos] -> incorrect
     
 === q2
-Pregunta 2:<>
-¿Qué gas respiramos mayormente en la tierra?
-    +[Oxígeno] -> incorrect
-    +[Hidrogeno] -> incorrect
-    +[Nitrógeno] -> correct
-    +[Dióxido de carbono] -> incorrect
+Pregunta {current_question}:<>
+¿Cuál es una forma efectiva de ayudar a los turistas a disfrutar su visita?
+    +[Proporcionar mapas y recomendar lugares.] -> correct
+    +[Ofrecer souvenirs y dejarlos explorar.] -> incorrect
+    +[Dirigirlos a tiendas y restaurantes.] -> incorrect
+    +[Decirles que busquen información online.] -> incorrect
 
 === q3
-Pregunta 3:<>
-¿Qué organo es responsable de bombear la sangre en el cuerpo humano?
-    + [El cerebro] -> incorrect
-    + [El corazón] -> correct
-    + [Los pulmones] -> incorrect
-    + [El estómago] -> incorrect
+Pregunta {current_question}:<>
+¿Cuál de los siguientes no es un elemento esencial en un equipo de primeros auxilios?
+    + [Tijeras de emergencia] -> incorrect
+    + [Guantes desechables] -> incorrect
+    + [Termo para bebidas] -> correct
+    + [Botiquín] -> incorrect
+    
+
+=== q4
+Pregunta {current_question}:<>
+¿Cuál de las siguientes actividades es una opción para los visitantes en la naturaleza?
+    + [Senderismo] -> correct
+    + [Ciclismo] -> incorrect
+    + [Ver una película] -> incorrect
+    + [Hacer una barbacoa en casa] -> incorrect
+    
+=== q5
+Pregunta {current_question}:<>
+¿Cuál es un desafío común en la gestión de la estación?
+    +[Actividades sin plan.] -> incorrect
+    +[Ignorar la coordinación.] -> incorrect
+    +[Aumentar personal sin control.] -> incorrect
+    +[Equilibrar recursos y necesidades.] -> correct
