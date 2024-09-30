@@ -32,6 +32,7 @@ public class Act1LevelController : MonoBehaviour
     public Sprite[] puzzles;
     public List<Sprite> gamePuzzles = new List<Sprite>();
     public List<Button> btns = new List<Button>();
+    private Act1GameController act1GameController;
     private bool firstGuess, secondGuess;
     private int countGuesses;
     private int countCorrectGuesses;
@@ -44,7 +45,7 @@ public class Act1LevelController : MonoBehaviour
     private Act1ProgressSO act1ProgressSO;
 
     [SerializeField]
-    private float flipDuration = 0.5f; 
+    private float flipDuration = 0.5f;
 
     void Awake()
     {
@@ -54,7 +55,6 @@ public class Act1LevelController : MonoBehaviour
     public void InstantiateLevel(int level)
     {
         currentLevel = level;
-
         CleanupCurrentLevel(level);
         LoadPuzzles(level);
         AddButtons(level);
@@ -67,13 +67,14 @@ public class Act1LevelController : MonoBehaviour
 
     public void AddButtons(int level)
     {
-        if (level == 1){
+        if (level == 1)
+        {
             // Add the buttons to the list
             for (int i = 0; i < 8; i++)
             {
                 GameObject btn = Instantiate(button);
                 btn.name = "" + i;
-                btn.transform.SetParent(puzzleFieldLevelOne, false); 
+                btn.transform.SetParent(puzzleFieldLevelOne, false);
             }
         }
         else if (level == 2)
@@ -93,7 +94,7 @@ public class Act1LevelController : MonoBehaviour
             {
                 GameObject btn = Instantiate(button);
                 btn.name = "" + i;
-                btn.transform.SetParent(puzzleFieldLevelThree, false); 
+                btn.transform.SetParent(puzzleFieldLevelThree, false);
             }
         }
 
@@ -109,16 +110,16 @@ public class Act1LevelController : MonoBehaviour
         firstGuessIndex = secondGuessIndex = -1;
         firstGuessPuzzle = secondGuessPuzzle = null;
         isAnimating = false;
-    
+
         GameObject[] objects = GameObject.FindGameObjectsWithTag("PuzzleButton");
         // Debug.Log("objects count before cleanup: " + objects.Length);
-    
+
         // Destroy the objects tagged with "PuzzleButton"
         foreach (GameObject obj in objects)
         {
             DestroyImmediate(obj);
         }
-    
+
         // Destroy the child objects of the puzzle fields depending on the level
         if (level == 1)
         {
@@ -141,19 +142,17 @@ public class Act1LevelController : MonoBehaviour
                 DestroyImmediate(child.gameObject);
             }
         }
-    
+
         // Debug.Log("objects count after cleanup: " + GameObject.FindGameObjectsWithTag("PuzzleButton").Length);
-    
+
         btns.Clear();
-    
+
         // Clear the list of game puzzles
         gamePuzzles.Clear();
     }
 
     public void LoadPuzzles(int level)
     {
-
-
         // Load resources based on level
         if (level < 1 || level > 3)
         {
@@ -221,7 +220,7 @@ public class Act1LevelController : MonoBehaviour
     }
 
     public void PickAPuzzle(Button selectedButton)
-    {   
+    {
         if (isAnimating)  // Block interaction if an animation is still running
         {
             return;
@@ -229,7 +228,6 @@ public class Act1LevelController : MonoBehaviour
 
         // Find the index of the selected button
         int buttonIndex = btns.IndexOf(selectedButton);
-
 
         if (buttonIndex < 0 || buttonIndex >= gamePuzzles.Count)
         {
@@ -301,7 +299,7 @@ public class Act1LevelController : MonoBehaviour
         btn.transform.rotation = endRotation;
         btn.interactable = true;
 
-        isAnimating = false;  
+        isAnimating = false;
     }
 
     IEnumerator CheckIfPuzzleMatch()
@@ -408,7 +406,7 @@ public class Act1LevelController : MonoBehaviour
     {
         int result = 0;
         if (countGuesses <= 7)
-        {   
+        {
             result = 3;
             if (act1ProgressSO.level1Progress < 3)
             {
@@ -444,6 +442,10 @@ public class Act1LevelController : MonoBehaviour
 
                 return act1ProgressSO.level2Progress = 3;
             }
+            else    // If the progress is already 3, return 3
+            {
+                return 3;
+            }
         }
         else if (countGuesses <= 12)
         {
@@ -451,6 +453,10 @@ public class Act1LevelController : MonoBehaviour
             {
 
                 return act1ProgressSO.level2Progress = 2;
+            }
+            else   // If the progress is already 2, return 2
+            {
+                return 2;
             }
         }
         else
@@ -460,38 +466,49 @@ public class Act1LevelController : MonoBehaviour
 
                 return act1ProgressSO.level2Progress = 1;
             }
+            else  // If the progress is already 1, return 1
+            {
+                return 1;
+            }
         }
-        return 0;
     }
 
     // Update the progress based on the number of guesses (hardcoded values)
     public int ThirdLevelResult()
     {
-        if(countGuesses <= 15)
+        if (countGuesses <= 15)
         {
             if (act1ProgressSO.level3Progress < 3)
             {
-
                 return act1ProgressSO.level3Progress = 3;
+            }
+            else   // If the progress is already 3, return 3
+            {
+                return 3;
             }
         }
         else if (countGuesses <= 18)
         {
             if (act1ProgressSO.level3Progress < 2)
             {
-
                 return act1ProgressSO.level3Progress = 2;
+            }
+            else   // If the progress is already 2, return 2
+            {
+                return 2;
             }
         }
         else
         {
             if (act1ProgressSO.level3Progress < 1)
             {
-
                 return act1ProgressSO.level3Progress = 1;
             }
+            else   // If the progress is already 1, return 1
+            {
+                return 1;
+            }
         }
-        return 0;
     }
 
     public void LoadProgress(int progress)
@@ -516,6 +533,7 @@ public class Act1LevelController : MonoBehaviour
     {
         // Set the current Object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
+        GoBackButton.gameObject.SetActive(true);
         InstantiateLevel(currentLevel);
     }
 
@@ -523,6 +541,7 @@ public class Act1LevelController : MonoBehaviour
     {
         // Set the current Object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
+        act1GameController.AddMenuButtons();
         HelpIcon.gameObject.SetActive(true);
         MenuField.gameObject.SetActive(true);
     }

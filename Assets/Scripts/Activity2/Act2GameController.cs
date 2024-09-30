@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Act1GameController : MonoBehaviour
+public class Act2GameController : MonoBehaviour
 {
     [SerializeField]
     private Transform GoBackButton;
@@ -14,11 +14,7 @@ public class Act1GameController : MonoBehaviour
     [SerializeField]
     private Transform MenuField;
     [SerializeField]
-    private Transform puzzleFieldLevelOne;
-    [SerializeField]
-    private Transform puzzleFieldLevelTwo;
-    [SerializeField]
-    private Transform puzzleFieldLevelThree;
+    private Transform puzzleField;
     [SerializeField]
     private GameObject menuButton;
     [SerializeField]
@@ -26,18 +22,17 @@ public class Act1GameController : MonoBehaviour
     [SerializeField]
     private Sprite Black_Star;
     [SerializeField]
-    private int numberOfLevels = 3;
-    [SerializeField]
-    private Act1LevelController levelController;
+    private int numberOfLevels = 2;
+    public Act2LevelController levelController;
     public List<Button> btns = new List<Button>();
     public List<int> levelsProgress = new List<int>();
 
     // Scriptable Object progress
-    private Act1ProgressSO act1ProgressSO;
+    private Act2ProgressSO act2ProgressSO;
 
     void Awake()
     {
-        act1ProgressSO = Resources.Load<Act1ProgressSO>("Activity1Progress/Activity1 progressSO");
+        act2ProgressSO = Resources.Load<Act2ProgressSO>("Activity2Progress/Activity2 progressSO");
         AddMenuButtons();
         GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
     }
@@ -45,7 +40,7 @@ public class Act1GameController : MonoBehaviour
     public void AddMenuButtons()
     {
         // Modify depeding on the number of levels
-        for (int i = 0; i < numberOfLevels; i++)
+        for (int i = 1; i <= numberOfLevels; i++)
         {
             GameObject btn = Instantiate(menuButton);
             btn.name = "" + i;
@@ -62,18 +57,15 @@ public class Act1GameController : MonoBehaviour
 
     public void OnMenuButtonClick(int level)
     {
-        switch (level)
-        {
-            case 0:
-                BeginLevelOne();
-                break;
-            case 1:
-                BeginLevelTwo();
-                break;
-            case 2:
-                BeginLevelThree();
-                break;
-        }
+        puzzleField.gameObject.SetActive(true);
+
+        HandleInfoAndBackButton();
+
+        // Set the current Object unactive and display the puzzle field
+        DisableMenu();
+
+        // Call the levelController to add the cards first to the level
+        levelController.InstantiateLevel(level);
     }
 
     public void InstantiateMenuButtons()
@@ -122,57 +114,17 @@ public class Act1GameController : MonoBehaviour
         int temp = 0;
         if (index == 0)
         {
-            temp = act1ProgressSO.level1Progress;
+            temp = act2ProgressSO.level1Progress;
         }
         else if (index == 1)
         {
-            temp = act1ProgressSO.level2Progress;
+            temp = act2ProgressSO.level2Progress;
         }
         else if (index == 2)
         {
-            temp = act1ProgressSO.level3Progress;
+            temp = act2ProgressSO.level3Progress;
         }
         return temp;
-    }
-
-    public void BeginLevelOne()
-    {
-
-        puzzleFieldLevelOne.gameObject.SetActive(true);
-
-        HandleInfoAndBackButton();
-
-        DisableMenu();
-
-        levelController.InstantiateLevel(1);
-    }
-
-    public void BeginLevelTwo()
-    {
-
-        puzzleFieldLevelTwo.gameObject.SetActive(true);
-        HandleInfoAndBackButton();
-
-        // Set the current Object unactive and display the puzzle field
-        DisableMenu();
-
-        // Call the levelController to add the cards first to the level
-        levelController.InstantiateLevel(2);
-    }
-
-    public void BeginLevelThree()
-    {
-
-        puzzleFieldLevelThree.gameObject.SetActive(true);
-
-
-        HandleInfoAndBackButton();
-
-        // Set the current Object unactive and display the puzzle field
-        DisableMenu();
-
-        // Call the levelController to add the cards first to the level
-        levelController.InstantiateLevel(3);
     }
 
     // Handle the information icon on clik
@@ -208,21 +160,15 @@ public class Act1GameController : MonoBehaviour
     // On click listener for the back button
     public void OnBackButtonClicked()
     {
+        AddMenuButtons();
+
         // Set the current Object unactive and display the puzzle field
         MenuField.gameObject.SetActive(true);
         GoBackButton.gameObject.SetActive(false);
 
-        if (puzzleFieldLevelOne.gameObject.activeSelf)
+        if (puzzleField.gameObject.activeSelf)
         {
-            puzzleFieldLevelOne.gameObject.SetActive(false);
-        }
-        else if (puzzleFieldLevelTwo.gameObject.activeSelf)
-        {
-            puzzleFieldLevelTwo.gameObject.SetActive(false);
-        }
-        else if (puzzleFieldLevelThree.gameObject.activeSelf)
-        {
-            puzzleFieldLevelThree.gameObject.SetActive(false);
+            puzzleField.gameObject.SetActive(false);
         }
 
         HelpIcon.gameObject.SetActive(true);
