@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Act1GameController : MonoBehaviour
-{   
+{
     [SerializeField]
     private Transform GoBackButton;
     [SerializeField]
@@ -13,7 +13,7 @@ public class Act1GameController : MonoBehaviour
     private Transform HelpIconPopUp;
     [SerializeField]
     private Transform MenuField;
-    [SerializeField] 
+    [SerializeField]
     private Transform puzzleFieldLevelOne;
     [SerializeField]
     private Transform puzzleFieldLevelTwo;
@@ -25,7 +25,7 @@ public class Act1GameController : MonoBehaviour
     private Sprite Yellow_Star;
     [SerializeField]
     private Sprite Black_Star;
-    [SerializeField] 
+    [SerializeField]
     private int numberOfLevels = 3;
     [SerializeField]
     private Act1LevelController levelController;
@@ -98,17 +98,18 @@ public class Act1GameController : MonoBehaviour
             // Calculate the number of stars to display     
 
             foreach (string starName in starNames)
-            {   
+            {
                 // Get the star transform
                 Transform starTransform = starContainer.transform.Find(starName);
-                
+
                 // Get the Image and Text components of the star
                 Image starImage = starTransform.GetComponent<Image>();
-                
+
                 // Set the star to corresponding sprite
                 if (starsToDisplay == 0)
                     starImage.sprite = Black_Star;
-                else {
+                else
+                {
                     starImage.sprite = Yellow_Star;
                     starsToDisplay--;
                 }
@@ -140,9 +141,9 @@ public class Act1GameController : MonoBehaviour
         puzzleFieldLevelOne.gameObject.SetActive(true);
 
         HandleInfoAndBackButton();
-        
+
         DisableMenu();
-        
+
         levelController.InstantiateLevel(1);
     }
 
@@ -210,16 +211,16 @@ public class Act1GameController : MonoBehaviour
         // Set the current Object unactive and display the puzzle field
         MenuField.gameObject.SetActive(true);
         GoBackButton.gameObject.SetActive(false);
-        
-        if(puzzleFieldLevelOne.gameObject.activeSelf)
+
+        if (puzzleFieldLevelOne.gameObject.activeSelf)
         {
             puzzleFieldLevelOne.gameObject.SetActive(false);
         }
-        else if(puzzleFieldLevelTwo.gameObject.activeSelf)
+        else if (puzzleFieldLevelTwo.gameObject.activeSelf)
         {
             puzzleFieldLevelTwo.gameObject.SetActive(false);
         }
-        else if(puzzleFieldLevelThree.gameObject.activeSelf)
+        else if (puzzleFieldLevelThree.gameObject.activeSelf)
         {
             puzzleFieldLevelThree.gameObject.SetActive(false);
         }

@@ -40,7 +40,7 @@ public class Act2GameController : MonoBehaviour
     public void AddMenuButtons()
     {
         // Modify depeding on the number of levels
-        for (int i = 1; i < numberOfLevels; i++)
+        for (int i = 1; i <= numberOfLevels; i++)
         {
             GameObject btn = Instantiate(menuButton);
             btn.name = "" + i;
@@ -160,6 +160,8 @@ public class Act2GameController : MonoBehaviour
     // On click listener for the back button
     public void OnBackButtonClicked()
     {
+        AddMenuButtons();
+
         // Set the current Object unactive and display the puzzle field
         MenuField.gameObject.SetActive(true);
         GoBackButton.gameObject.SetActive(false);
