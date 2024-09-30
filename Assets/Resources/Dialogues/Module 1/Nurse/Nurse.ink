@@ -60,8 +60,8 @@ VAR already_talked = false
     Mi función es guiar a los visitantes por la estación y el BioPark, <>
     ayudándolos a ubicarse y disfrutar de los atractivos naturales de manera segura. #animation: 3
     +[¿Qué herramientas y recursos usas en tu trabajo diario?]
-        Tenemos un botiquín de primeros auxilios bien surtido, equipos de reanimación.
-        Además, tengo acceso a dispositivos para monitorizar signos vitales si es necesario.
+        En mi trabajo diario, utilizo una variedad de elementos del equipo de primeros auxilios.
+        El botiquín de <color=\#FEF445>primeros auxilios </color>, <color=\#FEF445>las tijeras de emergencia</color>, <color=\#FEF445>los vendajes</color>, <color=\#FEF445>los guantes desechables</color> y otros dispositivos
         -> question    
     +[¿Qué es lo que más te gusta de trabajar en primeros auxilios?]
         Lo que más me gusta es saber que estoy ayudando a las personas.

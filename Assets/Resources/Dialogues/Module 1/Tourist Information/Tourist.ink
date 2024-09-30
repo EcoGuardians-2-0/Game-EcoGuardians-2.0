@@ -48,7 +48,7 @@ VAR already_talked = false
     Vender las entradas para el BioPark e información sobre actividades turísticas de la región. # animation: 3
     +[¿Qué tipo de actividades se pueden hacer?]
         Los visitantes pueden disfrutar de una variedad de actividades.
-        Puedes hacer senderismo, caminatas a caballo y recorrido por los paisajes naturales.
+        Puedes hacer <color=\#FEF445>senderismo, caminatas a caballo y recorrido por los paisajes naturales </color>.
         -> question    
     +[¿Cómo guias a los turistas para aprovechar al máximo su visita?]
         Les doy recomendaciones sobre las mejoras rutas y actividades según sus intereses.

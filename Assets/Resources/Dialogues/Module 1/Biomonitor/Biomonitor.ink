@@ -21,10 +21,11 @@ VAR failed_test = 0
 
 // Carlos' introduction
 === intro
-    ¡Hola! Soy Carlos, veo que estas visitando nuestra estación  por primera vez y noot que te gustaría conocerla. #speaker: Carlos # animation: 1
+    ¡Hola! Soy Carlos, veo que estas visitando nuestra estación  por primera vez y noto que te gustaría conocerla. #speaker: Carlos # animation: 1
     Primero que todo, nos encontramos en Aguadas, Caldas. En la Estación Biológica del Norte de Caldas o por sus siglas, EBNC.
-    Vamos a hacer esto. Te ayudaré a explorarla, mientras que cumplas determinadas tareas y retos que te colocaré para que sea más divertido.
+    Vamos a hacer esto. Te ayudaré a explorarla, mientras que cumplas determinadas tareas y retos que te colocaré para que sea más divertido. # animation:3
     Tengo una idea: ¿por qué no hablas con mis compañeros en sus oficinas aquí abajo? Cuando regreses, te preguntaré sobre lo que hacen en la estación.
+    Fijate en el <color=\#FEF445>color del tono en que te hablan los personajes</color>, quizas te ayudarán cuando vuelvas de realizar las actividades y resuelvas mi cuestionario. # animation:5
     // Assigning missions to character
     ~ global_misiones_1 = true
     // Marking character as already talked
@@ -32,12 +33,14 @@ VAR failed_test = 0
     ->DONE
 
 === second_time
-    ¡Hola de nuevo! #speaker: carlos
+    ¡Hola de nuevo! #speaker: Carlos
    -> ChooseRandomDialogueBio1
 
 
 === suerte
-    Dirigite al siguiente módulo, allí encontrás a más de mis compañeros.
+    ¡Felicitaciones por haber completado el cuestionario!. #speaker: Carlos # animation: 5
+    Parace que has completado todas las actividades de este modulo.
+    Ahora, ve hacia el restaurante. Ahií encontraras mis otros compañeros quienes tienen más actividades preparadas para ti.
     * -> DONE
     
 === cuestionario ==

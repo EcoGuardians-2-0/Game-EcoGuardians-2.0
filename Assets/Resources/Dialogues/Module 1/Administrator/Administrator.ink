@@ -59,7 +59,7 @@ VAR already_talked = false
 === q2
     La administración es clave para que todos los objetivos y recursos se alineen con el programa.#animation: 3
     +[¿Qué desafios enfrentan en la gestión de la estación]
-        El mayor reto ha sido equilibrar los recursos disponibles con las necesidades del proyecto.
+        El mayor reto ha sido <color=\#FEF445>equilibrar los recursos disponibles con las necesidades del proyecto</color>.
         Además, es importante mantener la coordinación entre áreas.
         -> question    
     +[¿Qué es lo que más te gusta de la estación?]

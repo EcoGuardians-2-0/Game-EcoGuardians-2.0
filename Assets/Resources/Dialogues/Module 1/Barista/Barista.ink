@@ -50,7 +50,7 @@ VAR already_talked = false
     Soy el manager del café mirador, un lugar priviliegado dentro de la estación que <>
     ofrece vistas espectaculares y un espacio para el avistamiento de aves. # animation: 3
     +[¿Qué tipos de aves se pueden ver desde el café?]
-        Las más comunes que se pueden son los tucanes, colibríes y águilas.
+        Las más comunes que se pueden son <color=\#FEF445>los tucanes, colibríes y águilas </color>.
         Cada mañana es una oportunidad para descubrir nuevas especies.
         -> question    
     +[¿Qué tipo de experiencias ofrecen a los visitantes que se interesan por el avistamiento?]

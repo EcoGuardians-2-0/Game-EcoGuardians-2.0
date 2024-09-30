@@ -47,8 +47,8 @@ VAR already_talked = false
     Mi función es guiar a los visitantes por la estación y el BioPark, ayudándolos a ubicarse y <> 
     disfrutar de los atractivos naturales de manera segura. #animation: 3
     +[¿Cómo ayudas a los turistas a disfrutar de su visita?]
-        Proporciono mapas y explico las rutas.
-        Además, doy recomendaciones sobre los mejores lugares para ver animales y disfrutar el paisaje.
+        <color=\#FEF445>Proporciono mapas y explico las rutas</color>.
+        Además, doy <color=\#FEF445>recomendaciones sobre los mejores lugares para ver animales y disfrutar el paisaje </color>.
         -> question    
     +[¿Cómo entrenas al equipo para que esten preparados ante una emergencia?]
         El BioPark es donde realizamos nuestras actividades de biomonitoreo. Es una fuente clave de datos para Awaq Bio-Tech.
