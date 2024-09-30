@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentModule = 1;
-        doingQuestionnaire = false;
+        doingQuestionnaire = true;
         // Register for game start events
         ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
@@ -109,7 +109,6 @@ public class GameManager : MonoBehaviour
     // Triggered when player has completed all quests
     private void HandleAllQuestCompleted()
     {
-        DialogueManager.instance.SetVariable("global_cuestionario_"+currentModule, DialogueVariableSetter.SetVariable(true));
         StartCoroutine(clearQuests());
     }
 
@@ -126,7 +125,12 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(questManager.ClearCompletedQuests());
         if (doingQuestionnaire)
         {
+            DialogueManager.instance.SetVariable("global_cuestionario_" + currentModule, DialogueVariableSetter.SetVariable(true));
             ActivateQuests(QUESTIONNAIRE + currentModule);
+        }
+        else
+        {
+            questManager.SetNoTasksTitle();
         }
     }
     private void HandleActivityStart(string activityNumber)

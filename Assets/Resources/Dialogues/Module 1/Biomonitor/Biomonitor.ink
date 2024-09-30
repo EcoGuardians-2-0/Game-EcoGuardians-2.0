@@ -32,6 +32,7 @@ VAR failed_test = 0
     ->DONE
 
 === second_time
+    ¡Hola de nuevo! #speaker: carlos
    -> ChooseRandomDialogueBio1
 
 
