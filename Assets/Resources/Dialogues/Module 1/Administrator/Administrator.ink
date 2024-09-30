@@ -72,7 +72,7 @@ VAR already_talked = false
     }
     
     { global_misiones_1 == true:
-      ~global_mision_completada="quest_2"
+      ~global_mision_completada="quest_1.2"
     }
     Vale, estaré aqui por si me necesitas o tienes más preguntas. <>
     ¡Disfruta tu recorrido por la estación!

@@ -541,7 +541,6 @@ public class Act1LevelController : MonoBehaviour
     {
         // Set the current Object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
-        act1GameController.AddMenuButtons();
         HelpIcon.gameObject.SetActive(true);
         MenuField.gameObject.SetActive(true);
     }

@@ -73,7 +73,7 @@ VAR already_talked = false
     }
     
     { global_misiones_1 == true:
-      ~global_mision_completada="quest_3"
+      ~global_mision_completada="quest_1.3"
     }
     Si necesitas ayuda o tienes alguna pregunta en el futuro <br> 
     ¡No dudes en acercarte!

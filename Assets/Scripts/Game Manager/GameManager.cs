@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private const string MODULE_NAME = "module";
     private const string QUESTIONNAIRE = "questionnaire";
     private static int currentModule;
+    private bool doingTasks;
     private bool doingQuestionnaire;
     public static void QuestCompleted(string taskName)
     {
@@ -86,11 +87,6 @@ public class GameManager : MonoBehaviour
         ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     // Quest Events to be handled by GameManager
 
     // Triggered by character assgining player quests
@@ -132,23 +128,6 @@ public class GameManager : MonoBehaviour
         {
             questManager.SetNoTasksTitle();
         }
-    }
-    private void HandleActivityStart(string activityNumber)
-    {
-        switch (activityNumber)
-        {
-            case "1":
-                StartActivity1();
-                break;
-        }
-    }
-
-    private void StartActivity1()
-    {
-        Debug.Log("StartActivity1");
-        AudioManager.Instance.PlayMusic(SoundType.Act1BackgroundMusic);
-        //Hide world
-        WorldManager.Instance.HideWorld();
     }
 
     // Handle game start event

@@ -73,11 +73,6 @@ public class ControllerPauseUI : MonoBehaviour
         gameIsPaused = true; // Actualiza el estado de pausa
     }
 
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        if (canPause && !hasFocus)
-            Pause();
-    }
     public void SetIsPaused(bool isPaused)
     {
         gameIsPaused = isPaused;

@@ -1,6 +1,6 @@
 INCLUDE ../../Globals/globals.ink
 
-VAR already_talked = true
+VAR already_talked = false
 
 // Speaker's name at the start of the conversation
 // Check if player's has already talked with Jenny before
@@ -73,7 +73,7 @@ VAR already_talked = true
     }
     
     { global_misiones_1 == true:
-      ~global_mision_completada="quest_4"
+      ~global_mision_completada="quest_1.4"
     }
     Bueno, fue un placer hablar contigo. <> 
     No dudes en regresar si necesitas más información o recomendaciones.

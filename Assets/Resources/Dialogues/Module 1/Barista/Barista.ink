@@ -76,7 +76,7 @@ VAR already_talked = false
     }
     
     { global_misiones_1 == true:
-      ~global_mision_completada="quest_5"
+      ~global_mision_completada="quest_1.5"
     }
     Fue un placer charlar contigo. ¡Espero que disfrutes de tu visita a la estación!<br>
     Recuerda que siempre hay una taza de café y un paisaje espectacular.
