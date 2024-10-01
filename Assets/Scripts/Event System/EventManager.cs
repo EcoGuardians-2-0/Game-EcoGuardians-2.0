@@ -13,6 +13,7 @@ public class EventManager
     public class QuestEvents
     {
         public UnityAction OnQuestAssigned;
+        public UnityAction<string> OnQuestCompleted;
     } 
 }
 

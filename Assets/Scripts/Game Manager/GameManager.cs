@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private QuestManager questManager;
 
-    public static event Action<string> OnQuestCompleted;
     public static event Action OnAllQuestsCompleted;
     public static event Action OnQuestionnaireCompleted;
 
@@ -18,13 +17,7 @@ public class GameManager : MonoBehaviour
     private static int currentModule;
     private bool doingTasks;
     private bool doingQuestionnaire;
-    public static void QuestCompleted(string taskName)
-    {
-        if(OnQuestCompleted != null)
-        {
-            OnQuestCompleted.Invoke(taskName);
-        }
-    }
+
 
     public static void AllQuestsCompleted()
     {
@@ -45,7 +38,7 @@ public class GameManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Quest.OnQuestAssigned += HandleQuestAssigned;
-        OnQuestCompleted += HandleQuestCompleted;
+        EventManager.Quest.OnQuestCompleted += HandleQuestCompleted;
         OnAllQuestsCompleted += HandleAllQuestCompleted;
         OnQuestionnaireCompleted += HandleQuestionnaireCompleted;
     }
@@ -53,7 +46,7 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         EventManager.Quest.OnQuestAssigned -= HandleQuestAssigned;
-        OnQuestCompleted -= HandleQuestCompleted;
+        EventManager.Quest.OnQuestCompleted -= HandleQuestCompleted;
         OnAllQuestsCompleted -= HandleAllQuestCompleted;
         OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
 
@@ -62,7 +55,7 @@ public class GameManager : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.Quest.OnQuestAssigned -= HandleQuestAssigned;
-        OnQuestCompleted -= HandleQuestCompleted;
+        EventManager.Quest.OnQuestCompleted -= HandleQuestCompleted;
         OnAllQuestsCompleted -= HandleAllQuestCompleted;
         OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
 

@@ -14,7 +14,7 @@ public class DialogueNotifier
         else if(variableName == "global_mision_completada")
         {
             string missionName = value.ToString();
-            GameManager.QuestCompleted(missionName);
+            EventManager.Quest.OnQuestCompleted.Invoke(missionName);
         }
         else if (variableName.StartsWith("global_pass"))
         {
