@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class DisableObjects : MonoBehaviour
 {
-
     public static DisableObjects Instance { get; private set; }
 
     [SerializeField]
@@ -61,6 +60,12 @@ public class DisableObjects : MonoBehaviour
             camera.enabled = !camera.enabled;
     }
 
+    public void EnableCameras()
+    {
+        foreach (CinemachineVirtualCamera camera in cameras)
+            camera.enabled = true;
+    }
+
     // Disable the camera movement
     public void DisableCameraMovement()
     {
@@ -79,9 +84,19 @@ public class DisableObjects : MonoBehaviour
         switchCamera.enabled = !switchCamera.enabled;
     }
 
+    public void EnableSwitchCamera()
+    {
+        switchCamera.enabled = true;
+    }
+
     public void disableCharacterController()
     {
         characterController.isInGame = !characterController.isInGame;
+    }
+
+    public void EnableCharacerController()
+    {
+        characterController.isInGame = true;
     }
 
     public void TogglePlayer()
@@ -162,5 +177,13 @@ public class DisableObjects : MonoBehaviour
         ToggleSelectionCursor();
         DisableCameraMovement();
         showCursor();
+    }
+
+    public void EnableWorld()
+    {
+        hideCursor();
+        EnableCharacerController();
+        EnableCameras();
+        EnableSwitchCamera();
     }
 }

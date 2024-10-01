@@ -378,7 +378,17 @@ public class Act1LevelController : MonoBehaviour
         {
             LevelStars = ThirdLevelResult();
         }
+        
+        // Update the levels completed to add one more level completed
+        act1GameController.UpdateLevelsCompleted();
 
+        // Upate the menu buttons based on the result
+        act1GameController.InstantiateMenuButtons();
+
+        // Check if the current levels completed are the same as the quest needs to be completed
+        act1GameController.CheckLevelsCompleted();
+
+        // Update the stars based on the result
         Transform LevelsStarContainer = levelCompletePanel.transform.Find("LevelStarContainer");
 
         foreach (string starName in starNames)
@@ -543,5 +553,10 @@ public class Act1LevelController : MonoBehaviour
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
         MenuField.gameObject.SetActive(true);
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
     }
 }

@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Act1GameController : MonoBehaviour
 {
+    [SerializeField]
+    private GameManager gameManager;
     [SerializeField]
     private Transform GoBackButton;
     [SerializeField]
@@ -15,6 +18,8 @@ public class Act1GameController : MonoBehaviour
     private Transform MenuField;
     [SerializeField]
     private Transform puzzleFieldLevelOne;
+    [SerializeField]
+    private GameObject quitButton;
     [SerializeField]
     private Transform puzzleFieldLevelTwo;
     [SerializeField]
@@ -31,15 +36,27 @@ public class Act1GameController : MonoBehaviour
     private Act1LevelController levelController;
     public List<Button> btns = new List<Button>();
     public List<int> levelsProgress = new List<int>();
+    private List<bool> levelsCompleted = new List<bool>();
 
     // Scriptable Object progress
     private Act1ProgressSO act1ProgressSO;
 
     void Awake()
     {
+        // Set the current levelsCompleted to all false
+        for (int i = 0; i < numberOfLevels; i++)
+        {
+            levelsCompleted.Add(false);
+        }
+
+        // Load the Scriptable Object
         act1ProgressSO = Resources.Load<Act1ProgressSO>("Activity1Progress/Activity1 progressSO");
+
+        // Add the menu buttons and the listener to the back button
         AddMenuButtons();
         GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
+
+        quitButton.GetComponent<Button>().onClick.AddListener(QuitActivityOne);
     }
 
     public void AddMenuButtons()
@@ -95,8 +112,8 @@ public class Act1GameController : MonoBehaviour
 
             // Get the levels progress
             int starsToDisplay = GetLevelsProgress(i);
+            
             // Calculate the number of stars to display     
-
             foreach (string starName in starNames)
             {
                 // Get the star transform
@@ -165,7 +182,6 @@ public class Act1GameController : MonoBehaviour
 
         puzzleFieldLevelThree.gameObject.SetActive(true);
 
-
         HandleInfoAndBackButton();
 
         // Set the current Object unactive and display the puzzle field
@@ -231,5 +247,57 @@ public class Act1GameController : MonoBehaviour
     public void DisableMenu()
     {
         MenuField.gameObject.SetActive(false);
+    }
+
+    // Method to clean the Scriptable Objects
+    public void CleanProgressGameTwo()
+    {
+        // Set the levels to false in the list
+        for (int i = 0; i < numberOfLevels; i++)
+        {
+            levelsCompleted[i] = false;
+        }
+
+        act1ProgressSO.level1Progress = 0;
+        act1ProgressSO.level2Progress = 0;
+        act1ProgressSO.level3Progress = 0;
+    }
+
+    // Update the leveles completed
+    public void UpdateLevelsCompleted()
+    {
+        // Get the current level
+        int currentLevel = levelController.GetCurrentLevel();
+
+        // Update the current level completed to true in the list
+        levelsCompleted[currentLevel - 1] = true;
+    }
+
+    // Update the completed quest calling the game manager
+    public void UpdateGameQuest()
+    {
+        gameManager.HandleQuestCompleted("quest_6");
+    }
+
+    //Check if the completed levels are two
+    public void CheckLevelsCompleted()
+    {
+        // Look in the list of level completed if the two levels are completed
+        if (levelsCompleted[0] && levelsCompleted[1])
+        {
+            // Call the game manager to complete the questionnaire
+            UpdateGameQuest();
+        }
+    }
+
+    public void QuitActivityOne()
+    {
+        MenuField.gameObject.SetActive(false);
+        EnableWorldMap();
+    }
+
+    private void EnableWorldMap()
+    {
+        DisableObjects.Instance.EnableWorld();
     }
 }

@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Triggered when player completes a quest
-    private void HandleQuestCompleted(string taskName)
+    public void HandleQuestCompleted(string taskName)
     {
         questManager.CompleteQuest(taskName);
     }

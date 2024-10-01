@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Act2GameController : MonoBehaviour
-{
+{   
+    [SerializeField]
+    private GameManager gameManager;
     [SerializeField]
     private Transform GoBackButton;
     [SerializeField]
@@ -18,6 +20,8 @@ public class Act2GameController : MonoBehaviour
     [SerializeField]
     private GameObject menuButton;
     [SerializeField]
+    private GameObject quitButton;
+    [SerializeField]
     private Sprite Yellow_Star;
     [SerializeField]
     private Sprite Black_Star;
@@ -30,11 +34,24 @@ public class Act2GameController : MonoBehaviour
     // Scriptable Object progress
     private Act2ProgressSO act2ProgressSO;
 
+    private List<bool> levelsCompleted = new List<bool>();
+
     void Awake()
     {
+        // Set the current levelsCompleted to all false
+        for (int i = 0; i < numberOfLevels; i++)
+        {
+            levelsCompleted.Add(false);
+        }
+
+        // Load the Scriptable Object
         act2ProgressSO = Resources.Load<Act2ProgressSO>("Activity2Progress/Activity2 progressSO");
+        
+        // Add the menu buttons and the listeners
         AddMenuButtons();
+        
         GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
+        quitButton.GetComponent<Button>().onClick.AddListener(QuitActivityTwo);
     }
 
     public void AddMenuButtons()
@@ -87,8 +104,8 @@ public class Act2GameController : MonoBehaviour
 
             // Get the levels progress
             int starsToDisplay = GetLevelsProgress(i);
+            
             // Calculate the number of stars to display     
-
             foreach (string starName in starNames)
             {
                 // Get the star transform
@@ -177,5 +194,58 @@ public class Act2GameController : MonoBehaviour
     public void DisableMenu()
     {
         MenuField.gameObject.SetActive(false);
+    }
+
+    // Method to clean the Scriptable Objects
+    public void CleanProgressGameTwo()
+    {   
+        // Set the levels to false in the list
+        for (int i = 0; i < numberOfLevels; i++)
+        {
+            levelsCompleted[i] = false;
+        }
+
+        // Set the levels progress to 0 in the SO
+        act2ProgressSO.level1Progress = 0;
+        act2ProgressSO.level2Progress = 0;
+        act2ProgressSO.level3Progress = 0;
+    }
+
+    // Update the leveles completed
+    public void UpdateLevelsCompleted()
+    {
+        // Get the current level
+        int currentLevel = levelController.GetCurrentLevel();
+        
+        // Update the current level completed to true in the list
+        levelsCompleted[currentLevel - 1] = true;
+    }
+
+    // Update the completed quest calling the game manager
+    public void UpdateGameQuest()
+    {
+        gameManager.HandleQuestCompleted("quest_6");
+    }
+
+    //Check if the completed levels are two
+    public void CheckLevelsCompleted()
+    {
+        // Look in the list of level completed if the two levels are completed
+        if (levelsCompleted[0] && levelsCompleted[1])
+        {
+            // Call the game manager to complete the questionnaire
+            UpdateGameQuest();
+        }
+    }
+
+    public void QuitActivityTwo()
+    {
+        MenuField.gameObject.SetActive(false);
+        EnableWorldMap();
+    }
+
+    private void EnableWorldMap()
+    {
+        DisableObjects.Instance.EnableWorld();
     }
 }

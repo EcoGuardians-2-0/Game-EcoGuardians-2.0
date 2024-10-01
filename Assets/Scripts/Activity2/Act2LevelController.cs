@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Burst.CompilerServices;
 
 public class Act2LevelController : MonoBehaviour
 {   
@@ -53,8 +54,13 @@ public class Act2LevelController : MonoBehaviour
 
     public void InstantiateLevel(int level)
     {
+        
+        // Initialize the progress SO
         act2ProgressSO = Resources.Load<Act2ProgressSO>("Activity2Progress/Activity2 progressSO");
+        
+        // Initialize the current level
         currentLevel = level;
+
         // Destroy any existing pieces before creating new ones
         DestroyCurrentPieces();
 
@@ -301,6 +307,16 @@ public class Act2LevelController : MonoBehaviour
             Debug.LogError("Invalid level number");
         }
 
+        // Update the levels completed to add one more level completed
+        act2GameController.UpdateLevelsCompleted();
+        
+        // Update the menu buttons based on the level result
+        act2GameController.InstantiateMenuButtons();
+
+        // Check if the current levels completed are the same as the quest needs to be completed
+        act2GameController.CheckLevelsCompleted();
+        
+        // Update the stars based on the level result
         Transform LevelsStarContainer = levelCompletePanel.transform.Find("LevelStarContainer");
 
         foreach (string starName in starNames)
@@ -415,8 +431,12 @@ public class Act2LevelController : MonoBehaviour
         levelField.gameObject.SetActive(false);
         // Set the level complete object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
-        act2GameController.AddMenuButtons();
         HelpIcon.gameObject.SetActive(true);
         MenuField.gameObject.SetActive(true);
+    }
+
+    public int GetCurrentLevel()
+    {
+        return currentLevel;
     }
 }
