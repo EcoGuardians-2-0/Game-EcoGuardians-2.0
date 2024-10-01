@@ -5,30 +5,15 @@ using UnityEngine;
 public class FollowTarget : MonoBehaviour
 {
     public GameObject player; // The player
-    public float yOffset = 1.0f; // Y offset to place the object above the player
+    public float yOffset = 0f; // Y offset to place the object above the player
 
     private PlayerController playerController; // Reference to the PlayerController script
     private float fixedY; // The fixed Y position for the object
 
     void Start()
     {
-        Transform parentTransform = transform.parent;
-        if (parentTransform != null)
-        {
-            foreach (Transform sibling in parentTransform)
-            {
-                if (sibling != transform)
-                {
-                    player = sibling.gameObject;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Parent transform not found (MiniMapIcon for player).");
-        }
-
+        // Get the parent object (Character model)
+        player = this.gameObject.transform.parent.gameObject;
         // Get the reference to the PlayerController of the player
         playerController = player.GetComponent<PlayerController>();
 

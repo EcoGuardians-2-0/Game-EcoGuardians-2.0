@@ -25,7 +25,7 @@ public class WallAlertUI : MonoBehaviour
 
     void OnDisable()
     {
-        OnDisplayText += setActiveAlertWall;
+        OnDisplayText -= setActiveAlertWall;
     }
 
 
