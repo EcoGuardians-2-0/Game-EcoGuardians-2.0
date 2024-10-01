@@ -8,24 +8,15 @@ public class WallAlertUI : MonoBehaviour
 {
     public GameObject alertWall;
     private TextMeshProUGUI alertWallText;
-    public static event Action<int, bool> OnDisplayText;
-
-    public static void DisplayText(int module, bool state)
-    {
-        if (OnDisplayText != null)
-        {
-            OnDisplayText.Invoke(module, state);
-        }
-    }
 
     void OnEnable()
     {
-        OnDisplayText += setActiveAlertWall;
+        EventManager.Wall.OnDisplayText += setActiveAlertWall;
     }
 
     void OnDisable()
     {
-        OnDisplayText -= setActiveAlertWall;
+        EventManager.Wall.OnDisplayText -= setActiveAlertWall;
     }
 
 
@@ -36,7 +27,7 @@ public class WallAlertUI : MonoBehaviour
 
     public void setActiveAlertWall(int module, bool state)
     {
-        alertWallText.text = "No puedes pasar sin antes completar todas las tareas del módulo " + module;
         alertWall.SetActive(state);
+        alertWallText.text = "No puedes pasar sin antes completar todas las tareas del módulo " + module;
     }  
 }

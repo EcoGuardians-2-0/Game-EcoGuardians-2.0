@@ -15,14 +15,14 @@ public class Wall : MonoBehaviour
     {
         Debug.Log("Contacting character");
         if (other.CompareTag("Player"))
-            WallAlertUI.DisplayText(module, true);   
+            EventManager.Wall.OnDisplayText(module, true);
     }
 
     public void OnTriggerExit(Collider other)
     {
         Debug.Log("No longer Contacting character");
         if (other.CompareTag("Player"))
-            WallAlertUI.DisplayText(module, false);
+            EventManager.Wall.OnDisplayText(module, false);
     }
 
 }
