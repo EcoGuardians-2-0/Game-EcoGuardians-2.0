@@ -9,7 +9,7 @@ public class DialogueNotifier
         if (variableName.StartsWith("global_misiones_"))
         {
             if(((Ink.Runtime.BoolValue) value).value == true)
-                GameManager.QuestAssigned();
+                EventManager.Quest.OnQuestAssigned.Invoke();
         }
         else if(variableName == "global_mision_completada")
         {
