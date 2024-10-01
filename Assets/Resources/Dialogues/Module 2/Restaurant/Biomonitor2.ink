@@ -1,12 +1,12 @@
 INCLUDE ../../Globals/globals.ink
-INCLUDE Questionnaire1.ink
+INCLUDE Questionnaire2.ink
 INCLUDE ../../Random/RandomBioMonitor.ink
 
 VAR already_talked = false
 VAR failed_test = 0
 
-{ global_pass_1 == false:
-    {   global_cuestionario_1:
+{ global_pass_2 == false:
+    {   global_cuestionario_2:
         -> cuestionario
         -else:
         {   already_talked: 
@@ -19,27 +19,26 @@ VAR failed_test = 0
         ->suerte
 }
 
-// Carlos' introduction
+// Sara's introduction
 === intro
-    ¡Hola! Soy Carlos, veo que estas visitando nuestra estación  por primera vez y noto que te gustaría conocerla. #speaker: Carlos # animation: 1
-    Primero que todo, nos encontramos en Aguadas, Caldas. En la Estación Biológica del Norte de Caldas o por sus siglas, EBNC.
-    Vamos a hacer esto. Te ayudaré a explorarla, mientras que cumplas determinadas tareas y retos que te colocaré para que sea más divertido. # animation:3
-    Tengo una idea: ¿por qué no hablas con mis compañeros en sus oficinas aquí abajo? Cuando regreses, te preguntaré sobre lo que hacen en la estación.
-    Fijate en el <color=\#FEF445>color del tono en que te hablan los personajes</color>, quizas te ayudarán cuando vuelvas de realizar las actividades y resuelvas mi cuestionario. # animation:5
+    ¡Hola! Soy Sara, me alegra ver que haz llegado al segundo modulo, ¡Espero estes disfrutando tu experiencia! # speaker: Sara # animation: 1
+    Vamos a hacer esto. Seguiremos explorando, mientras seguirás cumpliendo determinadas tareas y retos para que sea más divertido.
+    Tengo una idea: ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que hace en la estación.
+    // Assigning missions to character
+    ~ global_misiones_2 = true
     // Marking character as already talked
     ~ already_talked = true
-    ~ global_misiones_1 = true
     ->DONE
 
 === second_time
-    ¡Hola de nuevo! #speaker: Carlos
-   -> ChooseRandomDialogueBio1
+    ¡Hola de nuevo! #speaker: Sara
+   -> ChooseRandomDialogueBio2
 
 
 === suerte
-    ¡Felicitaciones por haber completado el cuestionario!. #speaker: Carlos # animation: 5
+    ¡Felicitaciones por haber completado el cuestionario!. #speaker: Sara # animation: 5
     Parace que has completado todas las actividades de este modulo.
-    Ahora, ve hacia el restaurante. Ahií encontraras mis otros compañeros quienes tienen más actividades preparadas para ti.
+    Ahora, ve hacia al auditorio. Ahí encontraras mis otros compañeros quienes tienen más actividades preparadas para ti.
     * -> DONE
     
 === cuestionario ==
@@ -68,8 +67,8 @@ VAR failed_test = 0
     
 == evaluacion
     {score>= passing_score:
-        ~global_pass_1 = true
-        ~global_mision_completada = "questionnaire1"
+        ~global_pass_2 = true
+        ~global_mision_completada = "questionnaire2"
         ¡Increíble! Has respondido todas las preguntas correctamente.<>
         Has pasado el cuestionario del primer modulo.
         Subiendo las escaleras te encontrás el segundo modulo.<>

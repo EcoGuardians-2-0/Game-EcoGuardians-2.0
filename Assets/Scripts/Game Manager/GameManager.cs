@@ -47,7 +47,6 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         currentModule = 1;
-        doingQuestionnaire = true;
         // Register for game start events
         ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
     }
@@ -58,6 +57,7 @@ public class GameManager : MonoBehaviour
     private void HandleQuestAssigned()
     {
         Debug.Log("Quests Assigned");
+        doingQuestionnaire = true;
         ActivateQuests(MODULE_NAME + currentModule);
     }
 
