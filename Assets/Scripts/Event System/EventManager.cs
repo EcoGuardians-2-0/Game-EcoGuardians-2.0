@@ -7,6 +7,7 @@ public class EventManager
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
+        public UnityAction<int> OnDisabeWall;
     }
 }
 

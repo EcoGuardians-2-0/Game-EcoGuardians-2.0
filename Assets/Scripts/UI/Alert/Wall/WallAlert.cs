@@ -13,24 +13,15 @@ public class WallAlert : MonoBehaviour
     private WallAlertUI wallAlertUI;
     private List<GameObject> walls;
 
-    public static Action<int> OnDisableWall;
-
-    public static void DisableWall(int module)
-    {
-        if (OnDisableWall != null)
-        {
-            OnDisableWall.Invoke(module);
-        }
-    }
 
     public void OnEnable()
     {
-        OnDisableWall += HandleDisableWall;
+        EventManager.Wall.OnDisabeWall += HandleDisableWall;
     }
 
     public void OnDisable()
     {
-        OnDisableWall -= HandleDisableWall;
+       EventManager.Wall.OnDisabeWall -= HandleDisableWall;
     }
 
     void Start()

@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     private void HandleQuestionnaireCompleted()
     {
         doingQuestionnaire = false;
-        WallAlert.DisableWall(currentModule);
+        EventManager.Wall.OnDisabeWall.Invoke(currentModule);
         currentModule++;
     }
 
