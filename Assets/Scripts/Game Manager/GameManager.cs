@@ -9,9 +9,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private QuestManager questManager;
 
-    public static event Action OnAllQuestsCompleted;
-    public static event Action OnQuestionnaireCompleted;
-
     private const string MODULE_NAME = "module";
     private const string QUESTIONNAIRE = "questionnaire";
     private static int currentModule;
@@ -19,36 +16,20 @@ public class GameManager : MonoBehaviour
     private bool doingQuestionnaire;
 
 
-    public static void AllQuestsCompleted()
-    {
-        if (OnAllQuestsCompleted != null)
-        {
-            OnAllQuestsCompleted.Invoke();
-        }
-    }
-
-    public static void QuestionnaireCompleted()
-    {
-        if(OnQuestionnaireCompleted != null)
-        {
-            OnQuestionnaireCompleted.Invoke();
-        }
-    }
-
     private void OnEnable()
     {
         EventManager.Quest.OnQuestAssigned += HandleQuestAssigned;
         EventManager.Quest.OnQuestCompleted += HandleQuestCompleted;
-        OnAllQuestsCompleted += HandleAllQuestCompleted;
-        OnQuestionnaireCompleted += HandleQuestionnaireCompleted;
+        EventManager.Quest.OnAllQuestsCompleted += HandleAllQuestCompleted;
+        EventManager.Quest.OnQuestionnaireCompleted += HandleQuestionnaireCompleted;
     }
 
     private void OnDisable()
     {
         EventManager.Quest.OnQuestAssigned -= HandleQuestAssigned;
         EventManager.Quest.OnQuestCompleted -= HandleQuestCompleted;
-        OnAllQuestsCompleted -= HandleAllQuestCompleted;
-        OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
+        EventManager.Quest.OnAllQuestsCompleted -= HandleAllQuestCompleted;
+        EventManager.Quest.OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
 
     }
 
@@ -56,8 +37,8 @@ public class GameManager : MonoBehaviour
     {
         EventManager.Quest.OnQuestAssigned -= HandleQuestAssigned;
         EventManager.Quest.OnQuestCompleted -= HandleQuestCompleted;
-        OnAllQuestsCompleted -= HandleAllQuestCompleted;
-        OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
+        EventManager.Quest.OnAllQuestsCompleted -= HandleAllQuestCompleted;
+        EventManager.Quest.OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
 
     }
 

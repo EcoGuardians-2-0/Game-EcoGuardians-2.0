@@ -168,7 +168,7 @@ public class QuestManager : MonoBehaviour
             }
 
             if (totalQuests == totalQuestsCompleted)
-                GameManager.AllQuestsCompleted();
+                EventManager.Quest.OnAllQuestsCompleted.Invoke();
         }
         else
             Debug.LogWarning("Quest with ID " + questId + " does not exist.");

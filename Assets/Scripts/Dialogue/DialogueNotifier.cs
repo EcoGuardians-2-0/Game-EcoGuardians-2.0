@@ -18,7 +18,7 @@ public class DialogueNotifier
         }
         else if (variableName.StartsWith("global_pass"))
         {
-            GameManager.QuestionnaireCompleted();
+            EventManager.Quest.OnQuestionnaireCompleted.Invoke();
         }
     }
 }

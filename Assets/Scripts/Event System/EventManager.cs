@@ -14,6 +14,8 @@ public class EventManager
     {
         public UnityAction OnQuestAssigned;
         public UnityAction<string> OnQuestCompleted;
+        public UnityAction OnAllQuestsCompleted;
+        public UnityAction OnQuestionnaireCompleted;
     } 
 }
 
