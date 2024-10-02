@@ -45,15 +45,18 @@ public class DisableObjects : MonoBehaviour
     {
         disableCameras();
     }
+
     public void setPlayer(GameObject player, PlayerController characterController)
     {
         this.player = player;
         this.characterController = characterController;
     }
+
     public void setSwitchCamera(SwitchCamera switchCamera)
     {
         this.switchCamera = switchCamera;
     }
+
     public void disableCameras()
     {
         foreach (CinemachineVirtualCamera camera in cameras)
@@ -75,6 +78,18 @@ public class DisableObjects : MonoBehaviour
             if (pov != null)
             {
                 pov.enabled = false;
+            }
+        }
+    }
+
+    public void EnableCameraMovement()
+    {
+        foreach (CinemachineVirtualCamera camera in cameras)
+        {
+            var pov = camera.GetCinemachineComponent<CinemachinePOV>();
+            if (pov != null)
+            {
+                pov.enabled = true;
             }
         }
     }
@@ -102,6 +117,12 @@ public class DisableObjects : MonoBehaviour
     public void TogglePlayer()
     {
         player.SetActive(!player.activeSelf);
+    }
+
+    // Enable the player
+    public void EnablePlayer()
+    {
+        player.SetActive(true);
     }
 
     public void ToggleMinimap()
@@ -185,5 +206,6 @@ public class DisableObjects : MonoBehaviour
         EnableCharacerController();
         EnableCameras();
         EnableSwitchCamera();
+        EnableCameraMovement();
     }
 }

@@ -5,9 +5,18 @@ using UnityEngine;
 public class Activity : InteractableObject
 {
     [SerializeField]
-    public GameObject activity;
+    public GameObject activityOne;
     [SerializeField]
-    private string questID;
+    public GameObject activityTwo;
+    [SerializeField]
+    public GameObject activityThree;
+
+    [SerializeField]
+    private string ActOnequestID;
+    [SerializeField]
+    private string ActTwoquestID;
+    [SerializeField]
+    private string ActThreequestID;
 
     // Singleton pattern
     private static Activity _instance;
@@ -46,7 +55,16 @@ public class Activity : InteractableObject
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
-        activity.SetActive(true);
-        //EventManager.Quest.OnQuestCompleted(questID);
+        DisableObjects.Instance.DisableCameraMovement();
+        
+        if(itemName == "Activity1")
+            activityOne.SetActive(true);
+        else if(itemName == "Activity2")
+            activityTwo.SetActive(true);
+        else if(itemName == "Activity3")
+            activityThree.SetActive(true);
+        else{
+            Debug.LogError("Activity not found");
+        }       
     }
 }    

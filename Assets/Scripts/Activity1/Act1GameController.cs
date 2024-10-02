@@ -293,7 +293,7 @@ public class Act1GameController : MonoBehaviour
 
     public void QuitActivityOne()
     {
-        Activity.Instance.activity.SetActive(false);
+        Activity.Instance.activityOne.SetActive(false);
         EnableWorldMap();
     }
 

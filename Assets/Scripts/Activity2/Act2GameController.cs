@@ -240,7 +240,7 @@ public class Act2GameController : MonoBehaviour
 
     public void QuitActivityTwo()
     {
-        MenuField.gameObject.SetActive(false);
+        Activity.Instance.activityTwo.SetActive(false);
         EnableWorldMap();
     }
 
