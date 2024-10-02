@@ -95,6 +95,7 @@ public class Act1GameController : MonoBehaviour
 
     public void InstantiateMenuButtons()
     {
+        Debug.Log("Instantiating menu buttons");
         string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
 
         GameObject[] objects = GameObject.FindGameObjectsWithTag("LevelSelectionButton");

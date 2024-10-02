@@ -309,10 +309,7 @@ public class Act2LevelController : MonoBehaviour
 
         // Update the levels completed to add one more level completed
         act2GameController.UpdateLevelsCompleted();
-        
-        // Update the menu buttons based on the level result
-        act2GameController.InstantiateMenuButtons();
-
+    
         // Check if the current levels completed are the same as the quest needs to be completed
         act2GameController.CheckLevelsCompleted();
         
@@ -427,12 +424,14 @@ public class Act2LevelController : MonoBehaviour
 
     public void GoBackLevels()
     {
+        MenuField.gameObject.SetActive(true);
+        // Update the menu buttons based on the level result
+        act2GameController.InstantiateMenuButtons();
         // Set the current game object unactive and display the menu field
         levelField.gameObject.SetActive(false);
         // Set the level complete object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
-        MenuField.gameObject.SetActive(true);
     }
 
     public int GetCurrentLevel()

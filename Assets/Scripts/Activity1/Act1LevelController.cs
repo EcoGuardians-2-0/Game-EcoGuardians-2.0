@@ -388,7 +388,6 @@ public class Act1LevelController : MonoBehaviour
         if (act1GameController != null)
         {
             act1GameController.UpdateLevelsCompleted();
-            act1GameController.InstantiateMenuButtons();
             act1GameController.CheckLevelsCompleted();
         }
         else
@@ -570,10 +569,11 @@ public class Act1LevelController : MonoBehaviour
 
     public void GoBackLevels()
     {
+        MenuField.gameObject.SetActive(true);
         // Set the current Object unactive and display the puzzle field
+        act1GameController.InstantiateMenuButtons();
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
-        MenuField.gameObject.SetActive(true);
     }
 
     public int GetCurrentLevel()
