@@ -37,6 +37,7 @@ public class Letter : InteractableObject
 
     private void turnOn()
     {
+        AudioManager.Instance.PlaySound(SoundType.OpenNote);
         selectionPrompt = selectionPromptAfter;
     }
 
