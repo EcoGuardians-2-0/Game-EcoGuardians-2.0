@@ -168,8 +168,19 @@ public class Act2GameController : MonoBehaviour
         HelpIcon.gameObject.SetActive(false);
     }
 
+    public void DisableQuitButton()
+    {
+        quitButton.SetActive(false);
+    }
+
+    public void EnableQuitButton()
+    {
+        quitButton.SetActive(true);
+    }
+
     public void HandleInfoAndBackButton()
     {
+        DisableQuitButton();
         DisableInfoIcon();
         EnableBackButton();
     }
@@ -177,10 +188,9 @@ public class Act2GameController : MonoBehaviour
     // On click listener for the back button
     public void OnBackButtonClicked()
     {
-        AddMenuButtons();
-
-        // Set the current Object unactive and display the puzzle field
+        // Display the menu field
         MenuField.gameObject.SetActive(true);
+        InstantiateMenuButtons();
         GoBackButton.gameObject.SetActive(false);
 
         if (puzzleField.gameObject.activeSelf)
@@ -189,6 +199,7 @@ public class Act2GameController : MonoBehaviour
         }
 
         HelpIcon.gameObject.SetActive(true);
+        quitButton.SetActive(true);
     }
 
     public void DisableMenu()

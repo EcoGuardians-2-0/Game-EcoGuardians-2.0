@@ -574,6 +574,7 @@ public class Act1LevelController : MonoBehaviour
         act1GameController.InstantiateMenuButtons();
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
+        act1GameController.EnableQuitButton();
     }
 
     public int GetCurrentLevel()

@@ -432,6 +432,7 @@ public class Act2LevelController : MonoBehaviour
         // Set the level complete object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
+        act2GameController.EnableQuitButton();
     }
 
     public int GetCurrentLevel()

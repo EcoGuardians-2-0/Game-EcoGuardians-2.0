@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class Act1GameController : MonoBehaviour
@@ -55,7 +56,6 @@ public class Act1GameController : MonoBehaviour
         // Add the menu buttons and the listener to the back button
         AddMenuButtons();
         GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
-
         quitButton.GetComponent<Button>().onClick.AddListener(QuitActivityOne);
     }
 
@@ -216,8 +216,19 @@ public class Act1GameController : MonoBehaviour
         HelpIcon.gameObject.SetActive(false);
     }
 
+    public void DisableQuitButton()
+    {
+        quitButton.SetActive(false);
+    }
+
+    public void EnableQuitButton()
+    {
+        quitButton.SetActive(true);
+    }
+
     public void HandleInfoAndBackButton()
     {
+        DisableQuitButton();
         DisableInfoIcon();
         EnableBackButton();
     }
@@ -225,8 +236,9 @@ public class Act1GameController : MonoBehaviour
     // On click listener for the back button
     public void OnBackButtonClicked()
     {
-        // Set the current Object unactive and display the puzzle field
+        // Display the menu field
         MenuField.gameObject.SetActive(true);
+        InstantiateMenuButtons();
         GoBackButton.gameObject.SetActive(false);
 
         if (puzzleFieldLevelOne.gameObject.activeSelf)
@@ -241,8 +253,9 @@ public class Act1GameController : MonoBehaviour
         {
             puzzleFieldLevelThree.gameObject.SetActive(false);
         }
-
+        
         HelpIcon.gameObject.SetActive(true);
+        quitButton.SetActive(true);
     }
 
     public void DisableMenu()
