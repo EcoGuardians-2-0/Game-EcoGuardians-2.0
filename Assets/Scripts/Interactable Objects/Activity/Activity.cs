@@ -55,7 +55,6 @@ public class Activity : InteractableObject
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
-        DisableObjects.Instance.DisableCameraMovement();
         
         if(itemName == "Activity1")
             activityOne.SetActive(true);

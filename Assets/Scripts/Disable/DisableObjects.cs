@@ -206,6 +206,5 @@ public class DisableObjects : MonoBehaviour
         EnableCharacerController();
         EnableCameras();
         EnableSwitchCamera();
-        EnableCameraMovement();
     }
 }
