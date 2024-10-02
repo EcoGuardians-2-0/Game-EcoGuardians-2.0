@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
     // Handle game start event
     private void HandleGameStart(string arg0)
     {
-        AudioManager.Instance.PlayMusic(SoundType.Act2BackgroundMusic);
+        AudioManager.Instance.PlayMusic(SoundType.EnviromentBackgroundMusic);
     }
 
     public void ActivateQuests(string file)

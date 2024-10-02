@@ -12,4 +12,5 @@ public enum SoundType
     Act1BackgroundMusic,
     Act2BackgroundMusic,
     MainMenuBackgroundMusic,
+    EnviromentBackgroundMusic
 }

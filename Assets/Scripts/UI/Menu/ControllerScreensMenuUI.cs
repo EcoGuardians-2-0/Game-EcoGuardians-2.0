@@ -55,6 +55,13 @@ public class ControllerScreensMenuUI : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        // Get the related audio mixers SFX volume and set it
+        mainMixer.SetFloat("sfxVolume", -40.0f);
+        mainMixer.SetFloat("musicVolume", -40.0f);
+    }
+
     private void Awake()
     {
         if (_Instance != null && _Instance != this)
