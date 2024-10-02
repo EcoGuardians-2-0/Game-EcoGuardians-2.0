@@ -81,6 +81,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c1afc0b2f618043428128b747e7ce75c, type: 3}
       insertIndex: -1
       addedObject: {fileID: -1757298035576235054}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c1afc0b2f618043428128b747e7ce75c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7489529266187232130}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c1afc0b2f618043428128b747e7ce75c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8624639929277530559}
   m_SourcePrefab: {fileID: 100100000, guid: c1afc0b2f618043428128b747e7ce75c, type: 3}
 --- !u!1 &4287014740883574546 stripped
 GameObject:
@@ -149,3 +155,36 @@ CapsuleCollider:
   m_Height: 1.95
   m_Direction: 1
   m_Center: {x: 0, y: 0.95, z: 0}
+--- !u!114 &7489529266187232130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4287014740883574546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f4ee0361d500f48a264d484dbf8acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 120deaa96e71f8f43b702a26fb73283d, type: 3}
+  questID: quest_1.3
+--- !u!114 &8624639929277530559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4287014740883574546}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  size: {x: 20, y: 20}
+  rotateWithObject: 0
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 100

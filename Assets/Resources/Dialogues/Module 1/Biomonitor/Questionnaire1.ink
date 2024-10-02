@@ -1,6 +1,6 @@
 VAR score = 0
-VAR total_questions = 3
-VAR passing_score =  2
+VAR total_questions = 5
+VAR passing_score =  3
 VAR current_question = 1
 === start
 Empezaremos con el cuestionario. En total son {total_questions}, <>

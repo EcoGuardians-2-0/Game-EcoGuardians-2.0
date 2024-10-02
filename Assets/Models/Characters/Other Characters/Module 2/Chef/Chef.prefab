@@ -81,6 +81,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d4f1607d4634d5942bf1606b4374553a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5588318981261768107}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d4f1607d4634d5942bf1606b4374553a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 343573797184382093}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d4f1607d4634d5942bf1606b4374553a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1815595553067263028}
   m_SourcePrefab: {fileID: 100100000, guid: d4f1607d4634d5942bf1606b4374553a, type: 3}
 --- !u!1 &7391725250393693906 stripped
 GameObject:
@@ -149,3 +155,36 @@ MonoBehaviour:
   playerInRange: 0
   inkJSON: {fileID: 4900000, guid: f2b567da7e0afab40821640c62b1644e, type: 3}
   ikActive: 1
+--- !u!114 &343573797184382093
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7391725250393693906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f4ee0361d500f48a264d484dbf8acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: d9927f79802cd6145aa194ec15a746cb, type: 3}
+  questID: quest_2.1
+--- !u!114 &1815595553067263028
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7391725250393693906}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  size: {x: 20, y: 20}
+  rotateWithObject: 0
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 100
