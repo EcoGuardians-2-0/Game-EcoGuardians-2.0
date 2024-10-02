@@ -69,7 +69,7 @@ VAR failed_test = 0
 == evaluacion
     {score>= passing_score:
         ~global_pass_1 = true
-        ~global_mision_completada = "questionnaire1"
+        ~global_mision_completada = "quest_1.7"
         ¡Increíble! Has respondido todas las preguntas correctamente.<>
         Has pasado el cuestionario del primer modulo.
         Subiendo las escaleras te encontrás el segundo modulo.<>

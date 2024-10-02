@@ -16,11 +16,11 @@ public class Activity : InteractableObject
 
     public override void Interact()
     {
-        DisableObjects.Instance.showCursor();
+/*        DisableObjects.Instance.showCursor();
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
-        activity.SetActive(true);
-        //GameManager.QuestCompleted(questID);
+        activity.SetActive(true);*/
+        EventManager.Quest.OnQuestCompleted(questID);
     }
 }    
