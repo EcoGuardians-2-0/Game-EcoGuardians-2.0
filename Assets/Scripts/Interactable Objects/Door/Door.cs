@@ -21,12 +21,45 @@ public class Door : InteractableObject
         {
             doorAnimation.SetBool("door", active);
             selectionPrompt = "Cerrar puerta";
+
+            // Play door sound depending on the door type based on the tag
+            
+            // Tag: DoorGlass
+            if (gameObject.CompareTag("DoorGlass"))
+            {
+                AudioManager.Instance.PlaySound(SoundType.doorClosedGlass);
+            }
+            // Tag: DoorWood
+            else if (gameObject.CompareTag("DoorWood"))
+            {
+                AudioManager.Instance.PlaySound(SoundType.doorClosedWood);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound(SoundType.doorClosedWood);
+            }
         }
         else
         {
             doorAnimation.SetBool("door", active);
             selectionPrompt = "Abrir puerta";
-        }
 
+            // Play door sound depending on the door type based on the tag
+
+            // Tag: DoorGlass
+            if (gameObject.CompareTag("DoorGlass"))
+            {
+                AudioManager.Instance.PlaySound(SoundType.doorOpenGlass);
+            }
+            // Tag: DoorWood
+            else if (gameObject.CompareTag("DoorWood"))
+            {
+                AudioManager.Instance.PlaySound(SoundType.doorOpenWood);
+            }
+            else
+            {
+                AudioManager.Instance.PlaySound(SoundType.doorOpenWood);
+            }
+        }
     }
 }
