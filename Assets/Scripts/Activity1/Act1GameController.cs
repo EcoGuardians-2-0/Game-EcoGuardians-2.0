@@ -276,7 +276,7 @@ public class Act1GameController : MonoBehaviour
     // Update the completed quest calling the game manager
     public void UpdateGameQuest()
     {
-        gameManager.HandleQuestCompleted("quest_6");
+        gameManager.HandleQuestCompleted("quest_1.6");
     }
 
     //Check if the completed levels are two
@@ -292,7 +292,7 @@ public class Act1GameController : MonoBehaviour
 
     public void QuitActivityOne()
     {
-        MenuField.gameObject.SetActive(false);
+        Activity.Instance.activity.SetActive(false);
         EnableWorldMap();
     }
 

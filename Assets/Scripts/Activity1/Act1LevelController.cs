@@ -50,6 +50,11 @@ public class Act1LevelController : MonoBehaviour
     void Awake()
     {
         act1ProgressSO = Resources.Load<Act1ProgressSO>("Activity1Progress/Activity1 progressSO");
+        act1GameController = FindObjectOfType<Act1GameController>();
+        if (act1GameController == null)
+        {
+            Debug.LogError("Act1GameController not found in the scene.");
+        }
     }
 
     public void InstantiateLevel(int level)
@@ -363,9 +368,9 @@ public class Act1LevelController : MonoBehaviour
     public void ShowResult()
     {
         string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
-
+    
         int LevelStars = 0;
-
+    
         if (currentLevel == 1)
         {
             LevelStars = FirstLevelResult();
@@ -378,31 +383,47 @@ public class Act1LevelController : MonoBehaviour
         {
             LevelStars = ThirdLevelResult();
         }
-        
+    
         // Update the levels completed to add one more level completed
-        act1GameController.UpdateLevelsCompleted();
-
-        // Upate the menu buttons based on the result
-        act1GameController.InstantiateMenuButtons();
-
-        // Check if the current levels completed are the same as the quest needs to be completed
-        act1GameController.CheckLevelsCompleted();
-
+        if (act1GameController != null)
+        {
+            act1GameController.UpdateLevelsCompleted();
+            act1GameController.InstantiateMenuButtons();
+            act1GameController.CheckLevelsCompleted();
+        }
+        else
+        {
+            Debug.LogError("act1GameController is null");
+        }
+    
         // Update the stars based on the result
         Transform LevelsStarContainer = levelCompletePanel.transform.Find("LevelStarContainer");
-
+        if (LevelsStarContainer == null)
+        {
+            Debug.LogError("LevelsStarContainer is null");
+            return;
+        }
+    
         foreach (string starName in starNames)
         {
-            Debug.Log("Star name: " + starName);
-            // Get the star transform
             Transform starTransform = LevelsStarContainer.transform.Find(starName);
-
-            // Get the Image and Text components of the star
+            if (starTransform == null)
+            {
+                Debug.LogError("Star transform not found: " + starName);
+                continue;
+            }
+    
             Image starImage = starTransform.GetComponent<Image>();
-
-            // Set the star to corresponding sprite
+            if (starImage == null)
+            {
+                Debug.LogError("Image component not found on star transform: " + starName);
+                continue;
+            }
+    
             if (LevelStars == 0)
+            {
                 starImage.sprite = Black_Star;
+            }
             else
             {
                 starImage.sprite = Yellow_Star;
