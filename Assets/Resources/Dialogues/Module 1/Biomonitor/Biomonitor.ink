@@ -21,6 +21,7 @@ VAR failed_test = 0
 
 // Carlos' introduction
 === intro
+    ~global_mision_completada = "quest_1.7"
     ¡Hola! Soy Carlos, veo que estas visitando nuestra estación  por primera vez y noto que te gustaría conocerla. #speaker: Carlos # animation: 1
     Primero que todo, nos encontramos en Aguadas, Caldas. En la Estación Biológica del Norte de Caldas o por sus siglas, EBNC.
     Vamos a hacer esto. Te ayudaré a explorarla, mientras que cumplas determinadas tareas y retos que te colocaré para que sea más divertido. # animation:3
@@ -68,12 +69,13 @@ VAR failed_test = 0
     
 == evaluacion
     {score>= passing_score:
-        ~global_pass_1 = true
         ~global_mision_completada = "quest_1.7"
         ¡Increíble! Has respondido todas las preguntas correctamente.<>
         Has pasado el cuestionario del primer modulo.
         Subiendo las escaleras te encontrás el segundo modulo.<>
         El restaurante y baño público hacen parte del segundo modulo.
+        ~global_pass_1 = true
+
      -else:
         ~failed_test++
         Cuando te sientas preparado nuevamente puedes volver <> 

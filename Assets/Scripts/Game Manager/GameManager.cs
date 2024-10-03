@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private QuestManager questManager;
 
-    private GameStage currentStage;
+    private GameStage currentStage = GameStage.None;
     private List<GameStage> questionnaireStages;
     private const string MODULE_NAME = "module";
     private const string QUESTIONNAIRE = "questionnaire";
@@ -50,12 +50,13 @@ public class GameManager : MonoBehaviour
     {
         // Current module at the start of the game is 1
         currentModule = 1;
-        currentStage = GameStage.Module1;
+        currentStage++;
         questionnaireStages = new List<GameStage>
         {
             GameStage.Questionnaire1,
             GameStage.Questionnaire2,
         };
+        
 
         // Register for game start events
         ControllerScreensMenuUI.Instance.onGameStarted.AddListener(HandleGameStart);
@@ -105,10 +106,11 @@ public class GameManager : MonoBehaviour
     {
         if(currentStage < GameStage.GameComplete)
         {
-            Debug.Log("Moving to next state: " + currentStage);
+            GameStage prevStage = currentStage;
+            Debug.Log("Previous state: " + currentStage);
             currentStage++;
-            Debug.Log("Checking if the next stage is questionnaire so it loads the quests of that questionnaire");
-            if(IsCurrentStageQuestionnaire())
+            Debug.Log("Moving to next state: " + currentStage);
+            if(IsCurrentStageQuestionnaire(currentStage) || IsCurrentStageQuestionnaire(prevStage))
                 LoadCurrentStageFile();
         }
         else{
@@ -123,7 +125,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (IsCurrentStageQuestionnaire())
+        if (IsCurrentStageQuestionnaire(currentStage))
         {
             Debug.Log("Enabling questionnaire for module: " + currentModule);
             DialogueManager.instance.SetVariable("global_cuestionario_"+currentModule,DialogueVariableSetter.SetVariable(true));
@@ -134,7 +136,7 @@ public class GameManager : MonoBehaviour
         new JSONReader().ReadQuests(questManager, fileName);
     }
 
-    private bool IsCurrentStageQuestionnaire()
+    private bool IsCurrentStageQuestionnaire(GameStage currentStage)
     {
         return questionnaireStages.Contains(currentStage);
     }

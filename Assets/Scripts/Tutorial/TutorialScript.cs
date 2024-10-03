@@ -247,6 +247,7 @@ public class TutorialScript : MonoBehaviour
     private IEnumerator FinishTutorial()
     {
         WallCollider.SetActive(value: false);
+        EventManager.Quest.OnQuestAssigned();
         yield return ActivateAndDeactivate();
         gameObject.SetActive(false);
     }

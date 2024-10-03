@@ -21,6 +21,7 @@ VAR failed_test = 0
 
 // Sara's introduction
 === intro
+    ~global_mision_completada = "quest_2.0"
     ¡Hola! Soy Sara, me alegra ver que haz llegado al segundo modulo, ¡Espero estes disfrutando tu experiencia! # speaker: Sara # animation: 1
     Vamos a hacer esto. Seguiremos explorando, mientras seguirás cumpliendo determinadas tareas y retos para que sea más divertido.
     Tengo una idea: ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que hace en la estación.
@@ -68,7 +69,7 @@ VAR failed_test = 0
 == evaluacion
     {score>= passing_score:
         ~global_pass_2 = true
-        ~global_mision_completada = "questionnaire2"
+        ~global_mision_completada = "quest_2.0"
         ¡Increíble! Has respondido todas las preguntas correctamente.<>
         Has pasado el cuestionario del primer modulo.
         Subiendo las escaleras te encontrás el segundo modulo.<>
