@@ -26,6 +26,9 @@ public class DisableObjects : MonoBehaviour
     private GameObject selectionCursor;
 
     [SerializeField]
+    private GameObject selectionToolTip;
+
+    [SerializeField]
     private GameObject controlsImageTVUI;
 
     [SerializeField]
@@ -133,6 +136,11 @@ public class DisableObjects : MonoBehaviour
     public void ToggleSelectionCursor()
     {
         selectionCursor.SetActive(!selectionCursor.activeSelf);
+    }
+
+    public void ToggleTooltip()
+    {
+        selectionToolTip.SetActive(!selectionToolTip.activeSelf);
     }
 
     public void ToggleControlsImageTVUI(bool firstTime)

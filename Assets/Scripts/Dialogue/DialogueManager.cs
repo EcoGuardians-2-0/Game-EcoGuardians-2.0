@@ -78,6 +78,8 @@ public class DialogueManager : MonoBehaviour
     public void StartConversation(TextAsset inkJSON)
     {
         SelectionManager.instance.isInteracting = true;
+        DisableObjects.Instance.ToggleSelectionCursor();
+        DisableObjects.Instance.ToggleTooltip();
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
@@ -100,6 +102,8 @@ public class DialogueManager : MonoBehaviour
         isTalking = false;
         dialogueUI.dialogueUI.SetActive(false);
         SelectionManager.instance.isInteracting = false;
+        DisableObjects.Instance.ToggleSelectionCursor();
+        DisableObjects.Instance.ToggleTooltip();
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
