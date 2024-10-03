@@ -34,6 +34,8 @@ public class QuestManager : MonoBehaviour
 
     private GameObject noQuestsTitle;
 
+    public bool isClearingQuests;
+
     // Methods
 
     /*
@@ -284,6 +286,8 @@ public class QuestManager : MonoBehaviour
     {
         totalQuests = 0;
         totalQuestsCompleted = 0;
+        isClearingQuests = true;
+
 
         foreach (var questEntry in activeQuests)
         {
@@ -305,6 +309,7 @@ public class QuestManager : MonoBehaviour
 
         activeQuests.Clear(); 
         activeTitles.Clear();
+        isClearingQuests = false;
     }
 
 

@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
     private void HandleQuestAssigned()
     {
         Debug.Log("Assigning quests");
-        LoadCurrentStageFile();
+        StartCoroutine(LoadCurrentStageFile());
     }
 
     // Triggered when player completes a quest
@@ -111,18 +111,23 @@ public class GameManager : MonoBehaviour
             currentStage++;
             Debug.Log("Moving to next state: " + currentStage);
             if(IsCurrentStageQuestionnaire(currentStage) || IsCurrentStageQuestionnaire(prevStage))
-                LoadCurrentStageFile();
+                StartCoroutine(LoadCurrentStageFile());
         }
         else{
             Debug.Log("The game has finished");
         }
     }
-    private void LoadCurrentStageFile()
+    private IEnumerator LoadCurrentStageFile()
     {
         if(currentStage == GameStage.GameComplete)
         {
             Debug.Log("Game has finished");
-            return;
+            yield break;
+        }
+
+        while (questManager.isClearingQuests) // Asegúrate de tener un bool en QuestManager
+        {
+            yield return null; // Esperar un frame
         }
 
         if (IsCurrentStageQuestionnaire(currentStage))
