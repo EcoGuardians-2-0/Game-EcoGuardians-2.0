@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class EventManager 
@@ -6,6 +7,7 @@ public class EventManager
     public readonly static WallEvents Wall = new WallEvents();  
     public readonly static QuestEvents Quest = new QuestEvents();
     public readonly static MapIconEvents MapIcon = new MapIconEvents();
+    public readonly static LetterEvents Letter = new LetterEvents();
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
@@ -30,6 +32,11 @@ public class EventManager
             mapOnDisplayIcon.TryAdd(channel, new IconEvent());
             return mapOnDisplayIcon[channel];
         }
+    }
+
+    public class LetterEvents
+    {
+        public UnityAction<Sprite, bool> OnDisplayLetterImage;
     }
 }
 

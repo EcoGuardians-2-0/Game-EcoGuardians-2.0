@@ -6,7 +6,7 @@ using UnityEngine;
 public class Letter : InteractableObject
 {
 
-    public GameObject letterUI;
+    public Sprite targetUIImage;
     private bool toggle;
     private string selectionPromptBefore = "Leer nota";
     private string selectionPromptAfter = "Dejar de leer nota";
@@ -15,6 +15,21 @@ public class Letter : InteractableObject
     {
         base.Start();
         selectionPrompt = selectionPromptBefore;
+
+        // Retrieving texture as image of letter
+        MeshRenderer renderer = gameObject.GetComponent<MeshRenderer>();
+        if (renderer != null && renderer.material != null)
+        {
+            // Converting material to texture
+            Texture2D texture = renderer.material.mainTexture as Texture2D;
+            if (texture != null)
+            {
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                Debug.Log("Assigning sprite");
+                targetUIImage = sprite;
+
+            }
+        }
     }
 
     public override void Interact()
@@ -27,8 +42,6 @@ public class Letter : InteractableObject
 
         toggle = !toggle;
 
-        letterUI.SetActive(toggle);
-
         if (toggle)
             turnOn();
         else
@@ -38,11 +51,13 @@ public class Letter : InteractableObject
     private void turnOn()
     {
         AudioManager.Instance.PlaySound(SoundType.OpenNote);
+        EventManager.Letter.OnDisplayLetterImage.Invoke(targetUIImage, true);
         selectionPrompt = selectionPromptAfter;
     }
 
     private void turnOff()
     {
+        EventManager.Letter.OnDisplayLetterImage(null, false);
         selectionPrompt = selectionPromptBefore;
     }
 
