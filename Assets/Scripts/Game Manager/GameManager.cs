@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     private static int currentModule;
     private bool doingTasks;
     private bool doingQuestionnaire;
+    private bool advancingLevel = false;
+
 
 
     private void OnEnable()
@@ -42,6 +44,16 @@ public class GameManager : MonoBehaviour
         EventManager.Quest.OnAllQuestsCompleted -= HandleAllQuestCompleted;
         EventManager.Quest.OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
 
+    }
+
+    void Update()
+    {
+        // Detectar tecla 'U' para saltar de nivel
+        if (Input.GetKeyDown(KeyCode.U) && !advancingLevel)
+        {
+            if(currentStage < GameStage.GameComplete)
+                StartCoroutine(SkipLevel());
+        }
     }
 
 
@@ -95,6 +107,28 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private IEnumerator SkipLevel()
+    {
+        advancingLevel = true;
+
+        // 1. Limpiar todas las tareas con el QuestManager
+        Debug.Log("Clearing all tasks before advancing to the next stage...");
+        yield return StartCoroutine(questManager.ClearAllQuests());
+
+        // 2. Verificar si el nivel anterior era un cuestionario y manejarlo
+        GameStage previousStage = currentStage;
+        currentStage++;  // Avanzar al siguiente nivel
+
+        if (IsStageQuestionnaire(previousStage))
+        {
+            HandleQuestionnaireCompleted();  // Llamar al método para manejar la finalización del cuestionario
+        }
+
+        StartCoroutine(LoadCurrentStageFile());
+
+        advancingLevel = false;
+    }
+
     // Called in order to clear quests from UI
     private IEnumerator ClearAndAdvance()
     {
@@ -111,7 +145,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Previous state: " + currentStage);
             currentStage++;
             Debug.Log("Moving to next state: " + currentStage);
-            if(IsCurrentStageQuestionnaire(currentStage) || IsCurrentStageQuestionnaire(prevStage))
+            if(IsStageQuestionnaire(currentStage))
                 StartCoroutine(LoadCurrentStageFile());
         }
         else{
@@ -120,18 +154,18 @@ public class GameManager : MonoBehaviour
     }
     private IEnumerator LoadCurrentStageFile()
     {
-        if(currentStage == GameStage.GameComplete)
+        while (questManager.isClearingQuests)
+        {
+            yield return null;
+        }
+
+        if (currentStage == GameStage.GameComplete)
         {
             Debug.Log("Game has finished");
             yield break;
         }
 
-        while (questManager.isClearingQuests) // Asegúrate de tener un bool en QuestManager
-        {
-            yield return null; // Esperar un frame
-        }
-
-        if (IsCurrentStageQuestionnaire(currentStage))
+        if (IsStageQuestionnaire(currentStage))
         {
             Debug.Log("Enabling questionnaire for module: " + currentModule);
             DialogueManager.instance.SetVariable("global_cuestionario_"+currentModule,DialogueVariableSetter.SetVariable(true));
@@ -142,7 +176,7 @@ public class GameManager : MonoBehaviour
         new JSONReader().ReadQuests(questManager, fileName);
     }
 
-    private bool IsCurrentStageQuestionnaire(GameStage currentStage)
+    private bool IsStageQuestionnaire(GameStage currentStage)
     {
         return questionnaireStages.Contains(currentStage);
     }

@@ -170,10 +170,43 @@ public class QuestManager : MonoBehaviour
             }
 
             if (totalQuests == totalQuestsCompleted)
+            {
+                Debug.Log("All quests have been completed");
                 EventManager.Quest.OnAllQuestsCompleted.Invoke();
+            }
         }
         else
             Debug.LogWarning("Quest with ID " + questId + " does not exist.");
+    }
+
+    public IEnumerator ClearAllQuests()
+    {
+        isClearingQuests = true;  // Indicar que se está limpiando
+        totalQuests = 0;
+        totalQuestsCompleted = 0;
+
+        // Limpiar todas las misiones activas
+        foreach (var questEntry in activeQuests)
+        {
+            GameObject activeQuest = questEntry.Value;
+            AnimationsQuest.Instance.DeleteQuestAnimation(activeQuest);  // Llamar a la animación para eliminar la misión
+            yield return new WaitForSeconds(0.5f);  // Esperar medio segundo
+        }
+
+        // Limpiar todos los títulos activos
+        foreach (var titleEntry in activeTitles)
+        {
+            GameObject activeTitle = titleEntry.Value;
+            AnimationsQuest.Instance.DeleteQuestAnimation(activeTitle);  // Llamar a la animación para eliminar el título
+            yield return new WaitForSeconds(0.5f);  // Esperar medio segundo
+        }
+
+        // Limpiar las listas de misiones y títulos
+        activeQuests.Clear();
+        activeTitles.Clear();
+
+        isClearingQuests = false;  // Indicar que la limpieza ha terminado
+        Debug.Log("All quests have been cleared.");
     }
 
     /*

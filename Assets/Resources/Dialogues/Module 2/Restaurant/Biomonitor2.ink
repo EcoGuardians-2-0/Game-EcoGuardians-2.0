@@ -68,12 +68,12 @@ VAR failed_test = 0
     
 == evaluacion
     {score>= passing_score:
-        ~global_pass_2 = true
         ~global_mision_completada = "quest_2.0"
         ¡Increíble! Has respondido todas las preguntas correctamente.<>
         Has pasado el cuestionario del primer modulo.
         Subiendo las escaleras te encontrás el segundo modulo.<>
         El restaurante y baño público hacen parte del segundo modulo.
+        ~global_pass_2 = true
      -else:
         ~failed_test++
         Cuando te sientas preparado nuevamente puedes volver <> 

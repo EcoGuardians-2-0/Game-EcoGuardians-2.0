@@ -13,12 +13,17 @@ public class DialogueNotifier
         }
         else if(variableName == "global_mision_completada")
         {
+            Debug.Log("Completed mission");
             string missionName = value.ToString();
             EventManager.Quest.OnQuestCompleted.Invoke(missionName);
         }
         else if (variableName.StartsWith("global_pass"))
         {
-            EventManager.Quest.OnQuestionnaireCompleted.Invoke();
+            if(((Ink.Runtime.BoolValue)value).value)
+            {
+                EventManager.Quest.OnQuestionnaireCompleted.Invoke();
+                EventManager.Quest.OnQuestAssigned.Invoke();
+            }
         }
     }
 }

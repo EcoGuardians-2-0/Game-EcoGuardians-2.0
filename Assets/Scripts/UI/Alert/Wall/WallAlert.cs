@@ -43,7 +43,8 @@ public class WallAlert : MonoBehaviour
 
     public void HandleDisableWall(int module)
     {
-        walls[module-1].gameObject.SetActive(false);
+        if(module <= walls.Count)
+            walls[module-1].gameObject.SetActive(false);
     }
 
 }
