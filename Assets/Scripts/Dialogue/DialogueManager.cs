@@ -121,12 +121,14 @@ public class DialogueManager : MonoBehaviour
                 currentChoiceIndex++;
                 if (currentChoiceIndex >= choices.Count)
                     currentChoiceIndex = 0;
+                AudioManager.Instance.PlaySound(SoundType.dialogOptionSelection);
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 currentChoiceIndex--;
                 if (currentChoiceIndex < 0)
                     currentChoiceIndex = choices.Count - 1;
+                AudioManager.Instance.PlaySound(SoundType.dialogOptionSelection);
             }
 
             dialogueUI.changeOption(currentChoiceIndex);
@@ -142,10 +144,12 @@ public class DialogueManager : MonoBehaviour
             if (choices.Count > 0)
             {
                 MakeChoice();
+                AudioManager.Instance.PlaySound(SoundType.dialogSelectedOption);
             }
             else
             {
                 ContinueStory();
+                AudioManager.Instance.PlaySound(SoundType.dialogForward);
             }
         }
     }
