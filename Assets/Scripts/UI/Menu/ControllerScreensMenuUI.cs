@@ -59,7 +59,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
     {
         // Get the related audio mixers SFX volume and set it
         setSFXVolume(80.0f);
-        mainMixer.SetFloat("musicVolume", -40.0f);
+        setMusicVolume(80.0f);
     }
 
     private void Awake()
@@ -153,11 +153,13 @@ public class ControllerScreensMenuUI : MonoBehaviour
         sfxVolumeValue.text = sfxVolume.ToString("0");
     }
 
-    public void setMusicVolume(float musicVolume)
+    public void setMusicVolume(float volume)
     {
-        // Get the related audio mixers Music volume and set it
-        mainMixer.SetFloat("musicVolume", musicVolume);
-        musicVolumeValue.text = musicVolume.ToString("0.0");
+        // Set the music volume
+        volume = Mathf.Clamp(volume, 0f, 100f);
+        float dbVolume = Mathf.Lerp(-80f, 0f, volume / 100f);
+        mainMixer.SetFloat("musicVolume", dbVolume);
+        musicVolumeValue.text = volume.ToString("0");
     }
 
     public void SetControllerSen(float sensitivity)
