@@ -130,7 +130,7 @@ public class DisableObjects : MonoBehaviour
 
     public void ToggleMinimap()
     {
-        //minimap.SetActive(!minimap.activeSelf);
+        minimap.SetActive(!minimap.activeSelf);
     }
 
     public void ToggleSelectionCursor()
