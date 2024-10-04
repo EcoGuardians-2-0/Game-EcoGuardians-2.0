@@ -5,7 +5,7 @@ using UnityEngine.Video;
 
 public class TVVideoManager : MonoBehaviour
 {
-    [SerializeField] private VideoClip video;
+    [SerializeField] private string video;
     [SerializeField] private List<Material> materials = new List<Material>();
 
     private VideoPlayer videoPlayer;
@@ -26,6 +26,9 @@ public class TVVideoManager : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         meshRenderer = GetComponent<MeshRenderer>();
+
+        videoPlayer.playOnAwake = false;
+        videoPlayer.Prepare();
 
         if (video != null)
             hasVideo = true;
@@ -116,8 +119,8 @@ public class TVVideoManager : MonoBehaviour
     public void PlayVideo()
     {
         // Assign the video to the video player
-        if (video != null)
-            videoPlayer.clip = video;
+        //if (video != null)
+        //    videoPlayer.url = video;
 
         holdTimeCounterUpVolume = holdTime;
         holdTimeCounterDownVolume = holdTime;
