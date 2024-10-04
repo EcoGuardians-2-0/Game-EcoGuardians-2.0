@@ -58,7 +58,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
     void Start()
     {
         // Get the related audio mixers SFX volume and set it
-        mainMixer.SetFloat("sfxVolume", -40.0f);
+        setSFXVolume(80.0f);
         mainMixer.SetFloat("musicVolume", -40.0f);
     }
 
@@ -146,9 +146,11 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     public void setSFXVolume(float sfxVolume)
     {
-        // Get the related audio mixers SFX volume and set it
-        mainMixer.SetFloat("sfxVolume", sfxVolume);
-        sfxVolumeValue.text = sfxVolume.ToString("0.0");
+        // Set the SFX volume
+        sfxVolume = Mathf.Clamp(sfxVolume, 0f, 100f);
+        float dbSFXVolume = Mathf.Lerp(-80f, 0f, sfxVolume / 100f);
+        mainMixer.SetFloat("sfxVolume", dbSFXVolume);
+        sfxVolumeValue.text = sfxVolume.ToString("0");
     }
 
     public void setMusicVolume(float musicVolume)
