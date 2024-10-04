@@ -8,9 +8,9 @@ public class SwitchCamera : MonoBehaviour
     public CinemachineVirtualCamera ThirdCam;
 
     [Header("Sensitivity Settings")]
-    private float minSensitivity = 200f; // Adjusted min sensitivity
+    private float minSensitivity = 0f; // Adjusted min sensitivity
     private float maxSensitivity = 1000f; // Adjusted max sensitivity
-    private float defaultSensitivity = 700f; // Default sensitivity
+    private float defaultSensitivity = 300f; // Default sensitivity
 
     private bool thirdActive = true;
     private float lastAppliedSensitivity;
@@ -18,7 +18,8 @@ public class SwitchCamera : MonoBehaviour
     private void Start()
     {
         // Set the default sens when the game starts
-        PlayerPrefs.SetFloat("masterSen", defaultSensitivity);
+        float currentSavedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
+        PlayerPrefs.SetFloat("masterSen", currentSavedSensitivity);
 
         UpdateCameraSensitivity();
     }
@@ -69,7 +70,7 @@ public class SwitchCamera : MonoBehaviour
         float savedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
 
         float appliedSensitivity = Mathf.Clamp(savedSensitivity, minSensitivity, maxSensitivity);
-        
+
         // Update First Person Camera sensitivity
         var firstPersonPOV = FirstCam.GetCinemachineComponent<CinemachinePOV>();
         firstPersonPOV.m_HorizontalAxis.m_MaxSpeed = appliedSensitivity;

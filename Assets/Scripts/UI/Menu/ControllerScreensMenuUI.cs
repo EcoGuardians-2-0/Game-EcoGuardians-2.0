@@ -22,7 +22,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
-    public float mainControllerSen = 5f;
+    public float mainControllerSen = 60f;
 
     [Header("Events")]
     public UnityEvent<string> onGameStarted;
@@ -60,6 +60,8 @@ public class ControllerScreensMenuUI : MonoBehaviour
         // Get the related audio mixers SFX volume and set it
         setSFXVolume(80.0f);
         setMusicVolume(80.0f);
+        SetControllerSen(60f);
+        GameplayApply();
     }
 
     private void Awake()
@@ -164,13 +166,15 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     public void SetControllerSen(float sensitivity)
     {
-        mainControllerSen = sensitivity;
-        sensTextValue.text = sensitivity.ToString("0.0");
+        float transformedSensitivity = sensitivity * 5;
+        mainControllerSen = transformedSensitivity;
+        sensTextValue.text = sensitivity.ToString("0");
     }
 
     public void GameplayApply()
     {
         PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+        PlayerPrefs.Save();
     }
 
     public void startNewGame()
