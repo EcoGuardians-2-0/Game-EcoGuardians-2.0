@@ -5,7 +5,6 @@ using UnityEngine.Video;
 
 public class TVVideoManager : MonoBehaviour
 {
-    [SerializeField] private VideoClip video;
     [SerializeField] private List<Material> materials = new List<Material>();
 
     private VideoPlayer videoPlayer;
@@ -21,16 +20,15 @@ public class TVVideoManager : MonoBehaviour
     private float holdTimeCounterAdvanceVideo;
     private float holdTimeCounterRewindVideo;
 
-    // Start is called before the first frame update
-    public void Init()
+    private void Awake()
     {
         videoPlayer = GetComponent<VideoPlayer>();
         meshRenderer = GetComponent<MeshRenderer>();
 
-        if (video != null)
-            hasVideo = true;
+        videoPlayer.playOnAwake = false;
+        videoPlayer.Prepare();
 
-        DisableObjects.Instance.ToggleControlsVideoTVUI(true);
+        hasVideo = (videoPlayer.url != null) ? true : false;
     }
 
     // Update is called once per frame
@@ -44,10 +42,11 @@ public class TVVideoManager : MonoBehaviour
         {
             // Advance and rewind video
             if (Input.GetKeyDown(KeyCode.LeftArrow))
-                videoPlayer.time -= 5;
-            
+                videoPlayer.time = Mathf.Max(0, (float)videoPlayer.time - 5);
+
             if (Input.GetKeyDown(KeyCode.RightArrow))
-                videoPlayer.time += 5;
+                if (videoPlayer.time + 5 <= videoPlayer.length)
+                    videoPlayer.time += 5;
 
             // Up and Down keys for volume control
             if (Input.GetKeyDown(KeyCode.UpArrow))
@@ -115,18 +114,16 @@ public class TVVideoManager : MonoBehaviour
     // Function to play the video
     public void PlayVideo()
     {
-        // Assign the video to the video player
-        if (video != null)
-            videoPlayer.clip = video;
+        DisableObjects.Instance.ToggleControlsVideoTVUI(true);
 
         holdTimeCounterUpVolume = holdTime;
         holdTimeCounterDownVolume = holdTime;
         holdTimeCounterAdvanceVideo = holdTime;
         holdTimeCounterRewindVideo = holdTime;
 
-        if (videoPlayer != null && videoPlayer.clip != null)
+        if (videoPlayer != null && videoPlayer.url != null)
         {
-            meshRenderer.material = materials[0];
+            meshRenderer.material = materials[2];
 
             if (lastTime != 0)
                 videoPlayer.time = lastTime;
@@ -139,7 +136,7 @@ public class TVVideoManager : MonoBehaviour
     // Function to change the material of the TV
     private IEnumerator ChangeMaterial()
     {
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(1f);
         meshRenderer.material = materials[1];
     }
 
@@ -150,7 +147,6 @@ public class TVVideoManager : MonoBehaviour
         {
             videoPlayer.Pause();
             videoPlayer.Stop();
-            videoPlayer.clip = null;
         }
     }
 

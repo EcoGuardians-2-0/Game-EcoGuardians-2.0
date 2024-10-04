@@ -78,7 +78,9 @@ public class TV : InteractableObject
 
         if (tvVideoManager != null)
         {
-            tvVideoManager.Init();
+            if (!tvVideoManager.hasVideo)
+                tvVideoManager.PlayVideo();
+
             if (tvVideoManager.hasVideo)
                 tvVideoManager.PlayVideo();
         }
@@ -98,11 +100,12 @@ public class TV : InteractableObject
                 disableObjects.ForceDisableControlsVideoTVUI();
                 tvVideoManager.PauseVideo();
             }
-        }else if (tvImagesManager != null)
+        }
+        else if (tvImagesManager != null)
         {
             disableObjects.ForceDisableControlsImageTVUI();
             tvImagesManager.TurnOff();
-        }    
+        }
     }
 
     // Load the objects needed for the TV
