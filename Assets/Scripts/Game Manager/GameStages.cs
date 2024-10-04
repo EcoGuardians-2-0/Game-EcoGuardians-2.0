@@ -7,5 +7,8 @@ public enum GameStage
     Biomonitor2,
     Module2,
     Questionnaire2,
+    Biomonitor3,
+    Module3,
+    Questionnaire3,
     GameComplete
 }

@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
         {
             GameStage.Questionnaire1,
             GameStage.Questionnaire2,
+            GameStage.Questionnaire3,
         };
         
 

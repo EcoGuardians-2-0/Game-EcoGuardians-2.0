@@ -32,14 +32,14 @@ VAR failed_test = 0
 
 === second_time
     ¡Hola de nuevo! #speaker: Luis
-   -> ChooseRandomDialogueBio1
+   -> ChooseRandomDialogueBio3
 
 
 === suerte
     ¡Felicitaciones por haber completado el cuestionario!. #speaker: Luis # animation: 5
     Parece que has terminado de explorar toda la estación y de conocer todo lo que Awaq ofrece tanto a sus visitantes como a sus colaboradores.
     Solo me resta preguntarte lo siguiente...
-    * -> DONE
+    * -> final_question
     
 === final_question
 ¿Estás listo para terminar tu experiencia en la estación biológica?
