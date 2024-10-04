@@ -13,5 +13,7 @@ public enum SoundType
     Act2BackgroundMusic,
     MainMenuBackgroundMusic,
     EnviromentBackgroundMusic,
-    OpenNote
+    OpenNote,
+    TVOn,
+    TvOff
 }

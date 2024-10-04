@@ -60,10 +60,15 @@ public class TV : InteractableObject
 
         isOn = !isOn;
 
-        if (isOn)
+        if (isOn){
+            AudioManager.Instance.PlaySound(SoundType.TVOn);
             ActiveTV();
+        }
         else
+        {
+            AudioManager.Instance.PlaySound(SoundType.TvOff);
             DeactivateTV();
+        }
     }
 
     // Turn on the TV
