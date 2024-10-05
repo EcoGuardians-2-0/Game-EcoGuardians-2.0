@@ -40,10 +40,12 @@ VAR failed_test = 0
 === suerte
     ¡Felicitaciones por haber completado el cuestionario!. #speaker: Carlos # animation: 5
     Parace que has completado todas las actividades de este modulo.
-    Ahora, ve hacia el restaurante. Ahií encontraras mis otros compañeros quienes tienen más actividades preparadas para ti.
+    Ahora, ve hacia el restaurante. Esta <color=\#FEF445>ubicado encima del baño, subiendo por las escaleras de madera</color>.
+    Ahí encontraras mis otros compañeros quienes tienen más actividades preparadas para ti.
     * -> DONE
     
 === cuestionario ==
+    Hola, ¿Cómo estás? #speaker: Carlos # animation: 5
     {   failed_test > 0:
             Veo que ya habías intentado el cuestionario antes.<>
             No te preocupes, ¡Se que esta vez lo pasaras!
@@ -56,6 +58,7 @@ VAR failed_test = 0
                     ¡Solo házmelo saber!
                     -> DONE
         -else:
+            ...
             ¡Genial, ya hablaste con mis compañeros! 
             Como te habia comentado, prepare un cuestionario para ver que tanto has conocido de la estación.
             ¿Te sientes preparado para hacerlo ahora?
