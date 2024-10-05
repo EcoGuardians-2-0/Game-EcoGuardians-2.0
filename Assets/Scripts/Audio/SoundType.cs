@@ -15,5 +15,9 @@ public enum SoundType
     EnviromentBackgroundMusic,
     OpenNote,
     TVOn,
-    TvOff
+    TvOff,
+    Act3BackgroundMusic,
+    Act1FlipCard,
+    Act1MatchPairs,
+    ActivityComplete,
 }
