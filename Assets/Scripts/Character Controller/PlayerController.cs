@@ -92,7 +92,6 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
         {
             characterController.stepOffset = originalStepOffset;
-            ySpeed = -0.5f;
             animator.SetBool("isGrounded", true);
             isGrounded = true;
             animator.SetBool("isJumping", false);
@@ -191,10 +190,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnLand()
     {
-        if (ySpeed < -2f && AudioManager.Instance != null)
+        Debug.Log("Landed with speed: " + ySpeed);
+        if (ySpeed < 0f && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayLandSound();
         }
+        ySpeed = 0f; // Reset ySpeed when landing
     }
 
     public void setCameraTransform(Transform cameraTransform)
