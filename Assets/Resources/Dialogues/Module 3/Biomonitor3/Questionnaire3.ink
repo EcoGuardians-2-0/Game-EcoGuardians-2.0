@@ -39,15 +39,15 @@ Tu puntaje final es {score} de {total_questions}.
 === q1
 Pregunta {current_question}:<>
 ¿Cuál es el impacto positivo que tiene la estación en la comunidad?
-    + [Disminuir el acceso a servicios locales.] -> incorrect
-    + [Promover el uso de vehículos no sostenibles.] -> incorrect
-    + [Generar empleo y fomentar el turismo responsable.] -> correct
-    + [Aumentar la competencia entre negocios locales.] -> incorrect
+    + [Acceso a servicios locales.] -> incorrect
+    + [Uso de carros no sostenibles.] -> incorrect
+    + [Generar empleo y fomentar turismo responsable.] -> correct
+    + [Competencia entre negocios locales.] -> incorrect
     
 === q2
 Pregunta {current_question}:<>
 ¿Cómo contribuyen los eventos al éxito del programa Awaq Bio-Tech?
-    +[Aumentar los costos del programa.] -> incorrect
+    +[Aumentar costos del programa.] -> incorrect
     +[Formar biomonitores y compartir conocimiento] -> correct
     +[Ofrecer descuentos en productos.] -> incorrect
     +[Limitar el acceso a información.] -> incorrect

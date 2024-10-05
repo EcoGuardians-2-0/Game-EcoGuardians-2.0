@@ -45,9 +45,9 @@ VAR already_talked = false
         -> finish
         
 === q1
-    Es una sala de reuniones y conferencias que se utiliza para organizar eventos de formación, capacitaciones y conferencias sobre biodiversidad y conservación. # animation: 3
+    Es una sala de reuniones y conferencias que se utiliza para <color=\#FEF445> organizar eventos de formación, capacitaciones y conferencias sobre biodiversidad y conservación</color>. # animation: 3
     +[¿Qué tipo de eventos se organizan en el Volumen de Conocimiento?]
-        Organizamos conferencias sobre biodiversidad y talleres de formación.
+        Organizamos <color=\#FEF445>conferencias sobre biodiversidad y talleres de formación </color>.
         Además de preparar reuniones con expertos en conservación y tecnología.
         -> question    
     +[¿Cómo contribuyen estos eventos al éxito del programa Awaq Bio-Tech?]
