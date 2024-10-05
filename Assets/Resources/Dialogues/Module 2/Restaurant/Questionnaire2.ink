@@ -54,9 +54,9 @@ Pregunta {current_question}:<>
 === q3
 Pregunta {current_question}:<>
 ¿Qué prácticas sostenibles implementa Luisa en la cocina?
-    + [Compra ingredientes importados] -> incorrect
-    + [Solo usa productos enlatados] -> incorrect
-    + [Utiliza ingredientes frescos y locales] -> correct
+    + [Usa ingredientes importados] -> incorrect
+    + [Usa productos enlatados] -> incorrect
+    + [Usa ingredientes frescos y locales] -> correct
     + [Prepara comida rápida para turistas] -> incorrect
     
 

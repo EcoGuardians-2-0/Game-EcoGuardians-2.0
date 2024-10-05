@@ -15,7 +15,7 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola, soy Luisa!Encantada de conocerte. Soy la chef del restaurante de la estación. #speaker: Luisa # animation: 1
+    ¡Hola, soy Luisa! Encantada de conocerte. Soy la chef del restaurante de la estación. #speaker: Luisa # animation: 1
     Estaré aqui para cualquier cosa que necesites sobre la comida o el restaurante.
     ->question
 
