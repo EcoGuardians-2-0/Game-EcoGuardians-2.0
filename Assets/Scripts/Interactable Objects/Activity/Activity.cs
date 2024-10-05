@@ -10,7 +10,6 @@ public class Activity : InteractableObject
     public GameObject activityTwo;
     [SerializeField]
     public GameObject activityThree;
-
     [SerializeField]
     private string ActOnequestID;
     [SerializeField]
@@ -43,9 +42,7 @@ public class Activity : InteractableObject
         {
             Destroy(gameObject);
         }
-
         base.Start();
-
     }
 
 
@@ -56,13 +53,20 @@ public class Activity : InteractableObject
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
         
-        if(itemName == "Activity1")
+        if(itemName == "Activity1"){
             activityOne.SetActive(true);
-        else if(itemName == "Activity2")
+            AudioManager.Instance.PlayMusic(SoundType.Act1BackgroundMusic);
+        }
+        else if(itemName == "Activity2"){
             activityTwo.SetActive(true);
-        else if(itemName == "Activity3")
+            AudioManager.Instance.PlayMusic(SoundType.Act2BackgroundMusic);
+        }
+        else if(itemName == "Activity3"){
             activityThree.SetActive(true);
-        else{
+            AudioManager.Instance.PlayMusic(SoundType.Act3BackgroundMusic);
+        }
+        else
+        {
             Debug.LogError("Activity not found");
         }       
     }

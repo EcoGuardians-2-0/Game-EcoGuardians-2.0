@@ -214,5 +214,6 @@ public class DisableObjects : MonoBehaviour
         EnableCharacerController();
         EnableCameras();
         EnableSwitchCamera();
+        AudioManager.Instance.PlayMusic(SoundType.EnviromentBackgroundMusic);
     }
 }
