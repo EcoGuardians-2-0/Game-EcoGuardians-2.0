@@ -21,5 +21,7 @@ public enum SoundType
     Act1MatchPairs,
     ActivityComplete,
     ActivityBtnSfx,
-    UIbtnSelected
+    UIbtnSelected,
+    CollectApple,
+    SnakeMove
 }

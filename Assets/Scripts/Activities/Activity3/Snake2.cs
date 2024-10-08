@@ -176,18 +176,22 @@ public class Snake2 : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S) && dir != Vector2.up)
         {
+            AudioManager.Instance.PlaySound(SoundType.SnakeMove);
             nextDir = Vector2.down;
         }
         else if (Input.GetKeyDown(KeyCode.W) && dir != Vector2.down)
         {
+            AudioManager.Instance.PlaySound(SoundType.SnakeMove);
             nextDir = Vector2.up;
         }
         else if (Input.GetKeyDown(KeyCode.D) && dir != Vector2.left)
         {
+            AudioManager.Instance.PlaySound(SoundType.SnakeMove);
             nextDir = Vector2.right;
         }
         else if (Input.GetKeyDown(KeyCode.A) && dir != Vector2.right)
         {
+            AudioManager.Instance.PlaySound(SoundType.SnakeMove);
             nextDir = Vector2.left;
         }
 
@@ -246,7 +250,9 @@ public class Snake2 : MonoBehaviour
     }
 
     private void EatFood(Vector2 newPosition)
-    {
+    {   
+        AudioManager.Instance.PlaySound(SoundType.CollectApple);
+        
         GameObject newTile = Instantiate(block);
         RectTransform newTileRect = newTile.GetComponent<RectTransform>();
         newTileRect.SetParent(transform.parent, false);

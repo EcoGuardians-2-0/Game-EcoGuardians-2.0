@@ -36,6 +36,7 @@ public class Act3LevelController : MonoBehaviour
         HelpIcon.GetComponent<Button>().onClick.AddListener(DisplayHelpIconPopUp);
         GoBackPopUp.GetComponent<Button>().onClick.AddListener(() => 
         {
+            AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
             HelpIconPopUp.gameObject.SetActive(false);
             Time.timeScale = 1; // Resume the game
         });
@@ -50,12 +51,15 @@ public class Act3LevelController : MonoBehaviour
 
     public void DisplayHelpIconPopUp()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         HelpIconPopUp.gameObject.SetActive(true);
         Time.timeScale = 0; // Pause the game
     }
 
     public void GameFinished(string score)
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityComplete);
+
         // Set the high score
         act3GameController.SetHighScore(int.Parse(score));
 

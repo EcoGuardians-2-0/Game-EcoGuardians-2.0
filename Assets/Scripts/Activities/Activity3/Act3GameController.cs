@@ -22,6 +22,8 @@ public class Act3GameController : GenericActivity
     }
     public void StartActivityThree()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         MenuField.gameObject.SetActive(false);
         levelController.InstantiateLevel();
     }
@@ -54,6 +56,7 @@ public class Act3GameController : GenericActivity
 
     public void QuitActivityThree()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         Activity.Instance.activityTwo.SetActive(false);   
         EnableWorldMap();
     }
