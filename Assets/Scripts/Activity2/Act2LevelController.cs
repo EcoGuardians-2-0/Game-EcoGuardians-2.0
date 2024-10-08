@@ -44,6 +44,11 @@ public class Act2LevelController : MonoBehaviour
     private int currentLevel = 0;
     private bool isTimerRunning = false;
 
+    void Awake()
+    {
+        act2GameController = FindObjectOfType<Act2GameController>();
+    }
+
     private void Update()
     {
         if (isTimerRunning)
@@ -306,12 +311,16 @@ public class Act2LevelController : MonoBehaviour
         {
             Debug.LogError("Invalid level number");
         }
-
-        // Update the levels completed to add one more level completed
-        act2GameController.UpdateLevelsCompleted();
-    
-        // Check if the current levels completed are the same as the quest needs to be completed
-        act2GameController.CheckLevelsCompleted();
+        
+        if(act2GameController != null)
+        {
+            act2GameController.UpdateLevelsCompleted();
+            act2GameController.CheckLevelsCompleted();
+        }
+        else
+        {
+            Debug.LogError("act2GameController is null");
+        }
         
         // Update the stars based on the level result
         Transform LevelsStarContainer = levelCompletePanel.transform.Find("LevelStarContainer");
@@ -432,7 +441,6 @@ public class Act2LevelController : MonoBehaviour
         // Set the level complete object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
-        act2GameController.EnableQuitButton();
     }
 
     public int GetCurrentLevel()

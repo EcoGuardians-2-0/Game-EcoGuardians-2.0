@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Act2GameController : MonoBehaviour
-{   
+{
     [SerializeField]
     private GameManager gameManager;
     [SerializeField]
@@ -46,12 +46,13 @@ public class Act2GameController : MonoBehaviour
 
         // Load the Scriptable Object
         act2ProgressSO = Resources.Load<Act2ProgressSO>("Activity2Progress/Activity2 progressSO");
-        
+
         // Add the menu buttons and the listeners
         AddMenuButtons();
-        
+
         GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
         quitButton.GetComponent<Button>().onClick.AddListener(QuitActivityTwo);
+        HelpIcon.GetComponent<Button>().onClick.AddListener(OnHelpIconClick);
     }
 
     public void AddMenuButtons()
@@ -104,7 +105,7 @@ public class Act2GameController : MonoBehaviour
 
             // Get the levels progress
             int starsToDisplay = GetLevelsProgress(i);
-            
+
             // Calculate the number of stars to display     
             foreach (string starName in starNames)
             {
@@ -168,11 +169,6 @@ public class Act2GameController : MonoBehaviour
         HelpIcon.gameObject.SetActive(false);
     }
 
-    public void DisableQuitButton()
-    {
-        quitButton.SetActive(false);
-    }
-
     public void EnableQuitButton()
     {
         quitButton.SetActive(true);
@@ -180,7 +176,7 @@ public class Act2GameController : MonoBehaviour
 
     public void HandleInfoAndBackButton()
     {
-        DisableQuitButton();
+        EnableQuitButton();
         DisableInfoIcon();
         EnableBackButton();
     }
@@ -209,7 +205,7 @@ public class Act2GameController : MonoBehaviour
 
     // Method to clean the Scriptable Objects
     public void CleanProgressGameTwo()
-    {   
+    {
         // Set the levels to false in the list
         for (int i = 0; i < numberOfLevels; i++)
         {
@@ -227,7 +223,7 @@ public class Act2GameController : MonoBehaviour
     {
         // Get the current level
         int currentLevel = levelController.GetCurrentLevel();
-        
+
         // Update the current level completed to true in the list
         levelsCompleted[currentLevel - 1] = true;
     }
@@ -251,7 +247,7 @@ public class Act2GameController : MonoBehaviour
 
     public void QuitActivityTwo()
     {
-        Activity.Instance.activityTwo.SetActive(false);
+        Activity.Instance.activityThree.SetActive(false);
         EnableWorldMap();
     }
 
