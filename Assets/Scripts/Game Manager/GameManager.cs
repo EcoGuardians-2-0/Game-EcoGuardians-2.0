@@ -161,6 +161,7 @@ public class GameManager : MonoBehaviour
         if (currentStage == GameStage.GameComplete)
         {
             Debug.Log("Game has finished");
+            questManager.SetNoTasksTitle();
             yield break;
         }
 
