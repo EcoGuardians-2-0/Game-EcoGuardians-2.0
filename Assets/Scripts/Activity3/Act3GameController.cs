@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,8 +8,7 @@ public class Act3GameController : MonoBehaviour
     [SerializeField]
     private Transform StartGameBtn;
     [SerializeField]
-    private Transform MenuField;
-
+    public Transform MenuField;
     public Act3LevelController levelController;
 
     // Scriptable Object progress
@@ -24,7 +20,6 @@ public class Act3GameController : MonoBehaviour
         act3ProgressSO = Resources.Load<Act3ProgressSO>("Activity3Progress/Activity3 progressSO");
         StartGameBtn.GetComponent<Button>().onClick.AddListener(StartActivityThree);
     }
-
     public void StartActivityThree()
     {
         MenuField.gameObject.SetActive(false);
@@ -54,12 +49,12 @@ public class Act3GameController : MonoBehaviour
     // Update the completed quest calling the game manager
     public void UpdateGameQuest()
     {
-        // gameManager.HandleQuestCompleted("quest_6");
+        gameManager.HandleQuestCompleted("quest_2.2");
     }
 
     public void QuitActivityThree()
     {
-        Activity.Instance.activityTwo.SetActive(false);
+        Activity.Instance.activityTwo.SetActive(false);   
         EnableWorldMap();
     }
 

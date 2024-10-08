@@ -34,7 +34,11 @@ public class Act3LevelController : MonoBehaviour
     void Awake()
     {
         HelpIcon.GetComponent<Button>().onClick.AddListener(DisplayHelpIconPopUp);
-        GoBackPopUp.GetComponent<Button>().onClick.AddListener(() => HelpIconPopUp.gameObject.SetActive(false));
+        GoBackPopUp.GetComponent<Button>().onClick.AddListener(() => 
+        {
+            HelpIconPopUp.gameObject.SetActive(false);
+            Time.timeScale = 1; // Resume the game
+        });
         quitGameBtn.GetComponent<Button>().onClick.AddListener(QuitGame);
         completedQuitGameBtn.GetComponent<Button>().onClick.AddListener(QuitGame);
     }
@@ -47,7 +51,7 @@ public class Act3LevelController : MonoBehaviour
     public void DisplayHelpIconPopUp()
     {
         HelpIconPopUp.gameObject.SetActive(true);
-        finalScoreText.text = act3GameController.GetHighScore().ToString();
+        Time.timeScale = 0; // Pause the game
     }
 
     public void GameFinished(string score)
@@ -64,6 +68,10 @@ public class Act3LevelController : MonoBehaviour
         levelCompletePanel.gameObject.SetActive(true);
         finalScoreText.text = score;
         highScoreText.text = act3GameController.GetHighScore().ToString();
+
+        // Update the related task in the task manager
+        if (act3GameController.GetHighScore() >= 10)
+            act3GameController.UpdateGameQuest();
 
         // Setup the listeners to the retry and go back buttons
         restartButton.GetComponent<Button>().onClick.AddListener(RestartGame);
@@ -82,14 +90,25 @@ public class Act3LevelController : MonoBehaviour
 
     private void QuitGame()
     {
+        // Clean the progress
+        snake.Restart();
+
         if(levelCompletePanel.gameObject.activeSelf)
         {
             levelCompletePanel.gameObject.SetActive(false);
         }
 
+        // Set up the game objects
+        HelpIcon.gameObject.SetActive(true);
+        quitGameBtn.gameObject.SetActive(true);
+        highScoreContainer.gameObject.SetActive(true);
+        
+
+        // Set the level field inactive
         levelField.gameObject.SetActive(false);
         act3GameController.QuitActivityThree();
+        
+        // Set the menu field active
+        act3GameController.MenuField.gameObject.SetActive(true);
     }
-
-
 }
