@@ -66,15 +66,17 @@ public class TutorialScript : MonoBehaviour
     private float[] keyStartTimes;
     private bool[] isColorChanged;
     private bool isTransitioning = false;
-    private bool isTimerActive = false;
+    // private bool isTimerActive = false;
     private bool isCharacterActive = false;
-    private float timer = 0f;
-    private float alertDuration = 3f;
+    // private float timer = 0f;
+    // private float alertDuration = 3f;
+    
     void Start()
     {
         keyStartTimes = new float[keyCodes.Length];
         isColorChanged = new bool[keyCodes.Length];
     }
+    
     private void OnEnable()
     {
         EventManager.Tutorial.OnFinishedTutorialDialogue += HandleOnFinishedTutorial;
