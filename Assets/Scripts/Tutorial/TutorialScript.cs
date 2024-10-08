@@ -91,10 +91,8 @@ public class TutorialScript : MonoBehaviour
             DisableObjects.Instance.disableCharacterController();
             isCharacterActive = true;
         }    
-        if (isTimerActive)
-            ActivateAndDeactivate();
         if (Input.GetKeyDown(KeyCode.L))
-            StartGame();
+            StartCoroutine(FinishTutorial());
         if (!isTransitioning)
         {
             if (Welcome.activeSelf)
@@ -344,9 +342,9 @@ public class TutorialScript : MonoBehaviour
     public void HandleOnFinishedTutorial()
     {
         T10.SetActive(false);
-        StartGame();
-
+        StartCoroutine(FinishTutorial());    
     }
+
     public void VerifyKeyT10()
     {
         if (DialogueManager.instance.isTalking)
@@ -360,24 +358,26 @@ public class TutorialScript : MonoBehaviour
         }
     }
 
-    public void StartGame()
+    public IEnumerator FinishTutorial()
     {
         WallCollider.SetActive(false);
         AlertStart.SetActive(true);
-        isTimerActive = true;
-        timer = 0f;
 
+        yield return StartCoroutine(ActivateAndDeactivate());
+        EventManager.Quest.OnQuestAssigned();
+        gameObject.SetActive(false);
     }
 
-    private void ActivateAndDeactivate()
+    public IEnumerator ActivateAndDeactivate()
     {
-        timer += Time.deltaTime;
+        AlertStart.SetActive(true);
 
-        if (timer >= alertDuration)
-        {
-            AlertStart.SetActive(false);
-            isTimerActive = false;
-        }
-        EventManager.Quest.OnQuestAssigned();
+        yield return new WaitForSeconds(3f);
+    
+        AlertStart.SetActive(false);
+    }
+
+    public void StartGame(){
+        StartCoroutine(FinishTutorial());
     }
 }
