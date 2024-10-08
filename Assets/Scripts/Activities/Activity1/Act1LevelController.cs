@@ -72,6 +72,8 @@ public class Act1LevelController : MonoBehaviour
 
     public void AddButtons(int level)
     {
+        Debug.Log("Adding buttons for level " + level);
+
         if (level == 1)
         {
             // Add the buttons to the list
@@ -182,9 +184,9 @@ public class Act1LevelController : MonoBehaviour
     // Get all the buttons based on the level
     public void GetButtons()
     {
-        // Debug.Log("Getting buttons");
+        Debug.Log("Getting buttons");
         GameObject[] objects = GameObject.FindGameObjectsWithTag("PuzzleButton");
-        // Debug.Log("Found " + objects.Length + " buttons");
+        Debug.Log("Found " + objects.Length + " buttons");
 
         for (int i = 0; i < objects.Length; i++)
         {
@@ -197,6 +199,8 @@ public class Act1LevelController : MonoBehaviour
     // Add the puzzles to the game 
     void AddGamePuzzles()
     {
+        Debug.Log("Adding game puzzles");
+
         int looper = btns.Count;
         int index = 0;
 
@@ -572,6 +576,20 @@ public class Act1LevelController : MonoBehaviour
         MenuField.gameObject.SetActive(true);
         // Set the current Object unactive and display the puzzle field
         act1GameController.InstantiateMenuButtons();
+
+        if (puzzleFieldLevelOne.gameObject.activeSelf)
+        {
+            puzzleFieldLevelOne.gameObject.SetActive(false);
+        }
+        else if (puzzleFieldLevelTwo.gameObject.activeSelf)
+        {
+            puzzleFieldLevelTwo.gameObject.SetActive(false);
+        }
+        else if (puzzleFieldLevelThree.gameObject.activeSelf)
+        {
+            puzzleFieldLevelThree.gameObject.SetActive(false);
+        }
+
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
         act1GameController.EnableQuitButton();

@@ -255,7 +255,7 @@ public class Act1GameController : GenericActivity
         }
         
         HelpIcon.gameObject.SetActive(true);
-        quitButton.SetActive(true);
+        EnableQuitButton();
     }
 
     public void DisableMenu()
