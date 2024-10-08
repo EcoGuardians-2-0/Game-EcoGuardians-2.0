@@ -20,4 +20,6 @@ public enum SoundType
     Act1FlipCard,
     Act1MatchPairs,
     ActivityComplete,
+    ActivityBtnSfx,
+    UIbtnSelected
 }

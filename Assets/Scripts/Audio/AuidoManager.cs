@@ -165,4 +165,14 @@ public class AudioManager : MonoBehaviour
         musicAudioSource.loop = true;
         musicAudioSource.Play();
     }
+
+    public void PlayUIHoverSound()
+    {
+        PlaySound(SoundType.uiHover);
+    }
+
+    public void PlayUISelectSound()
+    {
+        PlaySound(SoundType.UIbtnSelected);
+    }
 }

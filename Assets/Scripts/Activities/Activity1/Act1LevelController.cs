@@ -72,7 +72,7 @@ public class Act1LevelController : MonoBehaviour
 
     public void AddButtons(int level)
     {
-        Debug.Log("Adding buttons for level " + level);
+        // Debug.Log("Adding buttons for level " + level);
 
         if (level == 1)
         {
@@ -184,9 +184,9 @@ public class Act1LevelController : MonoBehaviour
     // Get all the buttons based on the level
     public void GetButtons()
     {
-        Debug.Log("Getting buttons");
+        // Debug.Log("Getting buttons");
         GameObject[] objects = GameObject.FindGameObjectsWithTag("PuzzleButton");
-        Debug.Log("Found " + objects.Length + " buttons");
+        // Debug.Log("Found " + objects.Length + " buttons");
 
         for (int i = 0; i < objects.Length; i++)
         {
@@ -199,7 +199,7 @@ public class Act1LevelController : MonoBehaviour
     // Add the puzzles to the game 
     void AddGamePuzzles()
     {
-        Debug.Log("Adding game puzzles");
+        // Debug.Log("Adding game puzzles");
 
         int looper = btns.Count;
         int index = 0;
@@ -273,6 +273,8 @@ public class Act1LevelController : MonoBehaviour
 
     IEnumerator FlipCard(Button btn, Sprite targetSprite)
     {
+        AudioManager.Instance.PlaySound(SoundType.Act1FlipCard);
+
         isAnimating = true;  // Start of animation
 
         btn.interactable = false;  // Prevent multiple clicks during animation
@@ -327,6 +329,7 @@ public class Act1LevelController : MonoBehaviour
             StartCoroutine(FadeOutCard(btns[firstGuessIndex]));
             StartCoroutine(FadeOutCard(btns[secondGuessIndex]));
 
+            AudioManager.Instance.PlaySound(SoundType.Act1MatchPairs);
             CheckIfGameIsFinished();
         }
         else
@@ -362,6 +365,7 @@ public class Act1LevelController : MonoBehaviour
 
         if (countCorrectGuesses == gameGuesses)
         {
+            AudioManager.Instance.PlaySound(SoundType.ActivityComplete);
             GoBackButton.gameObject.SetActive(false);
             levelCompletePanel.gameObject.SetActive(true);
             ShowAttemps.text = countGuesses.ToString();
@@ -573,6 +577,8 @@ public class Act1LevelController : MonoBehaviour
 
     public void GoBackLevels()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         MenuField.gameObject.SetActive(true);
         // Set the current Object unactive and display the puzzle field
         act1GameController.InstantiateMenuButtons();

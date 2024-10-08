@@ -79,6 +79,7 @@ public class Act1GameController : GenericActivity
 
     public void OnMenuButtonClick(int level)
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         switch (level)
         {
             case 0:
@@ -95,7 +96,7 @@ public class Act1GameController : GenericActivity
 
     public void InstantiateMenuButtons()
     {
-        Debug.Log("Instantiating menu buttons");
+        // Debug.Log("Instantiating menu buttons");
         string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
 
         GameObject[] objects = GameObject.FindGameObjectsWithTag("LevelSelectionButton");
@@ -195,12 +196,14 @@ public class Act1GameController : GenericActivity
     // Handle the information icon on clik
     public void OnHelpIconClick()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         HelpIconPopUp.gameObject.SetActive(true);
     }
 
     // Handle the back button on the help icon popup
     public void OnBackButtonClick()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         HelpIconPopUp.gameObject.SetActive(false);
     }
 
@@ -236,6 +239,7 @@ public class Act1GameController : GenericActivity
     // On click listener for the back button
     public void OnBackButtonClicked()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         // Display the menu field
         MenuField.gameObject.SetActive(true);
         InstantiateMenuButtons();
@@ -306,6 +310,7 @@ public class Act1GameController : GenericActivity
 
     public void QuitActivityOne()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         Activity.Instance.activityOne.SetActive(false);
         EnableWorldMap();
     }
