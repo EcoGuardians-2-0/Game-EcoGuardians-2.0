@@ -231,14 +231,14 @@ public class Act2GameController : MonoBehaviour
     // Update the completed quest calling the game manager
     public void UpdateGameQuest()
     {
-        gameManager.HandleQuestCompleted("quest_6");
+        gameManager.HandleQuestCompleted("quest_3.3");
     }
 
     //Check if the completed levels are two
     public void CheckLevelsCompleted()
     {
         // Look in the list of level completed if the two levels are completed
-        if (levelsCompleted[0] && levelsCompleted[1])
+        if (levelsCompleted[0] || levelsCompleted[1])
         {
             // Call the game manager to complete the questionnaire
             UpdateGameQuest();
