@@ -17,7 +17,7 @@ public class Activity : InteractableObject
     [SerializeField]
     private string ActThreequestID;
 
-    // Singleton pattern
+    // Remove Singleton pattern
     private static Activity _instance;
     public static Activity Instance
     {
@@ -31,20 +31,10 @@ public class Activity : InteractableObject
         }
     }
 
-    // With the singleton pattern, we can call the Start method from the base class
     new void Start()
     {
-        if (_instance == null)
-        {
-            _instance = this;
-        }
-        else if (_instance != this)
-        {
-            Destroy(gameObject);
-        }
         base.Start();
     }
-
 
     public override void Interact()
     {
@@ -70,4 +60,4 @@ public class Activity : InteractableObject
             Debug.LogError("Activity not found");
         }       
     }
-}    
+}
