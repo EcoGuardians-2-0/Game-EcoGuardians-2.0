@@ -156,6 +156,7 @@ public class QuestManager : MonoBehaviour
             // Basically, the condition checks if the toggle hasn't been created and if it has then it means the task has been completed.
             if(!(checkBox.GetComponent<Toggle>()  != null && checkBox.GetComponent<Toggle>().isOn))
             {
+                EventManager.MapIcon.OnDisplayIconFiltered(questId).Invoke(false);
                 totalQuestsCompleted++;
                 checkBox.AddComponent<Toggle>();
                 checkBox.GetComponent<Toggle>().isOn = true;
@@ -189,6 +190,7 @@ public class QuestManager : MonoBehaviour
         foreach (var questEntry in activeQuests)
         {
             GameObject activeQuest = questEntry.Value;
+            EventManager.MapIcon.OnDisplayIconFiltered(questEntry.Key).Invoke(false);
             AnimationsQuest.Instance.DeleteQuestAnimation(activeQuest);  // Llamar a la animación para eliminar la misión
             yield return new WaitForSeconds(0.5f);  // Esperar medio segundo
         }

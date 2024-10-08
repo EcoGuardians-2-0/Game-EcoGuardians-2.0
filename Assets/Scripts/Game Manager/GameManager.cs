@@ -87,7 +87,6 @@ public class GameManager : MonoBehaviour
     // Triggered when player completes a quest
     public void HandleQuestCompleted(string taskName)
     {
-        EventManager.MapIcon.OnDisplayIconFiltered(taskName).Invoke(false);
         questManager.CompleteQuest(taskName);
     }
 
