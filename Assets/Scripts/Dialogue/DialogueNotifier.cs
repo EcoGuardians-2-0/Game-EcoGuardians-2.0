@@ -25,5 +25,13 @@ public class DialogueNotifier
                 EventManager.Quest.OnQuestAssigned.Invoke();
             }
         }
+        else if(variableName == "global_tutorial_completed")
+        {
+            if (((Ink.Runtime.BoolValue)value).value)
+            {
+                EventManager.Tutorial.OnFinishedTutorialDialogue.Invoke();
+            }
+
+        }
     }
 }

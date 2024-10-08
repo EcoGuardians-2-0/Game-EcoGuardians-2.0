@@ -32,13 +32,13 @@ VAR already_talked = false
     Perfecto. Tu primera misión sera encontrar al biomonitor de la estación.  # animation: 3
     Recuerda revisar tu minimapa para poder ubicarlo y hablar con el.
     Tiene preparado muchas misiones para tí en este primer módulo
+    Espero que disfrutes tu visita a la estación.
     { global_tutorial_completed == false:
         ~ global_tutorial_completed = true
     }
     { already_talked == false:
         ~already_talked = true
     }
-    Espero que disfrutes tu visita a la estación.
     -> DONE
 
 === not_ready

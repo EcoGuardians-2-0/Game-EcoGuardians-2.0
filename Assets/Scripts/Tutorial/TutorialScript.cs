@@ -75,6 +75,15 @@ public class TutorialScript : MonoBehaviour
         keyStartTimes = new float[keyCodes.Length];
         isColorChanged = new bool[keyCodes.Length];
     }
+    private void OnEnable()
+    {
+        EventManager.Tutorial.OnFinishedTutorialDialogue += HandleOnFinishedTutorial;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Tutorial.OnFinishedTutorialDialogue -= HandleOnFinishedTutorial;
+    }
 
     void Update()
     {
@@ -134,7 +143,10 @@ public class TutorialScript : MonoBehaviour
         else if (NPC2.activeSelf)
             HandleEnterKey(NPC2, NPC3);
         else if (NPC3.activeSelf)
+        {
+            DialogueManager.instance.SetVariable("global_tutorial", DialogueVariableSetter.SetVariable(true));
             HandleEnterKey(NPC3, T10);
+        }
         else if (T10.activeSelf)
             VerifyKeyT10();
     }
@@ -329,20 +341,23 @@ public class TutorialScript : MonoBehaviour
         }
     }
 
-    
+    public void HandleOnFinishedTutorial()
+    {
+        T10.SetActive(false);
+        StartGame();
+
+    }
     public void VerifyKeyT10()
-    {/*
-        if (Input.GetKeyDown(KeyCode.Return))
-            Enter_UI_T10.color = targetColor;
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-            Left_UI.color = targetColor;
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-            Right_UI.color = targetColor;
-        if (Enter_UI_T10.color == targetColor && (Left_UI.color == targetColor || Right_UI.color == targetColor))
+    {
+        if (DialogueManager.instance.isTalking)
         {
-            T10.SetActive(false);
-            StartGame();
-        }*/
+            if (Input.GetKeyDown(KeyCode.Return))
+                Enter_UI_T10.color = targetColor;
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Left_UI.color = targetColor;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Right_UI.color = targetColor;
+        }
     }
 
     public void StartGame()
