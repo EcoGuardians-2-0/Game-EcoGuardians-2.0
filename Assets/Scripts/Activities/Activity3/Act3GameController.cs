@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Act3GameController : MonoBehaviour
+public class Act3GameController : GenericActivity
 {
     [SerializeField]
     private GameManager gameManager;

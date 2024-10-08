@@ -58,6 +58,7 @@ public class ControllerPauseUI : MonoBehaviour
     public void Resume()
     {
         disableObjects.hideCursor();
+        EventManager.Pause.OnUnpause?.Invoke();
         pauseMenuUI.SetActive(false);
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         Time.timeScale = 1f; // Restaura el tiempo de juego

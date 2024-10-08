@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class Act2GameController : MonoBehaviour
+public class Act1GameController : GenericActivity
 {
     [SerializeField]
     private GameManager gameManager;
@@ -16,25 +18,29 @@ public class Act2GameController : MonoBehaviour
     [SerializeField]
     private Transform MenuField;
     [SerializeField]
-    private Transform puzzleField;
-    [SerializeField]
-    private GameObject menuButton;
+    private Transform puzzleFieldLevelOne;
     [SerializeField]
     private GameObject quitButton;
+    [SerializeField]
+    private Transform puzzleFieldLevelTwo;
+    [SerializeField]
+    private Transform puzzleFieldLevelThree;
+    [SerializeField]
+    private GameObject menuButton;
     [SerializeField]
     private Sprite Yellow_Star;
     [SerializeField]
     private Sprite Black_Star;
     [SerializeField]
-    private int numberOfLevels = 2;
-    public Act2LevelController levelController;
+    private int numberOfLevels = 3;
+    [SerializeField]
+    private Act1LevelController levelController;
     public List<Button> btns = new List<Button>();
     public List<int> levelsProgress = new List<int>();
+    private List<bool> levelsCompleted = new List<bool>();
 
     // Scriptable Object progress
-    private Act2ProgressSO act2ProgressSO;
-
-    private List<bool> levelsCompleted = new List<bool>();
+    private Act1ProgressSO act1ProgressSO;
 
     void Awake()
     {
@@ -45,20 +51,18 @@ public class Act2GameController : MonoBehaviour
         }
 
         // Load the Scriptable Object
-        act2ProgressSO = Resources.Load<Act2ProgressSO>("Activity2Progress/Activity2 progressSO");
+        act1ProgressSO = Resources.Load<Act1ProgressSO>("Activity1Progress/Activity1 progressSO");
 
-        // Add the menu buttons and the listeners
+        // Add the menu buttons and the listener to the back button
         AddMenuButtons();
-
         GoBackButton.GetComponent<Button>().onClick.AddListener(OnBackButtonClicked);
-        quitButton.GetComponent<Button>().onClick.AddListener(QuitActivityTwo);
-        HelpIcon.GetComponent<Button>().onClick.AddListener(OnHelpIconClick);
+        quitButton.GetComponent<Button>().onClick.AddListener(QuitActivityOne);
     }
 
     public void AddMenuButtons()
     {
         // Modify depeding on the number of levels
-        for (int i = 1; i <= numberOfLevels; i++)
+        for (int i = 0; i < numberOfLevels; i++)
         {
             GameObject btn = Instantiate(menuButton);
             btn.name = "" + i;
@@ -75,19 +79,23 @@ public class Act2GameController : MonoBehaviour
 
     public void OnMenuButtonClick(int level)
     {
-        puzzleField.gameObject.SetActive(true);
-
-        HandleInfoAndBackButton();
-
-        // Set the current Object unactive and display the puzzle field
-        DisableMenu();
-
-        // Call the levelController to add the cards first to the level
-        levelController.InstantiateLevel(level);
+        switch (level)
+        {
+            case 0:
+                BeginLevelOne();
+                break;
+            case 1:
+                BeginLevelTwo();
+                break;
+            case 2:
+                BeginLevelThree();
+                break;
+        }
     }
 
     public void InstantiateMenuButtons()
     {
+        Debug.Log("Instantiating menu buttons");
         string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
 
         GameObject[] objects = GameObject.FindGameObjectsWithTag("LevelSelectionButton");
@@ -105,7 +113,7 @@ public class Act2GameController : MonoBehaviour
 
             // Get the levels progress
             int starsToDisplay = GetLevelsProgress(i);
-
+            
             // Calculate the number of stars to display     
             foreach (string starName in starNames)
             {
@@ -132,17 +140,56 @@ public class Act2GameController : MonoBehaviour
         int temp = 0;
         if (index == 0)
         {
-            temp = act2ProgressSO.level1Progress;
+            temp = act1ProgressSO.level1Progress;
         }
         else if (index == 1)
         {
-            temp = act2ProgressSO.level2Progress;
+            temp = act1ProgressSO.level2Progress;
         }
         else if (index == 2)
         {
-            temp = act2ProgressSO.level3Progress;
+            temp = act1ProgressSO.level3Progress;
         }
         return temp;
+    }
+
+    public void BeginLevelOne()
+    {
+
+        puzzleFieldLevelOne.gameObject.SetActive(true);
+
+        HandleInfoAndBackButton();
+
+        DisableMenu();
+
+        levelController.InstantiateLevel(1);
+    }
+
+    public void BeginLevelTwo()
+    {
+
+        puzzleFieldLevelTwo.gameObject.SetActive(true);
+        HandleInfoAndBackButton();
+
+        // Set the current Object unactive and display the puzzle field
+        DisableMenu();
+
+        // Call the levelController to add the cards first to the level
+        levelController.InstantiateLevel(2);
+    }
+
+    public void BeginLevelThree()
+    {
+
+        puzzleFieldLevelThree.gameObject.SetActive(true);
+
+        HandleInfoAndBackButton();
+
+        // Set the current Object unactive and display the puzzle field
+        DisableMenu();
+
+        // Call the levelController to add the cards first to the level
+        levelController.InstantiateLevel(3);
     }
 
     // Handle the information icon on clik
@@ -169,6 +216,11 @@ public class Act2GameController : MonoBehaviour
         HelpIcon.gameObject.SetActive(false);
     }
 
+    public void DisableQuitButton()
+    {
+        quitButton.SetActive(false);
+    }
+
     public void EnableQuitButton()
     {
         quitButton.SetActive(true);
@@ -176,7 +228,7 @@ public class Act2GameController : MonoBehaviour
 
     public void HandleInfoAndBackButton()
     {
-        EnableQuitButton();
+        DisableQuitButton();
         DisableInfoIcon();
         EnableBackButton();
     }
@@ -189,11 +241,19 @@ public class Act2GameController : MonoBehaviour
         InstantiateMenuButtons();
         GoBackButton.gameObject.SetActive(false);
 
-        if (puzzleField.gameObject.activeSelf)
+        if (puzzleFieldLevelOne.gameObject.activeSelf)
         {
-            puzzleField.gameObject.SetActive(false);
+            puzzleFieldLevelOne.gameObject.SetActive(false);
         }
-
+        else if (puzzleFieldLevelTwo.gameObject.activeSelf)
+        {
+            puzzleFieldLevelTwo.gameObject.SetActive(false);
+        }
+        else if (puzzleFieldLevelThree.gameObject.activeSelf)
+        {
+            puzzleFieldLevelThree.gameObject.SetActive(false);
+        }
+        
         HelpIcon.gameObject.SetActive(true);
         quitButton.SetActive(true);
     }
@@ -212,10 +272,9 @@ public class Act2GameController : MonoBehaviour
             levelsCompleted[i] = false;
         }
 
-        // Set the levels progress to 0 in the SO
-        act2ProgressSO.level1Progress = 0;
-        act2ProgressSO.level2Progress = 0;
-        act2ProgressSO.level3Progress = 0;
+        act1ProgressSO.level1Progress = 0;
+        act1ProgressSO.level2Progress = 0;
+        act1ProgressSO.level3Progress = 0;
     }
 
     // Update the leveles completed
@@ -231,23 +290,23 @@ public class Act2GameController : MonoBehaviour
     // Update the completed quest calling the game manager
     public void UpdateGameQuest()
     {
-        gameManager.HandleQuestCompleted("quest_3.3");
+        gameManager.HandleQuestCompleted("quest_1.6");
     }
 
     //Check if the completed levels are two
     public void CheckLevelsCompleted()
     {
         // Look in the list of level completed if the two levels are completed
-        if (levelsCompleted[0] || levelsCompleted[1])
+        if (levelsCompleted[0] && levelsCompleted[1])
         {
             // Call the game manager to complete the questionnaire
             UpdateGameQuest();
         }
     }
 
-    public void QuitActivityTwo()
+    public void QuitActivityOne()
     {
-        Activity.Instance.activityThree.SetActive(false);
+        Activity.Instance.activityOne.SetActive(false);
         EnableWorldMap();
     }
 

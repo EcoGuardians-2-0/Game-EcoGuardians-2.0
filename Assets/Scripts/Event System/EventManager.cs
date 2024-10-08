@@ -9,6 +9,7 @@ public class EventManager
     public readonly static MapIconEvents MapIcon = new MapIconEvents();
     public readonly static LetterEvents Letter = new LetterEvents();
     public readonly static TutorialEvents Tutorial = new TutorialEvents();
+    public readonly static PauseEvents Pause = new PauseEvents();
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
@@ -42,6 +43,11 @@ public class EventManager
     public class TutorialEvents
     {
         public UnityAction OnFinishedTutorialDialogue;
+    }
+
+    public class PauseEvents
+    {
+        public UnityAction OnUnpause;
     }
 }
 
