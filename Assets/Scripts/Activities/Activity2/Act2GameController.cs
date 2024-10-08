@@ -75,6 +75,8 @@ public class Act2GameController : GenericActivity
 
     public void OnMenuButtonClick(int level)
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         puzzleField.gameObject.SetActive(true);
 
         HandleInfoAndBackButton();
@@ -148,12 +150,14 @@ public class Act2GameController : GenericActivity
     // Handle the information icon on clik
     public void OnHelpIconClick()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         HelpIconPopUp.gameObject.SetActive(true);
     }
 
     // Handle the back button on the help icon popup
     public void OnBackButtonClick()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         HelpIconPopUp.gameObject.SetActive(false);
     }
 
@@ -184,6 +188,8 @@ public class Act2GameController : GenericActivity
     // On click listener for the back button
     public void OnBackButtonClicked()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         // Display the menu field
         MenuField.gameObject.SetActive(true);
         InstantiateMenuButtons();
@@ -247,6 +253,8 @@ public class Act2GameController : GenericActivity
 
     public void QuitActivityTwo()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         Activity.Instance.activityThree.SetActive(false);
         EnableWorldMap();
     }

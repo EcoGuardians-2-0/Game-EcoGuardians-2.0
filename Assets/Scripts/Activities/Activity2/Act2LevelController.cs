@@ -278,6 +278,8 @@ public class Act2LevelController : MonoBehaviour
 
     public void GameFinished()
     {   
+        AudioManager.Instance.PlaySound(SoundType.ActivityComplete);
+
         GoBackButton.gameObject.SetActive(false);
         levelCompletePanel.gameObject.SetActive(true);
 
@@ -426,6 +428,8 @@ public class Act2LevelController : MonoBehaviour
     // Restart the current level
     public void RestartGame()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         levelCompletePanel.gameObject.SetActive(false);
         GoBackButton.gameObject.SetActive(true);
         InstantiateLevel(currentLevel);
@@ -433,6 +437,8 @@ public class Act2LevelController : MonoBehaviour
 
     public void GoBackLevels()
     {
+        AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+
         MenuField.gameObject.SetActive(true);
         // Update the menu buttons based on the level result
         act2GameController.InstantiateMenuButtons();
