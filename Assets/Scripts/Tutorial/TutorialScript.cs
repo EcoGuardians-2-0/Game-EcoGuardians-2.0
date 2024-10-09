@@ -14,6 +14,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject Tutorial_Start;
     public GameObject Movement;
     public GameObject Pause;
+    public GameObject Settings;
     public GameObject Run;
     public GameObject Jump;
     public GameObject Camera;
@@ -107,7 +108,9 @@ public class TutorialScript : MonoBehaviour
         if (T1.activeSelf)
             VerifyKeyT1();
         else if (Pause.activeSelf)
-            HandleEnterKey(Pause, T2);
+            HandleEnterKey(Pause, Settings);
+        else if (Settings.activeSelf)
+            HandleEnterKey(Settings, T2);
         else if (T2.activeSelf)
             VerifyKeyT2();
         else if (Run.activeSelf)
