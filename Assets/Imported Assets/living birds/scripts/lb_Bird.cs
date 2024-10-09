@@ -9,11 +9,7 @@ public class lb_Bird : MonoBehaviour
 		sing,
 		preen,
 		ruffle,
-		peck,
-		hopForward,
-		hopBackward,
-		hopLeft,
-		hopRight,
+		peck
 	}
 
 	public AudioClip song1;
@@ -445,22 +441,6 @@ public class lb_Bird : MonoBehaviour
 				{
 					DisplayBehavior(birdBehaviors.ruffle);
 				}
-				else if (!perched && rand < .85)
-				{
-					DisplayBehavior(birdBehaviors.hopForward);
-				}
-				else if (!perched && rand < .9)
-				{
-					DisplayBehavior(birdBehaviors.hopLeft);
-				}
-				else if (!perched && rand < .95)
-				{
-					DisplayBehavior(birdBehaviors.hopRight);
-				}
-				else if (!perched && rand <= 1)
-				{
-					DisplayBehavior(birdBehaviors.hopBackward);
-				}
 				else
 				{
 					DisplayBehavior(birdBehaviors.sing);
@@ -491,18 +471,6 @@ public class lb_Bird : MonoBehaviour
 				break;
 			case birdBehaviors.peck:
 				anim.SetTrigger(peckBoolHash);
-				break;
-			case birdBehaviors.hopForward:
-				anim.SetInteger(hopIntHash, 1);
-				break;
-			case birdBehaviors.hopLeft:
-				anim.SetInteger(hopIntHash, -2);
-				break;
-			case birdBehaviors.hopRight:
-				anim.SetInteger(hopIntHash, 2);
-				break;
-			case birdBehaviors.hopBackward:
-				anim.SetInteger(hopIntHash, -1);
 				break;
 		}
 	}
