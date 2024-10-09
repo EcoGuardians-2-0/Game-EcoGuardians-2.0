@@ -10,6 +10,10 @@ public class InputManager : MonoBehaviour
         {
             EventManager.CameraView.OnChangeCameraView?.Invoke();
         }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            EventManager.Minimap.OnDisplayMinimap?.Invoke();
+        }
     }
 }
 

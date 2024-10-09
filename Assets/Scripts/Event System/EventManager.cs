@@ -12,7 +12,7 @@ public class EventManager
     public readonly static PauseEvents Pause = new PauseEvents();
     public readonly static PhotographEvents Photograph = new PhotographEvents();
     public readonly static CameraViewEvents CameraView = new CameraViewEvents();
-    public readonly static MinimapEvents minimap = new MinimapEvents();
+    public readonly static MinimapEvents Minimap = new MinimapEvents();
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
