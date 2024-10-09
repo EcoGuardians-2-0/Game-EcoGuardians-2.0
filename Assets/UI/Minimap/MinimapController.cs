@@ -30,8 +30,6 @@ public class MinimapController : MonoBehaviour
         EventManager.Minimap.OnDisplayMinimap -= HandleOnDisplayMinimap;
         EventManager.Minimap.OnLockMiniMap -= HandleOnLockMinimap;
         EventManager.Minimap.OnUnlockMiniMap -= HandleOnUnlockMiniMap;
-        miniMap.GetComponent<Canvas>().enabled = true;
-
     }
 
     public void HandleOnLockMinimap()
