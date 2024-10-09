@@ -16,7 +16,7 @@ public class PhotoCapture : MonoBehaviour
 
     [Header("Photo Fader Effect")]
     [SerializeField] private Animator fadingAnimation;
-    
+
     [Header("Photo Delay Effect")]
     [SerializeField] private Animator ActivatePhotoDelayAnimation;
 
@@ -54,8 +54,8 @@ public class PhotoCapture : MonoBehaviour
     {
         isCapturing = true;
         cameraUI.SetActive(true);
-        
-        ActivatePhotoDelayAnimation.Play("CameraShow");        
+
+        ActivatePhotoDelayAnimation.Play("CameraShow");
 
         float elapsedTime = 0f;
         while (elapsedTime < captureDelay)
@@ -95,6 +95,21 @@ public class PhotoCapture : MonoBehaviour
             if (hit.collider.CompareTag("BlueBird"))
             {
                 Debug.Log("BlueBird detected!");
+            }
+
+            if (hit.collider.CompareTag("RedBird"))
+            {
+                Debug.Log("RedBird detected!");
+            }
+
+            if (hit.collider.CompareTag("YellowBird"))
+            {
+                Debug.Log("YellowBird detected!");
+            }
+
+            if (hit.collider.CompareTag("BlackBird"))
+            {
+                Debug.Log("BlackBird detected!");
             }
         }
     }
