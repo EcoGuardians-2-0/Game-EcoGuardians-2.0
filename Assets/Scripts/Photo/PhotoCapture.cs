@@ -30,11 +30,14 @@ public class PhotoCapture : MonoBehaviour
     [SerializeField] private Text photoTextField;
     [SerializeField] private Animator PhotoText;
 
+    [SerializeField] private PhotoController photoController;
+
     private Texture2D screenCapture;
     private bool viewingPhoto;
     private bool isCapturing;
     private bool isInFirstCamera;
     private bool canTakePhoto;
+    private bool birdDetected;
 
     private void Start()
     {
@@ -118,24 +121,32 @@ public class PhotoCapture : MonoBehaviour
             {
                 Debug.Log("BlueBird detected!");
                 photoTextField.text = "Blue Bird";
+                photoController.AddBird();
+                birdDetected = true;
             }
 
             if (hit.collider.CompareTag("RedBird"))
             {
                 Debug.Log("RedBird detected!");
                 photoTextField.text = "Red Bird";
+                photoController.AddBird();
+                birdDetected = true;
             }
 
             if (hit.collider.CompareTag("YellowBird"))
             {
                 Debug.Log("YellowBird detected!");
                 photoTextField.text = "Yellow Bird";
+                photoController.AddBird();
+                birdDetected = true;
             }
 
             if (hit.collider.CompareTag("BlackBird"))
             {
                 Debug.Log("BlackBird detected!");
                 photoTextField.text = "Black Bird";
+                photoController.AddBird();
+                birdDetected = true;
             }
         }
 
@@ -172,6 +183,16 @@ public class PhotoCapture : MonoBehaviour
     {
         yield return new WaitForSeconds(autoRemoveDelay);
         RemovePhoto();
+
+        if (birdDetected)
+        {
+            // Display for two seconds the bird count
+            photoController.DisplayBirdCount();
+            yield return new WaitForSeconds(2f);
+            photoController.HideBirdCount();
+        }
+
+        birdDetected = false;
     }
 
     void RemovePhoto()
