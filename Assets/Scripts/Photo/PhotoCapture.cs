@@ -26,6 +26,10 @@ public class PhotoCapture : MonoBehaviour
     [Header("Auto Remove Photo")]
     [SerializeField] private float autoRemoveDelay = 3f;
 
+    [Header("Photo Text")]
+    [SerializeField] private Text photoTextField;
+    [SerializeField] private Animator PhotoText;
+
     private Texture2D screenCapture;
     private bool viewingPhoto;
     private bool isCapturing;
@@ -113,21 +117,25 @@ public class PhotoCapture : MonoBehaviour
             if (hit.collider.CompareTag("BlueBird"))
             {
                 Debug.Log("BlueBird detected!");
+                photoTextField.text = "Blue Bird";
             }
 
             if (hit.collider.CompareTag("RedBird"))
             {
                 Debug.Log("RedBird detected!");
+                photoTextField.text = "Red Bird";
             }
 
             if (hit.collider.CompareTag("YellowBird"))
             {
                 Debug.Log("YellowBird detected!");
+                photoTextField.text = "Yellow Bird";
             }
 
             if (hit.collider.CompareTag("BlackBird"))
             {
                 Debug.Log("BlackBird detected!");
+                photoTextField.text = "Black Bird";
             }
         }
 
@@ -146,6 +154,9 @@ public class PhotoCapture : MonoBehaviour
         photoFrame.SetActive(true);
 
         fadingAnimation.Play("PhotoFade");
+
+        // Play the text animation just one time
+        PhotoText.Play("PhotoText");
     }
 
     IEnumerator CameraFlashEffect()
@@ -168,6 +179,7 @@ public class PhotoCapture : MonoBehaviour
         viewingPhoto = false;
         photoFrame.SetActive(false);
         cameraUI.SetActive(false);
+        photoTextField.text = "";
     }
 
     private void HandleTakePhoto(bool canTakePhoto)
