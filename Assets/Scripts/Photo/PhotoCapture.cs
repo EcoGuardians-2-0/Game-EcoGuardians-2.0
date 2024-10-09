@@ -26,28 +26,33 @@ public class PhotoCapture : MonoBehaviour
     private Texture2D screenCapture;
     private bool viewingPhoto;
     private bool isCapturing;
+    private bool isInFirstCamera;
     private bool canTakePhoto;
 
 
     private void Start()
     {
         canTakePhoto = false;
+        isInFirstCamera = false;
         screenCapture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
     }
 
     private void OnEnable()
     {
         EventManager.Photograph.OnActiveCamera += HandleTakePhoto;
+        EventManager.Photograph.OnFirstPerson += HandleOnFirstCamera;
     }
 
     private void OnDisable()
     {
         EventManager.Photograph.OnActiveCamera -= HandleTakePhoto;
+        EventManager.Photograph.OnFirstPerson -= HandleOnFirstCamera;
+
     }
 
     private void Update()
     {
-        if (canTakePhoto)
+        if (canTakePhoto && isInFirstCamera)
         {
             if (Input.GetMouseButtonDown(1) && !viewingPhoto && !isCapturing)
             {
@@ -163,5 +168,10 @@ public class PhotoCapture : MonoBehaviour
     private void HandleTakePhoto(bool canTakePhoto)
     {
         this.canTakePhoto = canTakePhoto;
+    }
+
+    private void HandleOnFirstCamera(bool isInFirstCamera )
+    {
+        this.isInFirstCamera = isInFirstCamera;
     }
 }

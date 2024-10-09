@@ -11,6 +11,8 @@ public class EventManager
     public readonly static TutorialEvents Tutorial = new TutorialEvents();
     public readonly static PauseEvents Pause = new PauseEvents();
     public readonly static PhotographEvents Photograph = new PhotographEvents();
+    public readonly static CameraViewEvents CameraView = new CameraViewEvents();
+    public readonly static MinimapEvents minimap = new MinimapEvents();
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
@@ -54,6 +56,19 @@ public class EventManager
     public class PhotographEvents
     {
         public UnityAction<bool> OnActiveCamera;
+        public UnityAction<bool> OnFirstPerson;
+    }
+
+    public class CameraViewEvents
+    {
+        public UnityAction OnChangeCameraView;
+    }
+
+    public class MinimapEvents
+    {
+        public UnityAction OnDisplayMinimap;
+        public UnityAction OnLockMiniMap;
+        public UnityAction OnUnlockMiniMap;
     }
 }
 

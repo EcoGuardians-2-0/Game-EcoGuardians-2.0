@@ -24,12 +24,18 @@ public class SwitchCamera : MonoBehaviour
         UpdateCameraSensitivity();
     }
 
+    private void OnEnable()
+    {
+        EventManager.CameraView.OnChangeCameraView += HandleOnChangeCameraView;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.CameraView.OnChangeCameraView -= HandleOnChangeCameraView;
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            thirdActive = !thirdActive;
-        }
 
         UpdateActiveCamera();
 
@@ -41,18 +47,31 @@ public class SwitchCamera : MonoBehaviour
         }
     }
 
-    void UpdateActiveCamera()
+    private void HandleOnChangeCameraView()
     {
+        thirdActive = !thirdActive;
         if (thirdActive)
         {
             FirstCam.Priority = 10;
             ThirdCam.Priority = 11;
-            UpdateRecentering(ThirdCam);
+            EventManager.Photograph.OnFirstPerson.Invoke(false);
         }
         else
         {
             ThirdCam.Priority = 10;
             FirstCam.Priority = 11;
+            EventManager.Photograph.OnFirstPerson.Invoke(true);
+        }
+    }
+
+    void UpdateActiveCamera()
+    {
+        if (thirdActive)
+        {
+            UpdateRecentering(ThirdCam);
+        }
+        else
+        {
             UpdateRecentering(FirstCam);
         }
     }
