@@ -190,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnLand()
     {
-        Debug.Log("Landed with speed: " + ySpeed);
+        // Debug.Log("Landed with speed: " + ySpeed);
         if (ySpeed < 0f && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayLandSound();
