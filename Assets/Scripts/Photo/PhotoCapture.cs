@@ -8,7 +8,7 @@ public class PhotoCapture : MonoBehaviour
     [Header("Photo Taker")]
     [SerializeField] private Image photoDisplayArea;
     [SerializeField] private GameObject photoFrame;
-    // [SerializeField] private GameObject cameraUI;
+    [SerializeField] private GameObject cameraUI;
 
     [Header("Flash Effect")]
     [SerializeField] private GameObject cameraFlash;
@@ -16,9 +16,16 @@ public class PhotoCapture : MonoBehaviour
 
     [Header("Photo Fader Effect")]
     [SerializeField] private Animator fadingAnimation;
+    
+    [Header("Photo Delay Effect")]
+    [SerializeField] private Animator ActivatePhotoDelayAnimation;
+
+    [Header("Capture Delay")]
+    [SerializeField] private float captureDelay = 2f;
 
     private Texture2D screenCapture;
     private bool viewingPhoto;
+    private bool isCapturing;
 
     private void Start()
     {
@@ -27,24 +34,50 @@ public class PhotoCapture : MonoBehaviour
 
     private void Update()
     {
-        // Get the right click of the mouse
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !viewingPhoto && !isCapturing)
         {
-            if(!viewingPhoto)
-            {
-                StartCoroutine(CapturePhoto());
-            }
-            else
-            {
-                RemovePhoto();
-            }  
+            StartCoroutine(PrepareCapture());
         }
+        else if (Input.GetMouseButtonUp(1) && isCapturing)
+        {
+            StopCoroutine(PrepareCapture());
+            isCapturing = false;
+            cameraUI.SetActive(false);
+        }
+        else if (Input.GetMouseButtonDown(1) && viewingPhoto)
+        {
+            RemovePhoto();
+        }
+    }
+
+    IEnumerator PrepareCapture()
+    {
+        isCapturing = true;
+        cameraUI.SetActive(true);
+        
+        ActivatePhotoDelayAnimation.Play("CameraShow");        
+
+        float elapsedTime = 0f;
+        while (elapsedTime < captureDelay)
+        {
+            if (!Input.GetMouseButton(1))
+            {
+                cameraUI.SetActive(false);
+                isCapturing = false;
+                yield break;
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        StartCoroutine(CapturePhoto());
     }
 
     IEnumerator CapturePhoto()
     {
-        // cameraUI.SetActive(false);
-        // Camera UI set false
+        isCapturing = false;
+        cameraUI.SetActive(false);
         viewingPhoto = true;
 
         yield return new WaitForEndOfFrame();
@@ -55,7 +88,6 @@ public class PhotoCapture : MonoBehaviour
         screenCapture.Apply();
         ShowPhoto();
 
-        // Send a raycast that occupies all the size
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         if (Physics.Raycast(ray, out hit))
@@ -69,11 +101,10 @@ public class PhotoCapture : MonoBehaviour
 
     void ShowPhoto()
     {
-        //Do flash
         StartCoroutine(CameraFlashEffect());
 
-        Sprite photoSprite = Sprite.Create(screenCapture, 
-            new Rect(0, 0, screenCapture.width, screenCapture.height), 
+        Sprite photoSprite = Sprite.Create(screenCapture,
+            new Rect(0, 0, screenCapture.width, screenCapture.height),
             new Vector2(0.5f, 0.5f), 100.0f);
         photoDisplayArea.sprite = photoSprite;
 
@@ -83,8 +114,9 @@ public class PhotoCapture : MonoBehaviour
     }
 
     IEnumerator CameraFlashEffect()
-    {   
-        // Play some audio
+    {
+        AudioManager.Instance.PlaySound(SoundType.TakePhoto);
+
         cameraFlash.SetActive(true);
         yield return new WaitForSeconds(flashTime);
         cameraFlash.SetActive(false);
@@ -94,7 +126,6 @@ public class PhotoCapture : MonoBehaviour
     {
         viewingPhoto = false;
         photoFrame.SetActive(false);
-        // Camera UI
-        // cameraUI.SetActive(true);
+        cameraUI.SetActive(false);
     }
 }

@@ -23,5 +23,6 @@ public enum SoundType
     ActivityBtnSfx,
     UIbtnSelected,
     CollectApple,
-    SnakeMove
+    SnakeMove,
+    TakePhoto
 }
