@@ -83,6 +83,7 @@ public class DialogueManager : MonoBehaviour
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
+        EventManager.Photograph.OnActiveCamera(false);
 
         currentStory = new Story(inkJSON.text);
         currentSpeaker = "";
@@ -102,6 +103,7 @@ public class DialogueManager : MonoBehaviour
         isTalking = false;
         dialogueUI.dialogueUI.SetActive(false);
         SelectionManager.instance.isInteracting = false;
+        EventManager.Photograph.OnActiveCamera(true);
         DisableObjects.Instance.ToggleSelectionCursor();
         DisableObjects.Instance.ToggleTooltip();
         DisableObjects.Instance.disableCharacterController();

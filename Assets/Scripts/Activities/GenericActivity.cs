@@ -6,13 +6,14 @@ public class GenericActivity : MonoBehaviour
 {
     void OnEnable()
     {
+        EventManager.Photograph.OnActiveCamera(false);
         EventManager.Pause.OnUnpause += HandleOnUnPause;
     }
 
     void OnDisable()
     {
+        EventManager.Photograph.OnActiveCamera(true);
         EventManager.Pause.OnUnpause -= HandleOnUnPause;
-
     }
 
     void HandleOnUnPause()

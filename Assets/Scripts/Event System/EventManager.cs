@@ -10,6 +10,7 @@ public class EventManager
     public readonly static LetterEvents Letter = new LetterEvents();
     public readonly static TutorialEvents Tutorial = new TutorialEvents();
     public readonly static PauseEvents Pause = new PauseEvents();
+    public readonly static PhotographEvents Photograph = new PhotographEvents();
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
@@ -48,6 +49,11 @@ public class EventManager
     public class PauseEvents
     {
         public UnityAction OnUnpause;
+    }
+
+    public class PhotographEvents
+    {
+        public UnityAction<bool> OnActiveCamera;
     }
 }
 

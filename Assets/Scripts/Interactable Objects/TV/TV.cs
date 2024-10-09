@@ -61,11 +61,13 @@ public class TV : InteractableObject
         isOn = !isOn;
 
         if (isOn){
+            EventManager.Photograph.OnActiveCamera(false);
             AudioManager.Instance.PlaySound(SoundType.TVOn);
             ActiveTV();
         }
         else
         {
+            EventManager.Photograph.OnActiveCamera(true);
             AudioManager.Instance.PlaySound(SoundType.TvOff);
             DeactivateTV();
         }

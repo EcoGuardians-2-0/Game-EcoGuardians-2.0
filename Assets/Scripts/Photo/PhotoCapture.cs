@@ -26,27 +26,43 @@ public class PhotoCapture : MonoBehaviour
     private Texture2D screenCapture;
     private bool viewingPhoto;
     private bool isCapturing;
+    private bool canTakePhoto;
+
 
     private void Start()
     {
+        canTakePhoto = false;
         screenCapture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+    }
+
+    private void OnEnable()
+    {
+        EventManager.Photograph.OnActiveCamera += HandleTakePhoto;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Photograph.OnActiveCamera -= HandleTakePhoto;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(1) && !viewingPhoto && !isCapturing)
+        if (canTakePhoto)
         {
-            StartCoroutine(PrepareCapture());
-        }
-        else if (Input.GetMouseButtonUp(1) && isCapturing)
-        {
-            StopCoroutine(PrepareCapture());
-            isCapturing = false;
-            cameraUI.SetActive(false);
-        }
-        else if (Input.GetMouseButtonDown(1) && viewingPhoto)
-        {
-            RemovePhoto();
+            if (Input.GetMouseButtonDown(1) && !viewingPhoto && !isCapturing)
+            {
+                StartCoroutine(PrepareCapture());
+            }
+            else if (Input.GetMouseButtonUp(1) && isCapturing)
+            {
+                StopCoroutine(PrepareCapture());
+                isCapturing = false;
+                cameraUI.SetActive(false);
+            }
+            else if (Input.GetMouseButtonDown(1) && viewingPhoto)
+            {
+                RemovePhoto();
+            }
         }
     }
 
@@ -142,5 +158,10 @@ public class PhotoCapture : MonoBehaviour
         viewingPhoto = false;
         photoFrame.SetActive(false);
         cameraUI.SetActive(false);
+    }
+
+    private void HandleTakePhoto(bool canTakePhoto)
+    {
+        this.canTakePhoto = canTakePhoto;
     }
 }

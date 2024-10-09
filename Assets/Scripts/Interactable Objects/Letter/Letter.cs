@@ -43,9 +43,15 @@ public class Letter : InteractableObject
         toggle = !toggle;
 
         if (toggle)
+        {
             turnOn();
+            EventManager.Photograph.OnActiveCamera(false);
+        }
         else
+        {
             turnOff();
+            EventManager.Photograph.OnActiveCamera(true);
+        }
     }
 
     private void turnOn()
