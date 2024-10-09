@@ -23,12 +23,14 @@ public class PhotoCapture : MonoBehaviour
     [Header("Capture Delay")]
     [SerializeField] private float captureDelay = 2f;
 
+    [Header("Auto Remove Photo")]
+    [SerializeField] private float autoRemoveDelay = 3f;
+
     private Texture2D screenCapture;
     private bool viewingPhoto;
     private bool isCapturing;
     private bool isInFirstCamera;
     private bool canTakePhoto;
-
 
     private void Start()
     {
@@ -47,7 +49,6 @@ public class PhotoCapture : MonoBehaviour
     {
         EventManager.Photograph.OnActiveCamera -= HandleTakePhoto;
         EventManager.Photograph.OnFirstPerson -= HandleOnFirstCamera;
-
     }
 
     private void Update()
@@ -63,10 +64,6 @@ public class PhotoCapture : MonoBehaviour
                 StopCoroutine(PrepareCapture());
                 isCapturing = false;
                 cameraUI.SetActive(false);
-            }
-            else if (Input.GetMouseButtonDown(1) && viewingPhoto)
-            {
-                RemovePhoto();
             }
         }
     }
@@ -133,6 +130,8 @@ public class PhotoCapture : MonoBehaviour
                 Debug.Log("BlackBird detected!");
             }
         }
+
+        StartCoroutine(AutoRemovePhoto());
     }
 
     void ShowPhoto()
@@ -158,6 +157,12 @@ public class PhotoCapture : MonoBehaviour
         cameraFlash.SetActive(false);
     }
 
+    IEnumerator AutoRemovePhoto()
+    {
+        yield return new WaitForSeconds(autoRemoveDelay);
+        RemovePhoto();
+    }
+
     void RemovePhoto()
     {
         viewingPhoto = false;
@@ -170,7 +175,7 @@ public class PhotoCapture : MonoBehaviour
         this.canTakePhoto = canTakePhoto;
     }
 
-    private void HandleOnFirstCamera(bool isInFirstCamera )
+    private void HandleOnFirstCamera(bool isInFirstCamera)
     {
         this.isInFirstCamera = isInFirstCamera;
     }
