@@ -123,22 +123,32 @@ public class TVVideoManager : MonoBehaviour
 
         if (videoPlayer != null && videoPlayer.url != null)
         {
-            meshRenderer.material = materials[2];
+            meshRenderer.material = materials[2]; // Change material while loading
 
             if (lastTime != 0)
                 videoPlayer.time = lastTime;
 
-            videoPlayer.Play();
-            StartCoroutine(ChangeMaterial());
+            // Subscribe to the prepareCompleted event
+            videoPlayer.prepareCompleted += OnVideoPrepared;
+
+            // Prepare the video (asynchronously)
+            videoPlayer.Prepare();
         }
     }
 
-    // Function to change the material of the TV
-    private IEnumerator ChangeMaterial()
+    // Callback when the video is prepared
+    private void OnVideoPrepared(VideoPlayer vp)
     {
-        yield return new WaitForSeconds(1f);
+        // Change material when the video is ready
         meshRenderer.material = materials[1];
+
+        // Start the video after it is prepared
+        videoPlayer.Play();
+
+        // Unsubscribe from the event to avoid repeated calls
+        videoPlayer.prepareCompleted -= OnVideoPrepared;
     }
+
 
     // Function to pause the video
     public void PauseVideo()
