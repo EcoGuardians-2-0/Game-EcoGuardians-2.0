@@ -10,7 +10,7 @@ public class SwitchCamera : MonoBehaviour
     [Header("Sensitivity Settings")]
     private float minSensitivity = 0f; // Adjusted min sensitivity
     private float maxSensitivity = 1000f; // Adjusted max sensitivity
-    private float defaultSensitivity = 300f; // Default sensitivity
+    private float defaultSensitivity = 200f; // Default sensitivity
 
     private bool thirdActive = true;
     private float lastAppliedSensitivity;

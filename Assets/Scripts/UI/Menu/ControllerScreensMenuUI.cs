@@ -22,7 +22,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
-    public float mainControllerSen = 60f;
+    public float mainControllerSen = 40f;
 
     [Header("Events")]
     public UnityEvent<string> onGameStarted;
@@ -60,7 +60,7 @@ public class ControllerScreensMenuUI : MonoBehaviour
         // Get the related audio mixers SFX volume and set it
         setSFXVolume(80.0f);
         setMusicVolume(80.0f);
-        SetControllerSen(60f);
+        SetControllerSen(40f);
         GameplayApply();
     }
 
