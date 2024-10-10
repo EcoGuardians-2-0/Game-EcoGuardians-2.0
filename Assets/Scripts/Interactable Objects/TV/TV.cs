@@ -47,7 +47,6 @@ public class TV : InteractableObject
     {
         base.Interact(); // Do not remove - child calls parent method
 
-        disableObjects.ToggleMinimap();
         disableObjects.TogglePlayer();
         disableObjects.ToggleSelectionCursor();
 

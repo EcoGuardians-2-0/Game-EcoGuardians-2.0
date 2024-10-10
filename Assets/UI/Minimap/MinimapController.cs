@@ -58,7 +58,7 @@ public class MinimapController : MonoBehaviour
 
     public void toggleMinimap()
     {
-        if(miniMap.GetComponent<Canvas>() != null)
+        if(miniMap != null && miniMap.GetComponent<Canvas>() != null)
             miniMap.GetComponent<Canvas>().enabled = isActive;
     }
 
