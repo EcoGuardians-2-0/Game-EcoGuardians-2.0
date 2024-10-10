@@ -94,6 +94,8 @@ public class Act3LevelController : MonoBehaviour
 
     private void QuitGame()
     {
+        Time.timeScale = 1; // Resume the game
+        
         // Clean the progress
         snake.Restart();
 

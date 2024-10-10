@@ -46,6 +46,7 @@ public class PhotoController : MonoBehaviour
         }
         else
         {
+            AudioManager.Instance.PlaySound(SoundType.foundBird);
             birdDictionary.Add(birdName, true);
             BirdsCount++;
             string normalizedBirdName = birdName.Trim().ToLower();

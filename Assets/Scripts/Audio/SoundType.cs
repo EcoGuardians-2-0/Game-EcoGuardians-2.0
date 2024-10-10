@@ -26,4 +26,5 @@ public enum SoundType
     SnakeMove,
     TakePhoto,
     CreditsMusic,
+    foundBird,
 }
