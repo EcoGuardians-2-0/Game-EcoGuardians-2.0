@@ -100,8 +100,8 @@ public class TutorialScript : MonoBehaviour
             DisableObjects.Instance.disableCharacterController();
             isCharacterActive = true;
         }
-        if (Input.GetKeyDown(KeyCode.L))
-            StartCoroutine(FinishTutorial());
+        // if (Input.GetKeyDown(KeyCode.L))
+        //    StartCoroutine(FinishTutorial());
         if (!isTransitioning)
         {
             if (Welcome.activeSelf)
