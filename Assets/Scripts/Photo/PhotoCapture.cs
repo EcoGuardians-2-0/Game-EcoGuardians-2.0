@@ -39,10 +39,13 @@ public class PhotoCapture : MonoBehaviour
     private bool canTakePhoto;
     private bool birdDetected;
 
+    public static int birdTotalCount;
+
     private void Start()
     {
         canTakePhoto = false;
         isInFirstCamera = false;
+        birdTotalCount = 4;
         screenCapture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
     }
 

@@ -30,6 +30,7 @@ public class PhotoController : MonoBehaviour
 
     public bool AddBird(string birdName)
     {
+        Debug.Log("Bird name: " + birdName);
         if (birdDictionary.ContainsKey(birdName))
         {
             if (!birdDictionary[birdName])
@@ -47,26 +48,34 @@ public class PhotoController : MonoBehaviour
         {
             birdDictionary.Add(birdName, true);
             BirdsCount++;
+            string normalizedBirdName = birdName.Trim().ToLower();
 
-            switch (birdName)
+            switch (normalizedBirdName)
             {
-                case "Azulejo Común":
+                case "azulejo común":
                     birdReturnName = "Azulejo Común";
                     birdSprite = azulejo_comun;
                     break;
-                case "Piranga Abejera":
+                case "piranga abejera":
                     birdReturnName = "Piranga Abejera";
                     birdSprite = Piranga_abejera;
                     break;
-                case "Jilguero Aliblanco":
+                case "jilguero aliblanco":
                     birdReturnName = "Jilguero Aliblanco";
                     birdSprite = Jilguero_aliblanco;
                     break;
-                case "Toche Enjalmado":
+                case "toche enjalmado":
+                    Debug.Log("Encontrado");
                     birdReturnName = "Toche Enjalmado";
                     birdSprite = Toche_enjalmado;
                     break;
+                default:
+                    Debug.LogWarning("Bird name not found: " + birdName);
+                    break;
             }
+
+            EventManager.Scene.OnCatchBird.Invoke(birdReturnName, birdSprite);
+            EventManager.Scene.OnUpdateBirdCaughtCount(BirdsCount);
             return true;
         }
     }

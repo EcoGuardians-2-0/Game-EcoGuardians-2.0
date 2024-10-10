@@ -13,7 +13,10 @@ public class CreditsManager : MonoBehaviour
     public GameObject segmentPrefab;  // Prefab for Segment which has a role and names
     public GameObject additionalMessagePrefab;  // Prefab for Additional Messages
     public RectTransform creditsContainer;  // The container where the credit elements will be added
+    public GameObject birdTaskPrefab;  // Prefab for BirdTask
+    public GameObject birdCardPrefab;  // Prefab for BirdCard
     public GameObject CreditsUI;
+    private GameObject birdTask;
 
     // Path to the credits file
     public string creditsFilePath = "Assets/Resources/credits.txt";
@@ -21,11 +24,16 @@ public class CreditsManager : MonoBehaviour
     private void OnEnable()
     {
         EventManager.Scene.OnPlayCredit += HandlePlayCredit;
+        EventManager.Scene.OnUpdateBirdCaughtCount += SetBirdTaskText;
+        EventManager.Scene.OnCatchBird += AddBirdCard;
     }
 
     private void OnDisable()
     {
+        EventManager.Scene.OnUpdateBirdCaughtCount -= SetBirdTaskText;
         EventManager.Scene.OnPlayCredit -= HandlePlayCredit;
+        EventManager.Scene.OnCatchBird -= AddBirdCard;
+
     }
 
     void Start()
@@ -63,6 +71,11 @@ public class CreditsManager : MonoBehaviour
             {
                 string messageText = line.Replace("additional_message:", "").Trim();
                 CreateAdditionalMessage(messageText);
+            }
+            else if (line.StartsWith("bird_task:"))
+            {
+                string birdTaskText = line.Replace("bird_task:", "").Trim();
+                CreateBirdTask(birdTaskText); // Load BirdTask prefab with text
             }
         }
     }
@@ -104,6 +117,42 @@ public class CreditsManager : MonoBehaviour
             Debug.LogError("Error processing segment: " + segmentData);
         }
     }
+
+    void CreateBirdTask(string birdTaskText)
+    {
+        // Instantiate the BirdTask prefab and parent it to the credits container
+        this.birdTask = Instantiate(birdTaskPrefab, creditsContainer);
+    }
+
+    void AddBirdCard(string birdName, Sprite birdImageSprite)
+    {
+        Debug.Log("Adding bird card with name: " + birdName);
+        Transform parent = this.birdTask.transform.Find("BirdImages");
+        // Instantiate the BirdCard prefab
+        GameObject birdCard = Instantiate(birdCardPrefab, parent);
+
+        // Assign the image and description (assuming you have an Image and a TextMeshProUGUI in the birdCard prefab)
+        TextMeshProUGUI textComponent = birdCard.GetComponentInChildren<TextMeshProUGUI>();
+        textComponent.text = birdName;
+
+        Image birdImage = birdCard.GetComponentInChildren<Image>();
+        birdImage.sprite = birdImageSprite;
+
+    }
+
+    void SetBirdTaskText(int birdNumber)
+    {
+        TextMeshProUGUI textComponent = this.birdTask.GetComponentInChildren<TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.text = "Encontraste " + birdNumber  + " de " + PhotoCapture.birdTotalCount + " pajaros en la estación";
+        }
+        else
+        {
+            Debug.LogError("No TextMeshProUGUI component found in BirdTask.");
+        }
+    }
+
 
     void CreateAdditionalMessage(string message)
     {

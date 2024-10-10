@@ -75,6 +75,8 @@ public class EventManager
     public class SceneEvents
     {
         public UnityAction OnPlayCredit;
+        public UnityAction<string, Sprite> OnCatchBird;
+        public UnityAction<int> OnUpdateBirdCaughtCount;
     }
 }
 
