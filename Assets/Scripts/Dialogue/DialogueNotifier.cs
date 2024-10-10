@@ -31,7 +31,13 @@ public class DialogueNotifier
             {
                 EventManager.Tutorial.OnFinishedTutorialDialogue.Invoke();
             }
-
+        }
+        else if(variableName == "global_finished_game")
+        {
+            if (((Ink.Runtime.BoolValue)value).value)
+            {
+                EventManager.Scene.OnPlayCredit.Invoke();
+            }
         }
     }
 }

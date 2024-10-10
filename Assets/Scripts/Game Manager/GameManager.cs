@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
         EventManager.Quest.OnQuestCompleted -= HandleQuestCompleted;
         EventManager.Quest.OnAllQuestsCompleted -= HandleAllQuestCompleted;
         EventManager.Quest.OnQuestionnaireCompleted -= HandleQuestionnaireCompleted;
-
     }
 
     private void OnDestroy()
@@ -162,6 +161,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Game has finished");
             questManager.SetNoTasksTitle();
+            DialogueManager.instance.SetVariable("global_pass_" + currentModule, DialogueVariableSetter.SetVariable(true));
             yield break;
         }
 

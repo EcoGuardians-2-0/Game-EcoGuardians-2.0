@@ -13,9 +13,20 @@ public class CreditsManager : MonoBehaviour
     public GameObject segmentPrefab;  // Prefab for Segment which has a role and names
     public GameObject additionalMessagePrefab;  // Prefab for Additional Messages
     public RectTransform creditsContainer;  // The container where the credit elements will be added
+    public GameObject CreditsUI;
 
     // Path to the credits file
     public string creditsFilePath = "Assets/Resources/credits.txt";
+
+    private void OnEnable()
+    {
+        EventManager.Scene.OnPlayCredit += HandlePlayCredit;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Scene.OnPlayCredit -= HandlePlayCredit;
+    }
 
     void Start()
     {
@@ -122,6 +133,33 @@ public class CreditsManager : MonoBehaviour
         // Animate the credits to move upwards over 40 seconds (or adjust the duration as needed)
         LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 20f).setEase(LeanTweenType.linear);
     }
+
+    private void HandlePlayCredit()
+    {
+        StartCoroutine(HandleOnGameFinished());
+    }
+
+    public IEnumerator HandleOnGameFinished()
+    {
+        while (DialogueManager.instance.isTalking)
+        {
+            yield return null;
+        }
+
+        DisableObjects.Instance.ToggleSelectionCursor();
+        DisableObjects.Instance.ToggleTooltip();
+        DisableObjects.Instance.disableCharacterController();
+        DisableObjects.Instance.disableCameras();
+        DisableObjects.Instance.disableSwitchCamera();
+
+        EventManager.Photograph.OnActiveCamera(false);
+        EventManager.Minimap.OnUnlockMiniMap();
+
+        CreditsUI.SetActive(true);
+
+        StartCoroutine(AnimateCredits());
+    }
+
 
 
 

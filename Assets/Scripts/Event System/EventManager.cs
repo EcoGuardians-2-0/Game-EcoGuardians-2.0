@@ -13,6 +13,7 @@ public class EventManager
     public readonly static PhotographEvents Photograph = new PhotographEvents();
     public readonly static CameraViewEvents CameraView = new CameraViewEvents();
     public readonly static MinimapEvents Minimap = new MinimapEvents();
+    public readonly static SceneEvents Scene = new SceneEvents();
     public class WallEvents
     {
         public UnityAction<int, bool> OnDisplayText;
@@ -25,7 +26,6 @@ public class EventManager
         public UnityAction<string> OnQuestCompleted;
         public UnityAction OnAllQuestsCompleted;
         public UnityAction OnQuestionnaireCompleted;
-        public UnityAction OnGameFinished;
     } 
 
     public class MapIconEvents
@@ -70,6 +70,11 @@ public class EventManager
         public UnityAction OnDisplayMinimap;
         public UnityAction OnLockMiniMap;
         public UnityAction OnUnlockMiniMap;
+    }
+
+    public class SceneEvents
+    {
+        public UnityAction OnPlayCredit;
     }
 }
 
