@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -109,13 +110,15 @@ public class PhotoCapture : MonoBehaviour
 
         yield return new WaitForEndOfFrame();
 
-        var regionToRead = new Rect(0, 0, Screen.width, Screen.height);
+        Rect regionToRead = new Rect(0, 0, Screen.width, Screen.height);
 
         screenCapture.ReadPixels(regionToRead, 0, 0, false);
         screenCapture.Apply();
         ShowPhoto();
 
-        if (Physics.Raycast(Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0)), out RaycastHit hit))
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        if (Physics.Raycast(ray, out hit))
         {
             if (hit.collider.CompareTag("BlueBird"))
             {
