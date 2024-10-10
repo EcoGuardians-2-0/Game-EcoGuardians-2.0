@@ -35,7 +35,7 @@ public class PhotoCapture : MonoBehaviour
     private Texture2D screenCapture;
     private bool viewingPhoto;
     private bool isCapturing;
-    private bool isInFirstCamera;
+    public bool isInFirstCamera;
     private bool canTakePhoto;
     private bool birdDetected;
 

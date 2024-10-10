@@ -22,6 +22,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject Task;
     public GameObject Interactable;
     public GameObject Minimap;
+    public GameObject TakePhoto;
     public GameObject NPC;
     public GameObject NPC2;
     public GameObject NPC3;
@@ -35,6 +36,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject T8;
     public GameObject T9;
     public GameObject T10;
+    public GameObject T11;
     public GameObject WallCollider;
     public GameObject TvOn;
     public GameObject Pausa;
@@ -60,9 +62,10 @@ public class TutorialScript : MonoBehaviour
     public Graphic Tab2_UI;
     public Graphic Left_UI;
     public Graphic Right_UI;
+    public Graphic Photo_UI;
     private float keyHoldTime = 0f;
     private bool isKeyHeld = false;
-    private float shiftKeyStartTime = 0f; 
+    private float shiftKeyStartTime = 0f;
     private bool isHoldingShiftAndKey = false;
     private float[] keyStartTimes;
     private bool[] isColorChanged;
@@ -71,13 +74,15 @@ public class TutorialScript : MonoBehaviour
     private bool isCharacterActive = false;
     // private float timer = 0f;
     // private float alertDuration = 3f;
-    
+
+    [SerializeField] private PhotoCapture photoCapture;
+
     void Start()
     {
         keyStartTimes = new float[keyCodes.Length];
         isColorChanged = new bool[keyCodes.Length];
     }
-    
+
     private void OnEnable()
     {
         EventManager.Tutorial.OnFinishedTutorialDialogue += HandleOnFinishedTutorial;
@@ -90,10 +95,11 @@ public class TutorialScript : MonoBehaviour
 
     void Update()
     {
-        if(!isCharacterActive && T1.activeSelf){
+        if (!isCharacterActive && T1.activeSelf)
+        {
             DisableObjects.Instance.disableCharacterController();
             isCharacterActive = true;
-        }    
+        }
         if (Input.GetKeyDown(KeyCode.L))
             StartCoroutine(FinishTutorial());
         if (!isTransitioning)
@@ -141,6 +147,10 @@ public class TutorialScript : MonoBehaviour
             HandleEnterKey(Minimap, T9);
         else if (T9.activeSelf)
             VerifyKeyT9();
+        else if (TakePhoto.activeSelf)
+            HandleEnterKey(TakePhoto, T11);
+        else if (T11.activeSelf)
+            VerifyKeyT11();
         else if (NPC.activeSelf)
             HandleEnterKey(NPC, NPC2);
         else if (NPC2.activeSelf)
@@ -162,7 +172,7 @@ public class TutorialScript : MonoBehaviour
             nextScreen.SetActive(true);
             isTransitioning = true;
         }
-        
+
         if (Input.GetKey(KeyCode.Return) && Enter_UI.color == principalColor && !isTransitioning)
         {
             Enter_UI.color = targetColor;
@@ -184,7 +194,7 @@ public class TutorialScript : MonoBehaviour
             if (Input.GetKey(keyCodes[i]))
             {
                 if (keyStartTimes[i] == 0)
-                    keyStartTimes[i] = Time.time; 
+                    keyStartTimes[i] = Time.time;
                 if (Time.time - keyStartTimes[i] >= 0.5f && !isColorChanged[i])
                 {
                     isColorChanged[i] = true;
@@ -196,11 +206,11 @@ public class TutorialScript : MonoBehaviour
                 if (!isColorChanged[i])
                 {
                     keyUI[i].color = principalColor;
-                    keyStartTimes[i] = 0; 
+                    keyStartTimes[i] = 0;
                 }
             }
         }
-    
+
         if (keyUI[0].color == targetColor && keyUI[1].color == targetColor && keyUI[2].color == targetColor && keyUI[3].color == targetColor)
         {
             T1.SetActive(false);
@@ -233,7 +243,7 @@ public class TutorialScript : MonoBehaviour
             if (!isHoldingShiftAndKey)
             {
                 shiftKeyStartTime = Time.time;
-                isHoldingShiftAndKey = true; 
+                isHoldingShiftAndKey = true;
             }
 
             if (Time.time - shiftKeyStartTime >= 2f)
@@ -331,7 +341,7 @@ public class TutorialScript : MonoBehaviour
     public void VerifyKeyT9()
     {
 
-        if (Input.GetKeyDown(KeyCode.M)  && M_UI.color == targetColor)
+        if (Input.GetKeyDown(KeyCode.M) && M_UI.color == targetColor)
             M2_UI.color = targetColor;
 
         if (Input.GetKeyDown(KeyCode.M))
@@ -340,14 +350,14 @@ public class TutorialScript : MonoBehaviour
         if (M2_UI.color == targetColor)
         {
             T9.SetActive(false);
-            NPC.SetActive(true);
+            TakePhoto.SetActive(true);
         }
     }
 
     public void HandleOnFinishedTutorial()
     {
         T10.SetActive(false);
-        StartCoroutine(FinishTutorial());    
+        StartCoroutine(FinishTutorial());
     }
 
     public void VerifyKeyT10()
@@ -363,6 +373,36 @@ public class TutorialScript : MonoBehaviour
         }
     }
 
+    public void VerifyKeyT11()
+    {
+        EventManager.Photograph.OnActiveCamera(true);
+
+        if (photoCapture.isInFirstCamera && Input.GetMouseButtonDown(1))
+        {
+            Photo_UI.color = targetColor;
+            isKeyHeld = true;
+            keyHoldTime = Time.time;
+        }
+
+        if (isKeyHeld && photoCapture.isInFirstCamera && Input.GetMouseButton(1))
+        {
+            if (Time.time - keyHoldTime >= 2f)
+            {
+                T11.SetActive(false);
+
+                // Start coroutine and wait for it to complete before showing the NPC
+                StartCoroutine(WaitForPhotoAndShowNPC());
+
+                isKeyHeld = false;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            isKeyHeld = false;
+        }
+    }
+
     public IEnumerator FinishTutorial()
     {
         WallCollider.SetActive(false);
@@ -370,7 +410,6 @@ public class TutorialScript : MonoBehaviour
 
         yield return StartCoroutine(ActivateAndDeactivate());
         EventManager.Minimap.OnUnlockMiniMap.Invoke();
-        EventManager.Photograph.OnActiveCamera(true);
         EventManager.Quest.OnQuestAssigned();
         gameObject.SetActive(false);
     }
@@ -380,11 +419,18 @@ public class TutorialScript : MonoBehaviour
         AlertStart.SetActive(true);
 
         yield return new WaitForSeconds(3f);
-    
+
         AlertStart.SetActive(false);
     }
 
-    public void StartGame(){
+    private IEnumerator WaitForPhotoAndShowNPC()
+    {
+        yield return new WaitForSeconds(5f);
+        NPC.SetActive(true);
+    }
+
+    public void StartGame()
+    {
         StartCoroutine(FinishTutorial());
     }
 }
