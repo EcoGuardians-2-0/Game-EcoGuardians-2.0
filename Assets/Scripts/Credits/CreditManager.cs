@@ -20,7 +20,6 @@ public class CreditsManager : MonoBehaviour
     void Start()
     {
         LoadCreditsFromFile(creditsFilePath);
-        StartCoroutine(AnimateCredits());
     }
 
     void LoadCreditsFromFile(string filePath)
