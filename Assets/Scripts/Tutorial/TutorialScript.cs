@@ -411,6 +411,7 @@ public class TutorialScript : MonoBehaviour
         yield return StartCoroutine(ActivateAndDeactivate());
         EventManager.Minimap.OnUnlockMiniMap.Invoke();
         EventManager.Quest.OnQuestAssigned();
+        EventManager.Photograph.OnActiveCamera(true);
         gameObject.SetActive(false);
     }
 

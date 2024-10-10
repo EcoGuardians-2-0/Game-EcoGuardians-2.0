@@ -24,5 +24,6 @@ public enum SoundType
     UIbtnSelected,
     CollectApple,
     SnakeMove,
-    TakePhoto
+    TakePhoto,
+    CreditsMusic,
 }
