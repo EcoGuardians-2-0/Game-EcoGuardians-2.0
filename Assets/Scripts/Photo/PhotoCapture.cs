@@ -120,25 +120,25 @@ public class PhotoCapture : MonoBehaviour
             if (hit.collider.CompareTag("BlueBird"))
             {
                 photoTextField.text = "Azulejo común";
-                birdDetected = photoController.AddBird("Azulejo_comun");
+                birdDetected = photoController.AddBird("Azulejo común");
             }
 
             if (hit.collider.CompareTag("RedBird"))
             {
                 photoTextField.text = "Piranga abejera";
-                birdDetected = photoController.AddBird("Piranga_abejera");
+                birdDetected = photoController.AddBird("Piranga abejera");
             }
 
             if (hit.collider.CompareTag("YellowBird"))
             {
                 photoTextField.text = "Jilguero aliblanco";
-                birdDetected = photoController.AddBird("Jilguero_aliblanco");
+                birdDetected = photoController.AddBird("Jilguero aliblanco");
             }
 
             if (hit.collider.CompareTag("BlackBird"))
             {
                 photoTextField.text = "Toche enjalmado";
-                birdDetected = photoController.AddBird("Toche_enjalmado");
+                birdDetected = photoController.AddBird("Toche enjalmado");
             }
         }
 
