@@ -40,13 +40,13 @@ public class TVVideoManager : MonoBehaviour
 
         if (videoPlayer.isPlaying)
         {
-            // Advance and rewind video
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                videoPlayer.time = Mathf.Max(0, (float)videoPlayer.time - 5);
+            // Advance and rewind video - Suspended functionality
+            //if (Input.GetKeyDown(KeyCode.LeftArrow))
+            //    videoPlayer.time = Mathf.Max(0, (float)videoPlayer.time - 5);
 
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                if (videoPlayer.time + 5 <= videoPlayer.length)
-                    videoPlayer.time += 5;
+            //if (Input.GetKeyDown(KeyCode.RightArrow))
+            //    if (videoPlayer.time + 5 <= videoPlayer.length)
+            //        videoPlayer.time += 5;
 
             // Up and Down keys for volume control
             if (Input.GetKeyDown(KeyCode.UpArrow))
