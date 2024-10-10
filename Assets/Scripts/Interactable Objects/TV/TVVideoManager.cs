@@ -52,19 +52,27 @@ public class TVVideoManager : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.UpArrow))
                 if (videoPlayer.GetDirectAudioVolume(0) < 1)
                 {
-                    videoPlayer.SetDirectAudioVolume(0, videoPlayer.GetDirectAudioVolume(0) + 0.1f);
+                    float volume = videoPlayer.GetDirectAudioVolume(0);
 
-                    if (videoPlayer.GetDirectAudioVolume(0) > 1)
-                        videoPlayer.SetDirectAudioVolume(0, 1);
+                    volume += 0.1f;
+
+                    if (volume > 1)
+                        volume = 1;
+
+                    videoPlayer.SetDirectAudioVolume(0, volume);              
                 }
 
             if (Input.GetKeyDown(KeyCode.DownArrow))
                 if (videoPlayer.GetDirectAudioVolume(0) > 0)
                 {
-                    videoPlayer.SetDirectAudioVolume(0, videoPlayer.GetDirectAudioVolume(0) - 0.1f);
+                    float volume = videoPlayer.GetDirectAudioVolume(0);
 
-                    if (videoPlayer.GetDirectAudioVolume(0) < 0)
-                        videoPlayer.SetDirectAudioVolume(0, 0);
+                    volume -= 0.1f;
+
+                    if (volume < 0)
+                        volume = 0;
+
+                    videoPlayer.SetDirectAudioVolume(0, volume);
                 }
 
             // Holding keys \\
@@ -77,9 +85,13 @@ public class TVVideoManager : MonoBehaviour
                 if (holdTimeCounterUpVolume < 0)
                     if (videoPlayer.GetDirectAudioVolume(0) < 1)
                     {
-                        videoPlayer.SetDirectAudioVolume(0, videoPlayer.GetDirectAudioVolume(0) + 0.3f * Time.deltaTime);
-                        if (videoPlayer.GetDirectAudioVolume(0) > 1)
-                            videoPlayer.SetDirectAudioVolume(0, 1);
+                        float volume = videoPlayer.GetDirectAudioVolume(0);
+                        volume += 0.3f * Time.deltaTime;
+
+                        if (volume > 1)
+                            volume = 1;
+
+                        videoPlayer.SetDirectAudioVolume(0, volume);
                     }
             }
             else
@@ -92,10 +104,13 @@ public class TVVideoManager : MonoBehaviour
                 if (holdTimeCounterDownVolume < 0)
                     if (videoPlayer.GetDirectAudioVolume(0) > 0)
                     {
-                        videoPlayer.SetDirectAudioVolume(0, videoPlayer.GetDirectAudioVolume(0) - 0.3f * Time.deltaTime);
+                        float volume = videoPlayer.GetDirectAudioVolume(0);
+                        volume -= 0.3f * Time.deltaTime;
 
-                        if (videoPlayer.GetDirectAudioVolume(0) < 0)
-                            videoPlayer.SetDirectAudioVolume(0, 0);
+                        if (volume < 0)
+                            volume = 0;
+
+                        videoPlayer.SetDirectAudioVolume(0, volume);
                     }
             }
             else
