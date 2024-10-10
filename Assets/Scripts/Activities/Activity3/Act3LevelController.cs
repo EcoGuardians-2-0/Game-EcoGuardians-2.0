@@ -74,7 +74,7 @@ public class Act3LevelController : MonoBehaviour
         highScoreText.text = act3GameController.GetHighScore().ToString();
 
         // Update the related task in the task manager
-        if (act3GameController.GetHighScore() >= 10)
+        if (act3GameController.GetHighScore() >= 5)
             act3GameController.UpdateGameQuest();
 
         // Setup the listeners to the retry and go back buttons

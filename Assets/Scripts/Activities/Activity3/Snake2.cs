@@ -32,7 +32,7 @@ public class Snake2 : MonoBehaviour
 
     void Start()
     {
-        timeBetweenMovements = 0.24f;
+        timeBetweenMovements = 0.21f;
         dir = Vector2.right;
         nextDir = dir;
         createGrid();
@@ -250,9 +250,9 @@ public class Snake2 : MonoBehaviour
     }
 
     private void EatFood(Vector2 newPosition)
-    {   
+    {
         AudioManager.Instance.PlaySound(SoundType.CollectApple);
-        
+
         GameObject newTile = Instantiate(block);
         RectTransform newTileRect = newTile.GetComponent<RectTransform>();
         newTileRect.SetParent(transform.parent, false);
