@@ -9,4 +9,5 @@ VAR global_pass_2 = false
 VAR global_cuestionario_3 = false
 VAR global_misiones_3 = false
 VAR global_pass_3 = false
+VAR global_finished_game = false
 VAR global_mision_completada = ""

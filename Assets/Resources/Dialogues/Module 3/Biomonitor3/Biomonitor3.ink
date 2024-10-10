@@ -47,6 +47,7 @@ VAR failed_test = 0
     +[Si, siento que he recorrido bastante de la estación]
         Vale, me ha sido un placer conocerte durante tu visita por la estación biológica de Aguadas Caldas.
         Esperamos que regreses pronto. !Estamos con los brazos abiertos!
+        ~ global_finished_game = true
         -> DONE
     +[No, aún siento que me queda algo por explorar.]
         Okay, no te preocupes, puedes seguir conversando con nuestro personal o jugar de nuestros minijuegos.
