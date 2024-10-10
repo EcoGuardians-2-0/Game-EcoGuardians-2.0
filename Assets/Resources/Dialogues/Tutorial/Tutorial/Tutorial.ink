@@ -31,14 +31,19 @@ VAR already_talked = false
 === start_game
     Perfecto. Tu primera misión sera encontrar al biomonitor de la estación.  # animation: 3
     Recuerda revisar tu minimapa para poder ubicarlo y hablar con el.
-    Tiene preparado muchas misiones para tí en este primer módulo
-    Espero que disfrutes tu visita a la estación.
+    Tiene preparado muchas misiones para tí en este primer módulo.
     { global_tutorial_completed == false:
         ~ global_tutorial_completed = true
     }
     { already_talked == false:
         ~already_talked = true
     }
+    -> additional_dialogue
+
+=== additional_dialogue
+    Tambien te invito a tomarle fotos con la camara a las diferentes especies de pajaros que puedes encontrar.
+    Si le tomas las fotos a todas las aves, puede que los veas al final del juego... 
+    Espero que disfrutes tu visita a la estación. #speaker: Diego
     -> DONE
 
 === not_ready
@@ -55,6 +60,3 @@ VAR already_talked = false
     -> DONE
 
 * -> END
-    
-
-
