@@ -25,6 +25,7 @@ public class EventManager
         public UnityAction<string> OnQuestCompleted;
         public UnityAction OnAllQuestsCompleted;
         public UnityAction OnQuestionnaireCompleted;
+        public UnityAction OnGameFinished;
     } 
 
     public class MapIconEvents

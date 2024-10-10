@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using TMPro;  // Import TextMeshPro namespace
+using UnityEngine.UI;
+
 
 public class CreditsManager : MonoBehaviour
 {
@@ -10,7 +12,7 @@ public class CreditsManager : MonoBehaviour
     public GameObject segmentTitlePrefab;  // Prefab for Segment_Title
     public GameObject segmentPrefab;  // Prefab for Segment which has a role and names
     public GameObject additionalMessagePrefab;  // Prefab for Additional Messages
-    public Transform creditsContainer;  // The container where the credit elements will be added
+    public RectTransform creditsContainer;  // The container where the credit elements will be added
 
     // Path to the credits file
     public string creditsFilePath = "Assets/Resources/credits.txt";
@@ -18,6 +20,7 @@ public class CreditsManager : MonoBehaviour
     void Start()
     {
         LoadCreditsFromFile(creditsFilePath);
+        StartCoroutine(AnimateCredits());
     }
 
     void LoadCreditsFromFile(string filePath)
@@ -99,4 +102,29 @@ public class CreditsManager : MonoBehaviour
         // Set the message text
         messageObject.GetComponentInChildren<TextMeshProUGUI>().text = message;
     }
+
+    IEnumerator AnimateCredits()
+    {
+        yield return new WaitForEndOfFrame();
+
+        // Force rebuild of the layout to make sure we have the correct height
+        RectTransform rectTransform = creditsContainer.GetComponent<RectTransform>();
+        LayoutRebuilder.ForceRebuildLayoutImmediate(rectTransform);
+
+        // Get the current anchored position
+        Vector2 startPosition = rectTransform.anchoredPosition;
+
+        // Get the height of the RectTransform after layout rebuild
+        float containerHeight = rectTransform.rect.height;
+
+        // Calculate the end position by subtracting the container's height from the Y position
+        Vector2 endPosition = new Vector2(startPosition.x, startPosition.y + containerHeight + 1080f);
+
+        // Animate the credits to move upwards over 40 seconds (or adjust the duration as needed)
+        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 20f).setEase(LeanTweenType.linear);
+    }
+
+
+
+
 }
