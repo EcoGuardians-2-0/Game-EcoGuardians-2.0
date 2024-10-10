@@ -75,8 +75,8 @@ public class PhotoController : MonoBehaviour
                     break;
             }
 
-            // EventManager.Scene.OnCatchBird.Invoke(birdReturnName, birdSprite);
-            // EventManager.Scene.OnUpdateBirdCaughtCount(BirdsCount);
+            EventManager.Scene.OnCatchBird.Invoke(birdReturnName, birdSprite);
+            EventManager.Scene.OnUpdateBirdCaughtCount(BirdsCount);
             return true;
         }
     }

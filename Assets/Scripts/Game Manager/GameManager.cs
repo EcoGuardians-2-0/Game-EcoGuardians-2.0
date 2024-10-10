@@ -48,11 +48,11 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Detectar tecla 'U' para saltar de nivel
-        //if (Input.GetKeyDown(KeyCode.U) && !advancingLevel)
-        //{
-        //    if(currentStage < GameStage.GameComplete)
-        //        StartCoroutine(SkipLevel());
-        //}
+        if (Input.GetKeyDown(KeyCode.U) && !advancingLevel)
+        {
+            if(currentStage < GameStage.GameComplete)
+                StartCoroutine(SkipLevel());
+        }
     }
 
 

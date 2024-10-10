@@ -17,9 +17,7 @@ public class CreditsManager : MonoBehaviour
     public GameObject birdCardPrefab;  // Prefab for BirdCard
     public GameObject CreditsUI;
     private GameObject birdTask;
-
-    // Path to the credits file
-    public string creditsFilePath = "Assets/Resources/credits.txt";
+    public TextAsset creditsFile;
 
     private void OnEnable()
     {
@@ -38,18 +36,19 @@ public class CreditsManager : MonoBehaviour
 
     void Start()
     {
-        LoadCreditsFromFile(creditsFilePath);
+        LoadCreditsFromTextAsset(creditsFile);
     }
 
-    void LoadCreditsFromFile(string filePath)
+    void LoadCreditsFromTextAsset(TextAsset textAsset)
     {
-        if (!File.Exists(filePath))
+        if (textAsset == null)
         {
-            Debug.LogError("Credits file not found at: " + filePath);
+            Debug.LogError("Credits file TextAsset is not assigned.");
             return;
         }
 
-        string[] lines = File.ReadAllLines(filePath);
+        // Read all lines from the TextAsset
+        string[] lines = textAsset.text.Split('\n');
         foreach (string line in lines)
         {
             if (line.StartsWith("game_title:"))
@@ -75,10 +74,11 @@ public class CreditsManager : MonoBehaviour
             else if (line.StartsWith("bird_task:"))
             {
                 string birdTaskText = line.Replace("bird_task:", "").Trim();
-                CreateBirdTask(birdTaskText); // Load BirdTask prefab with text
+                CreateBirdTask(birdTaskText);
             }
         }
     }
+
 
     void CreateGameTitle(string title)
     {
@@ -180,7 +180,7 @@ public class CreditsManager : MonoBehaviour
         Vector2 endPosition = new Vector2(startPosition.x, startPosition.y + containerHeight + 1080f);
 
         // Animate the credits to move upwards over 40 seconds (or adjust the duration as needed)
-        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 20f).setEase(LeanTweenType.linear);
+        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 60f).setEase(LeanTweenType.linear);
     }
 
     private void HandlePlayCredit()
