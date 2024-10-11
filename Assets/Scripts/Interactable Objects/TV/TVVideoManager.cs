@@ -136,18 +136,24 @@ public class TVVideoManager : MonoBehaviour
         holdTimeCounterAdvanceVideo = holdTime;
         holdTimeCounterRewindVideo = holdTime;
 
-        if (videoPlayer != null && videoPlayer.url != null)
+        if (videoPlayer != null && !string.IsNullOrEmpty(videoPlayer.url))
         {
             meshRenderer.material = materials[2]; // Change material while loading
 
             if (lastTime != 0)
                 videoPlayer.time = lastTime;
 
-            // Subscribe to the prepareCompleted event
-            videoPlayer.prepareCompleted += OnVideoPrepared;
-
-            // Prepare the video (asynchronously)
-            videoPlayer.Prepare();
+            if (videoPlayer.isPrepared)
+            {
+                // Change material when the video is ready
+                meshRenderer.material = materials[1];
+                videoPlayer.Play();
+            }
+            else
+            {
+                videoPlayer.prepareCompleted += OnVideoPrepared;
+                videoPlayer.Prepare();
+            }
         }
     }
 
