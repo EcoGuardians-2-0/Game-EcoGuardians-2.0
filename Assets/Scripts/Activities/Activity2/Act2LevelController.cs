@@ -2,10 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Burst.CompilerServices;
 
 public class Act2LevelController : MonoBehaviour
-{   
+{
     [SerializeField]
     private Transform HelpIcon;
     [SerializeField]
@@ -34,6 +33,8 @@ public class Act2LevelController : MonoBehaviour
     private Transform RestartButton;
     [SerializeField]
     private Transform GoBackLevelsButton;
+    [SerializeField]
+    private Transform FinishTaskButton;
     private Act2ProgressSO act2ProgressSO;
     private Act2GameController act2GameController;
     float elapsedTime = 0f;
@@ -47,6 +48,7 @@ public class Act2LevelController : MonoBehaviour
     void Awake()
     {
         act2GameController = FindObjectOfType<Act2GameController>();
+        FinishTaskButton.GetComponent<Button>().onClick.AddListener(FinishTask);
     }
 
     private void Update()
@@ -54,15 +56,16 @@ public class Act2LevelController : MonoBehaviour
         if (isTimerRunning)
         {
             UpdateTimer();
+            EnableFinishedButton();
         }
     }
 
     public void InstantiateLevel(int level)
     {
-        
+
         // Initialize the progress SO
         act2ProgressSO = Resources.Load<Act2ProgressSO>("Activity2Progress/Activity2 progressSO");
-        
+
         // Initialize the current level
         currentLevel = level;
 
@@ -277,7 +280,7 @@ public class Act2LevelController : MonoBehaviour
     }
 
     public void GameFinished()
-    {   
+    {
         AudioManager.Instance.PlaySound(SoundType.ActivityComplete);
 
         GoBackButton.gameObject.SetActive(false);
@@ -292,6 +295,21 @@ public class Act2LevelController : MonoBehaviour
         timertext.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         ShowTime.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         ShowResult();
+    }
+
+    public void EnableFinishedButton()
+    {
+        // After one minute and 30 seconds, the finish button will be enabled
+        if (elapsedTime >= 90)
+        {
+            FinishTaskButton.gameObject.SetActive(true);
+        }
+    }
+
+    // Finish task if the game is too haard
+    public void FinishTask()
+    {
+        act2GameController.UpdateGameQuest();
     }
 
     public void ShowResult()
@@ -313,8 +331,8 @@ public class Act2LevelController : MonoBehaviour
         {
             Debug.LogError("Invalid level number");
         }
-        
-        if(act2GameController != null)
+
+        if (act2GameController != null)
         {
             act2GameController.UpdateLevelsCompleted();
             act2GameController.CheckLevelsCompleted();
@@ -323,7 +341,7 @@ public class Act2LevelController : MonoBehaviour
         {
             Debug.LogError("act2GameController is null");
         }
-        
+
         // Update the stars based on the level result
         Transform LevelsStarContainer = levelCompletePanel.transform.Find("LevelStarContainer");
 

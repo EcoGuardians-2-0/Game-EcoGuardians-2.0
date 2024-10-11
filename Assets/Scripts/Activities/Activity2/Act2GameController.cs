@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -25,6 +24,8 @@ public class Act2GameController : GenericActivity
     private Sprite Yellow_Star;
     [SerializeField]
     private Sprite Black_Star;
+    [SerializeField]
+    private Transform FinishTaskButton;
     [SerializeField]
     private int numberOfLevels = 2;
     public Act2LevelController levelController;
@@ -202,6 +203,8 @@ public class Act2GameController : GenericActivity
 
         HelpIcon.gameObject.SetActive(true);
         quitButton.SetActive(true);
+        if (FinishTaskButton.gameObject.activeSelf)
+            FinishTaskButton.gameObject.SetActive(false);
     }
 
     public void DisableMenu()

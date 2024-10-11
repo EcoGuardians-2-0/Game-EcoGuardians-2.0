@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviour
     private bool advancingLevel = false;
 
 
-
     private void OnEnable()
     {
         EventManager.Quest.OnQuestAssigned += HandleQuestAssigned;
@@ -119,7 +118,7 @@ public class GameManager : MonoBehaviour
 
         if (IsStageQuestionnaire(previousStage))
         {
-            HandleQuestionnaireCompleted();  // Llamar al método para manejar la finalización del cuestionario
+            HandleQuestionnaireCompleted();  // Llamar al mï¿½todo para manejar la finalizaciï¿½n del cuestionario
         }
 
         StartCoroutine(LoadCurrentStageFile());
