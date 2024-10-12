@@ -9,6 +9,8 @@ public class TVVideoManager : MonoBehaviour
 
     private VideoPlayer videoPlayer;
     private MeshRenderer meshRenderer;
+    private Loader loaderScript;
+    [SerializeField] private GameObject loader;
 
     public bool hasVideo = false;
 
@@ -24,6 +26,7 @@ public class TVVideoManager : MonoBehaviour
     {
         videoPlayer = GetComponent<VideoPlayer>();
         meshRenderer = GetComponent<MeshRenderer>();
+        loaderScript = loader.GetComponent<Loader>();
 
         videoPlayer.playOnAwake = false;
         videoPlayer.Prepare();
@@ -131,6 +134,9 @@ public class TVVideoManager : MonoBehaviour
     {
         DisableObjects.Instance.ToggleControlsVideoTVUI(true);
 
+        loaderScript.Play();
+        meshRenderer.enabled = false; // Desactivate the mesh renderer to show the video
+
         holdTimeCounterUpVolume = holdTime;
         holdTimeCounterDownVolume = holdTime;
         holdTimeCounterAdvanceVideo = holdTime;
@@ -138,7 +144,7 @@ public class TVVideoManager : MonoBehaviour
 
         if (videoPlayer != null && !string.IsNullOrEmpty(videoPlayer.url))
         {
-            meshRenderer.material = materials[2]; // Change material while loading
+            //meshRenderer.material = materials[2]; // Change material while loading
 
             if (lastTime != 0)
                 videoPlayer.time = lastTime;
@@ -146,8 +152,11 @@ public class TVVideoManager : MonoBehaviour
             if (videoPlayer.isPrepared)
             {
                 // Change material when the video is ready
+                loaderScript.Pause();
+
                 meshRenderer.material = materials[1];
                 videoPlayer.Play();
+                meshRenderer.enabled = true; // Activate the mesh renderer to show the video
             }
             else
             {
@@ -161,10 +170,12 @@ public class TVVideoManager : MonoBehaviour
     private void OnVideoPrepared(VideoPlayer vp)
     {
         // Change material when the video is ready
-        meshRenderer.material = materials[1];
+        loaderScript.Pause();
 
         // Start the video after it is prepared
+        meshRenderer.material = materials[1];
         videoPlayer.Play();
+        meshRenderer.enabled = true;
 
         // Unsubscribe from the event to avoid repeated calls
         videoPlayer.prepareCompleted -= OnVideoPrepared;
@@ -174,10 +185,11 @@ public class TVVideoManager : MonoBehaviour
     // Function to pause the video
     public void PauseVideo()
     {
+        loaderScript.Pause();
         if (videoPlayer != null && videoPlayer.isPlaying)
         {
             videoPlayer.Pause();
-            videoPlayer.Stop();
+            //videoPlayer.Stop();
         }
     }
 
