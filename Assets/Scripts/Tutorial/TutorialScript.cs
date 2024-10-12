@@ -42,7 +42,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject Pausa;
     public GameObject AlertStart;
     public Graphic Enter_UI;
-    public Graphic Enter_UI_T10;
+    public Graphic Enter_UI_T11;
     public Graphic A2_UI;
     public Graphic S2_UI;
     public Graphic D2_UI;
@@ -148,9 +148,9 @@ public class TutorialScript : MonoBehaviour
         else if (T9.activeSelf)
             VerifyKeyT9();
         else if (TakePhoto.activeSelf)
-            HandleEnterKey(TakePhoto, T11);
-        else if (T11.activeSelf)
-            VerifyKeyT11();
+            HandleEnterKey(TakePhoto, T10);
+        else if (T10.activeSelf)
+            VerifyKeyT10();
         else if (NPC.activeSelf)
             HandleEnterKey(NPC, NPC2);
         else if (NPC2.activeSelf)
@@ -158,10 +158,10 @@ public class TutorialScript : MonoBehaviour
         else if (NPC3.activeSelf)
         {
             DialogueManager.instance.SetVariable("global_tutorial", DialogueVariableSetter.SetVariable(true));
-            HandleEnterKey(NPC3, T10);
+            HandleEnterKey(NPC3, T11);
         }
-        else if (T10.activeSelf)
-            VerifyKeyT10();
+        else if (T11.activeSelf)
+            VerifyKeyT11();
     }
 
     public void HandleEnterKey(GameObject currentScreen, GameObject nextScreen)
@@ -356,24 +356,11 @@ public class TutorialScript : MonoBehaviour
 
     public void HandleOnFinishedTutorial()
     {
-        T10.SetActive(false);
+        T11.SetActive(false);
         StartCoroutine(FinishTutorial());
     }
 
     public void VerifyKeyT10()
-    {
-        if (DialogueManager.instance.isTalking)
-        {
-            if (Input.GetKeyDown(KeyCode.Return))
-                Enter_UI_T10.color = targetColor;
-            if (Input.GetKeyDown(KeyCode.LeftArrow))
-                Left_UI.color = targetColor;
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                Right_UI.color = targetColor;
-        }
-    }
-
-    public void VerifyKeyT11()
     {
         EventManager.Photograph.OnActiveCamera(true);
 
@@ -388,7 +375,7 @@ public class TutorialScript : MonoBehaviour
         {
             if (Time.time - keyHoldTime >= 2f)
             {
-                T11.SetActive(false);
+                T10.SetActive(false);
 
                 // Start coroutine and wait for it to complete before showing the NPC
                 StartCoroutine(WaitForPhotoAndShowNPC());
@@ -400,6 +387,20 @@ public class TutorialScript : MonoBehaviour
         if (Input.GetMouseButtonUp(1))
         {
             isKeyHeld = false;
+        }
+    }
+
+        
+    public void VerifyKeyT11()
+    {
+        if (DialogueManager.instance.isTalking)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+                Enter_UI_T11.color = targetColor;
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Left_UI.color = targetColor;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Right_UI.color = targetColor;
         }
     }
 
