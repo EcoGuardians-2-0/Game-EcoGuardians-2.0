@@ -10,12 +10,14 @@ public class Character : InteractableObject
 
     private Animator animator;
     private Transform objTarget;
+    private Quaternion originalRotation;
     public bool ikActive = false;
     private float lookWeight;
 
     new void Start()
     {
         base.Start();
+        originalRotation = transform.rotation;
         animator = GetComponent<Animator>();
     }
 
@@ -35,7 +37,8 @@ public class Character : InteractableObject
         }
         else
         {
-            lookWeight = Mathf.Lerp(lookWeight, 0, Time.deltaTime * .5f);
+            lookWeight = Mathf.Lerp(lookWeight, 0, Time.deltaTime * 1.5f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 1.5f);
         }
     }
 
