@@ -176,11 +176,17 @@ public class CreditsManager : MonoBehaviour
         // Get the height of the RectTransform after layout rebuild
         float containerHeight = rectTransform.rect.height;
 
+        // Get the height of the parent Canvas's RectTransform
+        RectTransform canvasRect = rectTransform.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+        float canvasHeight = canvasRect.rect.height;
+
         // Calculate the end position by subtracting the container's height from the Y position
-        Vector2 endPosition = new Vector2(startPosition.x, startPosition.y + containerHeight + 1080f);
+        Vector2 endPosition = new Vector2(startPosition.x, startPosition.y + containerHeight + canvasHeight);
+
+        Debug.Log("End position" + endPosition.y);
 
         // Animate the credits to move upwards over 40 seconds (or adjust the duration as needed)
-        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 60f).setEase(LeanTweenType.linear);
+        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 10f).setEase(LeanTweenType.linear);
     }
 
     private void HandlePlayCredit()

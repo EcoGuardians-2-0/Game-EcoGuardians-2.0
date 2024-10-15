@@ -44,7 +44,12 @@ public class WallAlert : MonoBehaviour
     public void HandleDisableWall(int module)
     {
         if(module <= walls.Count)
-            walls[module-1].gameObject.SetActive(false);
+        {
+            walls[module - 1].gameObject.SetActive(false);
+            // Hiding message text after wall has been disabled
+            EventManager.Wall.OnDisplayText(0, false);
+
+        }
     }
 
 }
