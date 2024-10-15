@@ -17,7 +17,7 @@ public class PhotoController : MonoBehaviour
     [SerializeField]
     private Sprite Toche_enjalmado;
 
-    private int BirdsCount = 0;
+    public static int BirdsCount = 0;
     private Sprite birdSprite;
     private string birdReturnName;
 

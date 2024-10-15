@@ -186,7 +186,13 @@ public class CreditsManager : MonoBehaviour
         Debug.Log("End position" + endPosition.y);
 
         // Animate the credits to move upwards over 40 seconds (or adjust the duration as needed)
-        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 10f).setEase(LeanTweenType.linear);
+        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 10f).setEase(LeanTweenType.linear)
+            .setOnComplete(OnFinishCredits);
+    }
+
+    private void OnFinishCredits()
+    {
+        EventManager.Scene.OnFinishCredit?.Invoke();
     }
 
     private void HandlePlayCredit()
@@ -206,6 +212,15 @@ public class CreditsManager : MonoBehaviour
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
+
+        if(PhotoController.BirdsCount > 0)
+        {
+            this.birdTask.GetComponentInChildren<TextMeshProUGUI>().text = "!Estos son los pajaros que encontraste!";
+        }
+        else
+        {
+            this.birdTask.GetComponentInChildren<TextMeshProUGUI>().text = "No encontraste a níngun pajaro, ¿Se te olvido visitar algún rincon de la estación?";
+        }
 
         EventManager.Photograph.OnActiveCamera(false);
         EventManager.Minimap.OnUnlockMiniMap();
