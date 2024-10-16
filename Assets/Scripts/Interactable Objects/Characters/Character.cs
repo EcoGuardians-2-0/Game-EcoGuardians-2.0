@@ -38,7 +38,7 @@ public class Character : InteractableObject
         else
         {
             lookWeight = Mathf.Lerp(lookWeight, 0, Time.deltaTime * 1.5f);
-            transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 1.5f);
+            transform.rotation = Quaternion.Lerp(transform.rotation, originalRotation, Time.deltaTime * 0.75f);
         }
     }
 
