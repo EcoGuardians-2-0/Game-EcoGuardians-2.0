@@ -4,24 +4,75 @@ using UnityEngine;
 
 public class QuestController : MonoBehaviour
 {
-    // Update is called once per frame
-    void Update()
+    private bool isActive;
+    private bool isLocked;
+    private bool generalLock;
+    void Start()
     {
-        // Show or hide the list of tasks by pressing 'Tab'
-        if (Input.GetKeyDown(KeyCode.Tab))
+        isActive = false;
+        isLocked = false;
+        generalLock = true;
+    }
+
+    private void OnEnable()
+    {
+        EventManager.QuestUI.OnDisplayQuestUI += HandleDisplayQuestUI;
+        EventManager.QuestUI.OnUnlockQuestUI += HandleUnlockQuestUI;
+        EventManager.QuestUI.OnLockQuestUI += HandleLockQuestUI;
+        EventManager.QuestUI.OnGeneralUnlockQuestUI += HandleGeneralUnlock;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.QuestUI.OnDisplayQuestUI -= HandleDisplayQuestUI;
+        EventManager.QuestUI.OnUnlockQuestUI -= HandleUnlockQuestUI;
+        EventManager.QuestUI.OnLockQuestUI -= HandleLockQuestUI;
+        EventManager.QuestUI.OnGeneralUnlockQuestUI -= HandleGeneralUnlock;
+    }
+
+    private void HandleGeneralUnlock()
+    {
+        generalLock = false;
+        HandleDisplayQuestUI();
+    }
+    private void HandleDisplayQuestUI()
+    {
+        if (!isLocked && !generalLock)
         {
-            Debug.Log("Tab pressed: " + AnimationsQuest.Instance.GetQuestsState());
-            if (!AnimationsQuest.Instance.GetQuestsState())
-            {
-                AnimationsQuest.Instance.ShowQuestsUI();
-                Debug.Log("ShowQuestsUI");
-            }
-            else
-            {
-                AnimationsQuest.Instance.HideQuestsUI();
-                Debug.Log("HideQuestsUI");
-            }
-                
+            isActive = !isActive;
+            toggleQuestUI();
+        }
+    }
+
+    private void HandleUnlockQuestUI()
+    {
+        isLocked = false;
+        if (!isActive)
+        {
+            HandleDisplayQuestUI();
+        }
+    }
+
+    private void HandleLockQuestUI()
+    {
+        isLocked = true;
+        if (isActive)
+        {
+            isActive = false;
+            toggleQuestUI();
+        }
+
+    }
+
+    private void toggleQuestUI()
+    {
+        if (isActive)
+        {
+            AnimationsQuest.Instance.ShowQuestsUI();
+        }
+        else
+        {
+            AnimationsQuest.Instance.HideQuestsUI();
         }
     }
 }

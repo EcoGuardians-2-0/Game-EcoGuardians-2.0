@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TutorialScript : MonoBehaviour
@@ -136,7 +137,7 @@ public class TutorialScript : MonoBehaviour
         else if (T6.activeSelf)
             VerifyKeyT6();
         else if (Task.activeSelf)
-            HandleEnterKey(Task, T7);
+            HandleEnterKey(Task, T7, EventManager.QuestUI.OnGeneralUnlockQuestUI);
         else if (T7.activeSelf)
             VerifyKeyT7();
         else if (Interactable.activeSelf)
@@ -144,7 +145,7 @@ public class TutorialScript : MonoBehaviour
         else if (T8.activeSelf)
             VerifyKeyT8();
         else if (Minimap.activeSelf)
-            HandleEnterKey(Minimap, T9);
+            HandleEnterKey(Minimap, T9, EventManager.Minimap.OnGeneralUnlockMiniMap);
         else if (T9.activeSelf)
             VerifyKeyT9();
         else if (TakePhoto.activeSelf)
@@ -164,7 +165,7 @@ public class TutorialScript : MonoBehaviour
             VerifyKeyT11();
     }
 
-    public void HandleEnterKey(GameObject currentScreen, GameObject nextScreen)
+    public void HandleEnterKey(GameObject currentScreen, GameObject nextScreen, UnityAction OnActionComplete = null)
     {
         if (Enter_UI.color == targetColor && !isTransitioning)
         {
@@ -176,6 +177,10 @@ public class TutorialScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Return) && Enter_UI.color == principalColor && !isTransitioning)
         {
             Enter_UI.color = targetColor;
+            if(OnActionComplete != null)
+            {
+                OnActionComplete?.Invoke();
+            }
             StartCoroutine(RestoreColorAfterDelay());
         }
     }

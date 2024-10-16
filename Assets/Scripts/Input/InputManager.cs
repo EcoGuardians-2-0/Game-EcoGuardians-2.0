@@ -14,6 +14,10 @@ public class InputManager : MonoBehaviour
         {
             EventManager.Minimap.OnDisplayMinimap?.Invoke();
         }
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            EventManager.QuestUI.OnDisplayQuestUI?.Invoke();
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static EventManager;
 
 public class EventManager 
 {
@@ -13,6 +14,7 @@ public class EventManager
     public readonly static PhotographEvents Photograph = new PhotographEvents();
     public readonly static CameraViewEvents CameraView = new CameraViewEvents();
     public readonly static MinimapEvents Minimap = new MinimapEvents();
+    public readonly static QuestUIEvents QuestUI = new QuestUIEvents();
     public readonly static SceneEvents Scene = new SceneEvents();
     public class WallEvents
     {
@@ -70,6 +72,15 @@ public class EventManager
         public UnityAction OnDisplayMinimap;
         public UnityAction OnLockMiniMap;
         public UnityAction OnUnlockMiniMap;
+        public UnityAction OnGeneralUnlockMiniMap;
+    }
+    public class QuestUIEvents
+    {
+        public UnityAction OnDisplayQuestUI;
+        public UnityAction OnLockQuestUI;
+        public UnityAction OnUnlockQuestUI;
+        public UnityAction OnGeneralUnlockQuestUI;
+
     }
 
     public class SceneEvents

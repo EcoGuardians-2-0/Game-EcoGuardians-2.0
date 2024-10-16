@@ -9,12 +9,14 @@ public class MinimapController : MonoBehaviour
 
     private bool isActive;
     private bool isLocked;
+    private bool generalLock;
 
 
     void Start()
     {
         isActive = false;
-        isLocked = true;
+        isLocked = false;
+        generalLock = true;
         toggleMinimap();
     }
 
@@ -23,6 +25,7 @@ public class MinimapController : MonoBehaviour
         EventManager.Minimap.OnDisplayMinimap += HandleOnDisplayMinimap;
         EventManager.Minimap.OnLockMiniMap += HandleOnLockMinimap;
         EventManager.Minimap.OnUnlockMiniMap += HandleOnUnlockMiniMap;
+        EventManager.Minimap.OnGeneralUnlockMiniMap += HandleGeneralUnlockMinimap;
     }
 
     private void OnDisable()
@@ -30,6 +33,14 @@ public class MinimapController : MonoBehaviour
         EventManager.Minimap.OnDisplayMinimap -= HandleOnDisplayMinimap;
         EventManager.Minimap.OnLockMiniMap -= HandleOnLockMinimap;
         EventManager.Minimap.OnUnlockMiniMap -= HandleOnUnlockMiniMap;
+        EventManager.Minimap.OnGeneralUnlockMiniMap -= HandleGeneralUnlockMinimap;
+
+    }
+
+    public void HandleGeneralUnlockMinimap()
+    {
+        generalLock = false;
+        HandleOnDisplayMinimap();
     }
 
     public void HandleOnLockMinimap()
@@ -44,12 +55,15 @@ public class MinimapController : MonoBehaviour
     public void HandleOnUnlockMiniMap()
     {
         isLocked = false;
-        HandleOnDisplayMinimap();
+        if (!isActive)
+        {
+            HandleOnDisplayMinimap();
+        }
     }
 
     public void HandleOnDisplayMinimap()
     {
-        if (!isLocked)
+        if (!isLocked && !generalLock)
         {
             isActive = !isActive;
             toggleMinimap();
