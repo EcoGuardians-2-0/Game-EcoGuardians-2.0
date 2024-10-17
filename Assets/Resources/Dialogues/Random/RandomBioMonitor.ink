@@ -11,13 +11,13 @@ VAR dialogueNumber = 0
 
 
 === RANDOM1
-Te sugiero que hables primero con mis compañeros. # animation:1
-Ellos pueden darte más detalles. Después, estaré encantado de continuar nuestra charla.
+Te sugiero que hables primero con mis compañeros y realices la actividad. # animation:1
+Es importante que conozcas un poco de la estación primero.
 -> DONE
 
 === RANDOM2
-¡Qué bueno verte de nuevo! ¿Podrías hablar primero con mis compañeros? # animation:1
-Ellos te explicarán mejor lo que hacemos aquí. Luego seguimos conversando. 
+¡Qué bueno verte de nuevo! ¿Ya has realizado todas las tareas de este módulo? # animation:1
+Vuelve cuando hayas completado todas las tareas para que hablemos.
 -> DONE
 
 === RANDOM3
@@ -35,18 +35,18 @@ Ellos te explicarán mejor lo que hacemos aquí. Luego seguimos conversando.
 }
 
 === RANDOM1BIO2
-Te sugiero que hables primero con mi compañera. # animation: 1
-Ella puede darte más detalles. Después, estaré encantado de continuar nuestra charla.
+Te sugiero que hables primero con mi compañera y hagas la actividad. # animation: 1
+Ella puede darte más detalles. Después, estaré encantada de continuar nuestra charla.
 -> DONE
 
 === RANDOM2BIO2
-¡Qué bueno verte de nuevo! ¿Podrías hablar primero con mi compañera Luisa? # animation: 1
-Ella te explicara mejor lo que hacemos aquí en la cocina. Luego seguimos conversando.
+¡Qué bueno verte de nuevo! Veo que aún no has terminado todas las actividades # animation: 1
+Te recomiendo que las termines todas primero, luego seguimos conversando.
 -> DONE
 
 === RANDOM3BIO2 
 ¡Qué bueno que volviste! Pero antes de seguir... # animation: 1
-¿Por qué no hablas con mi compañera Luisa en la cocina? Después podemos conversar con más calma.
+¿Por qué no realizas las actividaes restantes? Después podemos conversar con más calma.
 -> DONE
 
 === ChooseRandomDialogueBio3
@@ -60,19 +60,18 @@ Ella te explicara mejor lo que hacemos aquí en la cocina. Luego seguimos conver
 
 === RANDOM1BIO3
 ¡Qué alegría verte en el último módulo! # animation: 1
-Antes de continuar, te sugiero que hables primero con mis compañeras. 
-Ellas pueden darte más detalles sobre lo que se hace aquí.
+Antes de continuar, te sugiero que realices todas las actividades en este módulo.
 -> DONE
 
 === RANDOM2BIO3
 ¡Qué bueno verte de nuevo! ¿Ya hablaste con mis compañeras? # animation: 1
-Ellas te explicarán mejor lo que hacemos aquí.
+No se te olvide realizar la actividad de este módulo. Es divertida.
 -> DONE
 
 === RANDOM3BIO3
 ¡Me alegra que hayas vuelto! Pero antes de seguir... # animation: 1
-¿Por qué no hablas con mis compañeras en la base de operaciones y en el volumen de conocimiento?
-Después podremos conversar con más calma.
+Veo que te falta por terminar unas actividades. 
+Realizaremos el cuestionario cuando hayas completado todas las actividades.
 -> DONE
 
 

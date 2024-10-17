@@ -3,7 +3,7 @@ VAR total_questions = 5
 VAR passing_score =  3
 VAR current_question = 1
 === start
-Empezaremos con el cuestionario. En total son {total_questions}, <>
+Empezaremos con el cuestionario. En total son {total_questions} preguntas, <>
 y necesitas un mínimo de {passing_score} respuestas correctas para continuar al siguiente módulo.
 -> questionnaire
 

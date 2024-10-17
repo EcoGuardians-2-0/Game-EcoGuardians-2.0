@@ -22,10 +22,10 @@ VAR failed_test = 0
 // Sara's introduction
 === intro
     ~global_mision_completada = "quest_2.0"
-    ¡Hola! Soy Sara, me alegra ver que haz llegado al segundo modulo, ¡Espero estes disfrutando tu experiencia! # speaker: Sara # animation: 1
+    ¡Hola! Soy Sara, me alegra ver que has llegado al segundo módulo, ¡Espero estés disfrutando tu experiencia! # speaker: Sara # animation: 1
     Vamos a hacer esto. Seguiremos explorando, mientras seguirás cumpliendo determinadas tareas y retos para que sea más divertido.
-    Tengo una idea: ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que hace en la estación.
-    Recuerda, poner atención al <color=\#FEF445>color del tono con quien hablas</color> ya que seran claves durante mi <color=\#FEF445>actividad del cuestionario</color>.
+    Tengo una idea: ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que ella hace en la estación.
+    Recuerda, poner atención al <color=\#FEF445>color de ciertas palabras cuando hables con mis compañeros</color>, ya que serán claves durante mi <color=\#FEF445>actividad del cuestionario</color>.
     // Assigning missions to character
     ~ global_misiones_2 = true
     // Marking character as already talked
@@ -39,22 +39,22 @@ VAR failed_test = 0
 
 === suerte
     ¡Felicitaciones por haber completado el cuestionario!. #speaker: Sara # animation: 5
-    Parace que has completado todas las actividades de este modulo.
-    Ahora, ve hacia al auditorio. Allí se encuentra <color=\#FEF445>la base de operaciones (BOP)</color> y <color=\#FEF445>el volumen de conocimiento</color>.
-    Ahí encontraras mis otros compañeros quienes tienen más actividades preparadas para ti.
+    Parece que has completado todas las actividades de este módulo.
+    Ahora, ve hacia el auditorio. Allí se encuentra <color=\#FEF445>la base de operaciones (BOP)</color> y <color=\#FEF445>el volumen de conocimiento</color>.
+    Ahí encontrarás mis otros compañeros quienes tienen más actividades preparadas para ti.
     * -> DONE
     
 === cuestionario ==
     Hola. ¿Cómo te ha ido visitando el modulo? # speaker: Sara # animation: 1
     {   failed_test > 0:
             Veo que ya habías intentado el cuestionario antes.<>
-            No te preocupes, ¡Se que esta vez lo pasaras!
+            No te preocupes, ¡sé que esta vez lo pasarás!
             ¿Te gustaría intentarlo de nuevo o prefieres esperar un poco más?
                 +[Claro]
                     ¡Perfecto! Comencemos con el cuestionario. Estoy seguro de que lo harás mucho mejor esta vez.
                     ->start->evaluacion
                 +[En un rato lo haré gracias]
-                    Está bien, no hay prisa. Cuando te sientas listo,estaré aquí para el cuestionario. 
+                    Está bien, no hay prisa. Cuando te sientas listo, estaré aquí para el cuestionario. 
                     ¡Solo házmelo saber!
                     -> DONE
         -else:

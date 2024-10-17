@@ -16,7 +16,7 @@ VAR already_talked = false
 
 === intro
     ¡Hola, soy Luisa! Encantada de conocerte. Soy la chef del restaurante de la estación. #speaker: Luisa # animation: 1
-    Estaré aqui para cualquier cosa que necesites sobre la comida o el restaurante.
+    Estaré aquí para cualquier cosa que necesites sobre la comida o el restaurante.
     ->question
 
 === intro2
@@ -25,16 +25,16 @@ VAR already_talked = false
     ->question
 
 === intro3
-    ¡Hola otra vez, felicitaciones por el cuestionario, lo sabias todo! #speaker: Luisa # animation: 1
-    Si quieres saber más sobre lo que hacemos o simplemente disfrutar de un buen plato, ¡Aquí estoy!
+    ¡Hola otra vez, felicitaciones por el cuestionario, lo sabías  todo! #speaker: Luisa # animation: 1
+    Si quieres saber más sobre lo que hacemos o simplemente disfrutar de un buen plato. ¡Aquí estoy!
     ->question
     
     
 === question
     { already_talked:
-        ¿Te gustaría saber sobre mi trabajo o el restaurante? # animation:5
-        - else:
         ¿Te gustaría seguir charlando sobre mi trabajo en la cocina o algun detalle del restaurante? # animation:5
+        - else:
+        ¿Te gustaría saber sobre mi trabajo o el restaurante? # animation:5
     }
     + [¿Cuál es tu función principal en la estación biológica?]
         -> q1
