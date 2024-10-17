@@ -3,7 +3,7 @@ VAR total_questions = 6
 VAR passing_score =  4
 VAR current_question = 1
 === start
-Empezaremos con el cuestionario. En total son {total_questions}, <>
+Empezaremos con el cuestionario. En total son {total_questions} preguntas, <>
 y necesitas un mínimo de {passing_score} respuestas correctas para continuar al siguiente módulo.
 -> questionnaire
 
@@ -40,7 +40,7 @@ Tu puntaje final es {score} de {total_questions}.
 Pregunta {current_question}:<>
 ¿Cuál es el impacto positivo que tiene la estación en la comunidad?
     + [Acceso a servicios locales.] -> incorrect
-    + [Uso de carros no sostenibles.] -> incorrect
+    + [Uso de autos sostenibles.] -> incorrect
     + [Generar empleo y fomentar turismo responsable.] -> correct
     + [Competencia entre negocios locales.] -> incorrect
     

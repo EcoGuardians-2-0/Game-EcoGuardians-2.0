@@ -23,7 +23,7 @@ VAR failed_test = 0
 === intro
     ~global_mision_completada = "quest_2.0"
     ¡Hola! Soy Sara, me alegra ver que has llegado al segundo módulo, ¡Espero estés disfrutando tu experiencia! # speaker: Sara # animation: 1
-    Vamos a hacer esto. Seguiremos explorando, mientras seguirás cumpliendo determinadas tareas y retos para que sea más divertido.
+    Vamos a hacer esto. Seguiremos explorando, y mientras, tú seguirás cumpliendo determinadas tareas y retos para que sea más divertido.
     Tengo una idea: ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que ella hace en la estación.
     Recuerda, poner atención al <color=\#FEF445>color de ciertas palabras cuando hables con mis compañeros</color>, ya que serán claves durante mi <color=\#FEF445>actividad del cuestionario</color>.
     // Assigning missions to character

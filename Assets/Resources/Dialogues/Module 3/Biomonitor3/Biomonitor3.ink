@@ -26,7 +26,7 @@ VAR failed_test = 0
     Te felicito por llegar hasta aquí. Ahora, el reto final será que realices todas las actividades del tercer módulo.
     Cuando termines todas las tareas del tercer módulo, vuelve a hablar conmigo para realizar el último cuestionario.
     Estoy seguro de que este cuestionario será el cierre perfecto para ver que tanto has conocido sobre la estación.
-    No falta mencionar que fijes tu atención <color=\#FEF445>cuando el color del tono de la conversación cambia de color</color> pues sera de mucha ayuda en tu <color=\#FEF445>ultimo cuestionario</color> 
+    No falta mencionar que fijes tu atención <color=\#FEF445>cuando el color del tono de la conversación cambia de color.</color> Será de mucha ayuda en tu <color=\#FEF445>ultimo cuestionario</color> 
     ~ already_talked = true
     ~ global_misiones_3 = true
     ->DONE
@@ -43,7 +43,7 @@ VAR failed_test = 0
     * -> final_question
     
 === final_question
-<color=\#B80C09>¿Estás listo para terminar tu experiencia en la estación biológica?</color>
+<color=\#2B5628>¿Estás listo para terminar tu experiencia en la estación biológica?</color>
     +[Si, siento que he recorrido bastante de la estación]
         Vale, me ha sido un placer conocerte durante tu visita por la estación biológica de Aguadas Caldas.
         Esperamos que regreses pronto. !Estamos con los brazos abiertos!
@@ -90,7 +90,7 @@ VAR failed_test = 0
         Has pasado el cuestionario del tercer modulo.
         Eres extraordinari@, <color=\#FEF445> has completado todos los retos y actividades que hemos preparado </color>.
         Si deseas, puedes continuar explorando otros rincones de la estación que te faltaron visitar.
-        Pero si sientes que has terminado, <color=\#B80C09>vuelve hablar conmigo para hacerte una última pregunta</color>.
+        Pero si sientes que has terminado, <color=\#2B5628>vuelve hablar conmigo para hacerte una última pregunta</color>.
         ~global_pass_3 = true
 
      -else:

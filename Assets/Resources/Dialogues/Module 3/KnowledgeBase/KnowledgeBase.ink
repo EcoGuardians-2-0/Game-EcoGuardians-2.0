@@ -15,7 +15,7 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola! Soy Ana y me encargo del Volumen de conocimiento. Aqui organizamos conferencias y talleres sobre biodiversidad y conservación. #speaker: Ana # animation: 1
+    ¡Hola! Soy Ana y me encargo del Volumen de conocimiento. Aquí organizamos conferencias y talleres sobre biodiversidad y conservación. #speaker: Ana # animation: 1
     Es un espacio diseñado para que expertos y biomonitores compartan experiencias y aprendan juntos.
     ->question
 
@@ -35,7 +35,7 @@ VAR already_talked = false
     { already_talked: 
         ¿Te gustaría saber más sobre los eventos que organizamos aqu en el Volumen de Conocimiento? # animation: 5
         - else:
-        Hay algo más que te gustaría saber sobre nuestro trabajo aquí en el Volumen del Conocimiento # animation: 5
+        ¿Hay algo más que te gustaría saber sobre nuestro trabajo aquí en el Volumen del Conocimiento? # animation: 5
     }
     + [¿Qué es el volumen de conocimiento?]
         -> q1
@@ -48,7 +48,7 @@ VAR already_talked = false
     Es una sala de reuniones y conferencias que se utiliza para <color=\#FEF445> organizar eventos de formación, capacitaciones y conferencias sobre biodiversidad y conservación</color>. # animation: 3
     +[¿Qué tipo de eventos se organizan en el Volumen de Conocimiento?]
         Organizamos <color=\#FEF445>conferencias sobre biodiversidad y talleres de formación </color>.
-        Además de preparar reuniones con expertos en conservación y tecnología.
+        Además, prepararamos reuniones con expertos en conservación y tecnología.
         -> question    
     +[¿Cómo contribuyen estos eventos al éxito del programa Awaq Bio-Tech?]
         Los eventos <color=\#FEF445>permiten formar los biomonitores y compartir conocimiento con expertos</color> internacionales.

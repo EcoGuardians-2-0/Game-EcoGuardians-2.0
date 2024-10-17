@@ -25,7 +25,7 @@ VAR already_talked = false
     ->question
 
 === intro3
-    ¡Hola, Qué alegría verte de nuevo y con tan buen resultado en el cuestionario! #speaker: Angélica # animation: 1
+    ¡Hola, qué alegría verte de nuevo y con tan buen resultado en el cuestionario! #speaker: Angélica # animation: 1
     Si quieres saber más sobre el trabajo que hacemos o cómo hemos transformado la estación, estoy aquí para responder tus preguntas.
     ->question
     
@@ -73,8 +73,7 @@ VAR already_talked = false
     { global_misiones_3 == true:
       ~global_mision_completada="quest_3.1"
     }
-    Vale, estaré  aqui por si me necesitas o tienes más preguntas.
-    Si necesitas ayuda o tienes alguna pregunta en el futuro, no dudes en acercarte.
+    Vale, estaré aqui por si me necesitas o tienes más preguntas.
     -> DONE
 
 * -> END
