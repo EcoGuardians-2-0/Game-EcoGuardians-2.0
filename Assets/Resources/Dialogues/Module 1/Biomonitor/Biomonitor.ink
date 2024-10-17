@@ -23,7 +23,7 @@ VAR failed_test = 0
 === intro
     ~global_mision_completada = "quest_1.7"
     ¡Hola! Soy Carlos, veo que estás visitando nuestra estación  por primera vez y noto que te gustaría conocerla. #speaker: Carlos # animation: 1
-    Primero que todo, nos encontramos en Aguadas, Caldas. En la Estación Biológica del Norte de Caldas, o por sus siglas, EBNC.
+    Primero que todo, nos encontramos en Aguadas, Caldas. En la <color=\#70e000>Estación Biológica del Norte de Caldas, o por sus siglas, EBNC</color>.
     Vamos a hacer esto. Te ayudaré a explorarla, mientras que cumplas determinadas tareas y retos que te colocaré para que sea más divertido. # animation:3
     Tengo una idea. ¿Por qué no hablas con mis compañeros en sus oficinas aquí abajo? Cuando regreses, te preguntaré sobre lo que hacen en la estación.
     Fíjate en el <color=\#FEF445> color de ciertas palabras cuando hables con mis compañeros</color>. 

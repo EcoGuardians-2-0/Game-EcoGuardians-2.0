@@ -46,7 +46,7 @@ VAR already_talked = false
         -> finish
         
 === q1
-    Vender las entradas para el BioPark e información sobre actividades turísticas de la región. # animation: 3
+    Vender las entradas para el <color=\#70e000>BioPark</color> y dar información sobre actividades turísticas de la región. # animation: 3
     +[¿Qué tipo de actividades se pueden hacer?]
         Los visitantes pueden disfrutar de una variedad de actividades.
         Puedes hacer <color=\#FEF445>senderismo, caminatas a caballo y recorrido por los paisajes naturales </color>.

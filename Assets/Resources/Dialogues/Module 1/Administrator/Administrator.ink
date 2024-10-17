@@ -15,9 +15,9 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola! Bienvenid@ a la Estación Biológica del Norte de Caldas.# speaker:Jenny # animation: 1
+    ¡Hola! Bienvenid@ a la <color=\#70e000>Estación Biológica del Norte de Caldas </color>.# speaker:Jenny # animation: 1
     Mi nombre es Jenny y soy la administradora de esta estación.<>
-    Trabajo en la organización de Awaq. 
+    Trabajo en la organización de<color=\#70e000> Awaq</color>. 
     ->question
 
 === intro2
@@ -52,7 +52,7 @@ VAR already_talked = false
         -> question    
     +[¿Cómo apoyas a los biomonitores desde tu puesto?]
         Me encargo de que todos tengan los recursos necesarios. 
-        Desde equipos y suministros hasta la logística de su desplazamiento en el Biopark.
+        Desde equipos y suministros hasta la logística de su desplazamiento en el <color=\#70e000>Biopark</color>.
         -> question
     
     

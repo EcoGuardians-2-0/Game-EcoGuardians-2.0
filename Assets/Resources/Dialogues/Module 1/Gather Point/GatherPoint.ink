@@ -26,7 +26,7 @@ VAR already_talked = false
 
 === intro3
     ¡Fantástico! Es un placer, verte de nuevo después de un cuestionario tan bien resuelto # speaker: Alex # animation: 1
-    Ya sabes que estoy aquí para ayudarte a disfrutar de tu visita al BioPark y resolver cualquier duda.
+    Ya sabes que estoy aquí para ayudarte a disfrutar de tu visita al <color=\#70e000>BioPark</color> y resolver cualquier duda.
     ->question
     
     
@@ -44,21 +44,21 @@ VAR already_talked = false
         -> finish
         
 === q1
-    Mi función es guiar a los visitantes por la estación y el BioPark, ayudándolos a ubicarse y <> 
+    Mi función es guiar a los visitantes por la estación y el <color=\#70e000>BioPark</color>, ayudándolos a ubicarse y <> 
     disfrutar de los atractivos naturales de manera segura. #animation: 3
     +[¿Cómo ayudas a los turistas a disfrutar de su visita?]
         <color=\#FEF445>Proporciono mapas y explico las rutas</color>.
         Además, doy <color=\#FEF445>recomendaciones sobre los mejores lugares para ver animales y disfrutar el paisaje </color>.
         -> question    
     +[¿Cómo entrenas al equipo para que estén preparados ante una emergencia?]
-        El BioPark es donde realizamos nuestras actividades de biomonitoreo. Es una fuente clave de datos para Awaq Bio-Tech.
+        El <color=\#70e000>BioPark</color> es donde realizamos nuestras actividades de biomonitoreo. Es una fuente clave de datos para <color=\#70e000>Awaq Bio-Tech</color>.
         Gracias a estos datos podemos proteger el ecosistema de manera más efectiva.
         -> question
     
     
 === q2
     En caso de un fenómeno natural, mi tarea es coordinar la evacuación y asegurar que todos estén a salvo. # animation: 3
-    +[¿Qué consejo le darías a alguien que visita el BioPark por primera vez?]
+    +[¿Qué consejo le darías a alguien que visita el <color=\#70e000>BioPark</color> por primera vez?]
         Que disfruten cada momento, pero respeten la naturaleza.
         Deben mantenerse en las rutas designadas y seguir las recomendaciones de seguridad para preservar la belleza de este lugar.
         -> question    
