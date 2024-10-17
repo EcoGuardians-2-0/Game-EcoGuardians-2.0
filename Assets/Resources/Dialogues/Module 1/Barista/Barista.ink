@@ -20,7 +20,7 @@ VAR already_talked = false
     ->question
 
 === intro2
-    Me alegra verte de nuevo por aquí!<>
+    ¡Me alegra verte de nuevo por aquí!<>
     Espero que estés disfrutando de tu visita # speaker:Renato # animation: 1
     Recuerda que siempre es un buen momento para una taza de café y un rato de observación de aves.
     ->question
@@ -28,7 +28,7 @@ VAR already_talked = false
 === intro3
     !Felicitaciones por completar el cuestionario!<>
     Eso muestra tu interés y dedicación # speaker:Renato #animation:1
-    Si alguna vez necesitas un descanso estaré aquí con una taza de cafe recién hecho.
+    Si alguna vez necesitas un descanso, estaré aquí con una taza de café recién hecho.
     ->question
     
     
@@ -47,7 +47,7 @@ VAR already_talked = false
         -> finish
         
 === q1
-    Soy el manager del café mirador, un lugar priviliegado dentro de la estación que <>
+    Soy el manager del café mirador, un lugar privilegiado dentro de la estación que <>
     ofrece vistas espectaculares y un espacio para el avistamiento de aves. # animation: 3
     +[¿Qué tipos de aves se pueden ver desde el café?]
         Las más comunes que se pueden son <color=\#FEF445>los tucanes, colibríes y águilas </color>.
@@ -55,7 +55,7 @@ VAR already_talked = false
         -> question    
     +[¿Qué tipo de experiencias ofrecen a los visitantes que se interesan por el avistamiento?]
         Ofrecemos sesiones guiadas de avistamiento al amanecer.
-        Explicamos las mejores técnicas para observar aves sin perturbar su habitat.
+        Explicamos las mejores técnicas para observar aves sin perturbar su hábitat.
         -> question
     
     
@@ -63,10 +63,10 @@ VAR already_talked = false
     Ofrecemos café local de alta calidad, cultivado en la región, junto con repostería casera y platos ligeros. # animation: 3
     +[¿Cómo combinas tu pasión por el avistamiento de aves con tu trabajo?]
         Suelo compartir mi conocimiento sobre las aves con los visitantes.
-        Es un gran placer hablarales sobre las especies que pueden observar mientras disfrutan su café.
+        Es un gran placer hablarles  sobre las especies que pueden observar mientras disfrutan su café.
         -> question    
     +[¿Cómo impacta tu trabajo en la conversación de la biodiversidad?]
-        Al educar a los visitantes sobre las aves locales y ayudamos a generar conciencia sobre la importancia de proteger su habitat
+        Al educar a los visitantes sobre las aves locales, ayudamos a generar conciencia sobre la importancia de proteger su hábitat.
         Además, los ingresos del café contribuyen a los proyectos de conservación de la estación.
         -> question
     

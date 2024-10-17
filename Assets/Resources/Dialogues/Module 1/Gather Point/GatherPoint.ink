@@ -15,26 +15,26 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola! Bienvenidos al Punto de Encuentro. Soy Alex, guía de esta estación. #speaker: Alex # animation: 1
+    ¡Hola! Bienvenid@ al Punto de Encuentro. Soy Alex, guía de esta estación. #speaker: Alex # animation: 1
     Estoy aquí para ayudarte en tu visita. 
     ->question
 
 === intro2
-    Es un placer verte de nuevo. Si hay algo más que pueda hacer por ti, no dudes en decirme. # speaker:Alex # animation: 1
-    Espero que tu visita continúe siendo tan emocionante como la primera vez.
+    Es un placer, verte de nuevo. Si hay algo más que pueda hacer por ti, no dudes en decirme. # speaker:Alex # animation: 1
+    Espero que tu visita continúe siendo emocionante.
     ->question
 
 === intro3
-    ¡Fantástico! Es un placer verte de nuevo después de un cuestionario tan bien resuelto # speaker: Alex # animation: 1
+    ¡Fantástico! Es un placer, verte de nuevo después de un cuestionario tan bien resuelto # speaker: Alex # animation: 1
     Ya sabes que estoy aquí para ayudarte a disfrutar de tu visita al BioPark y resolver cualquier duda.
     ->question
     
     
 === question
     { already_talked:
-        ¿En qué puedo ayudarte hoy? # animation:5
-        - else:
         ¿Te gustaría preguntarme algo más esta vez? # animation:5
+        - else:
+        ¿En qué puedo ayudarte hoy? # animation:5
     }
     + [¿Cuál es tu función principal en la estación biológica?]
         -> q1
@@ -50,7 +50,7 @@ VAR already_talked = false
         <color=\#FEF445>Proporciono mapas y explico las rutas</color>.
         Además, doy <color=\#FEF445>recomendaciones sobre los mejores lugares para ver animales y disfrutar el paisaje </color>.
         -> question    
-    +[¿Cómo entrenas al equipo para que esten preparados ante una emergencia?]
+    +[¿Cómo entrenas al equipo para que estén preparados ante una emergencia?]
         El BioPark es donde realizamos nuestras actividades de biomonitoreo. Es una fuente clave de datos para Awaq Bio-Tech.
         Gracias a estos datos podemos proteger el ecosistema de manera más efectiva.
         -> question
@@ -75,7 +75,7 @@ VAR already_talked = false
     { global_misiones_1 == true:
       ~global_mision_completada="quest_1.3"
     }
-    Si necesitas ayuda o tienes alguna pregunta en el futuro <br> 
+    Si necesitas ayuda o tienes alguna pregunta en el futuro... <br> 
     ¡No dudes en acercarte!
     -> DONE
 

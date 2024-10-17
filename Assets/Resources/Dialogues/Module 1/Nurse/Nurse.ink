@@ -15,7 +15,7 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola! Soy Maria Isabel, encargada de los primeros auxilios en la estación biológica.# speaker:Maria Isabel # animation: 1
+    ¡Hola! Soy María Isabel, encargada de los primeros auxilios en la estación biológica.# speaker:Maria Isabel # animation: 1
     Estoy aquí para asegurar que todos estén a salvo y preparados ante cualquier estación.
     ->question
 
@@ -44,21 +44,19 @@ VAR already_talked = false
         -> finish
         
 === q1
-    Me encargo de estar disponible para cualquier emergencia médica que pueda surgir <>
-    y también de capacitar al equipo en protocolos de seguridad y atención básica. #animation: 3
+    Me encargo de estar disponible para cualquier emergencia médica que pueda surgir, y también de capacitar al equipo en protocolos de seguridad y atención básica. #animation: 3
     +[¿Qué tipo de emergencias manejas aquí?]
         Principalmente, lidiamos con incidentes menores como cortes, caídas o picaduras de insectos.
         Aunque estamos preparados para emergencias más graves, afortunadamente, son muy pocas.
         -> question    
     +[¿Cómo entrenas al equipo para que esten preparados ante una emergencia?]
         Realizo simulacros periodícos con todo el personal para que sepan como actuar en situaciones de emergencias.
-        Les enseño desde usar un botíquin de primeros auxilios hasta técnicas básicas de reanimación.
+        Les enseño desde usar un botiquín de primeros auxilios hasta técnicas básicas de reanimación.
         -> question
     
     
 === q2
-    Mi función es guiar a los visitantes por la estación y el BioPark, <>
-    ayudándolos a ubicarse y disfrutar de los atractivos naturales de manera segura. #animation: 3
+    Mi principal responsabilidad es evaluar rápidamente la situación, proporcionar primeros auxilios inmediatos y coordinar con los servicios médicos locales si es necesario. #animation: 3
     +[¿Qué herramientas y recursos usas en tu trabajo diario?]
         En mi trabajo diario, utilizo una variedad de elementos del equipo de primeros auxilios.
         El botiquín de <color=\#FEF445>primeros auxilios </color>, <color=\#FEF445>las tijeras de emergencia</color>, <color=\#FEF445>los vendajes</color>, <color=\#FEF445>los guantes desechables</color> y otros dispositivos
@@ -76,7 +74,7 @@ VAR already_talked = false
     { global_misiones_1 == true:
       ~global_mision_completada="quest_1.1"
     }
-    Si necesitas ayuda o tienes alguna pregunta en el futuro <br> 
+    Si necesitas ayuda o tienes alguna pregunta sobre mis funciones...<br> 
     ¡No dudes en acercarte!
     -> DONE
 
