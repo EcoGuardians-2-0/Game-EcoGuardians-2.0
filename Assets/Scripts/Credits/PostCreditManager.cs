@@ -12,6 +12,8 @@ public class PostCreditManager : MonoBehaviour
     private GameObject messagePanel; // Panel that contains the recognition message
     [SerializeField]
     private GameObject buttonPanel; // Panel that contains the buttons
+    [SerializeField]
+    private GameObject socialPanel;
 
     private TextMeshProUGUI timeText; // Reference to the TextMeshProUGUI for the time
     private TextMeshProUGUI messageText; // Reference to the TextMeshProUGUI for the message
@@ -54,6 +56,11 @@ public class PostCreditManager : MonoBehaviour
 
         // Show the button panel
         ShowButtonPanel();
+
+        yield return new WaitForSeconds(3f); // Wait for 3 seconds
+
+        // Show the social media panel
+        ShowSocialPanel();
     }
 
     private void ShowTimePanel()
@@ -83,6 +90,13 @@ public class PostCreditManager : MonoBehaviour
         // Make the button panel appear using LeanTween
         LeanTween.alpha(buttonPanel.GetComponent<RectTransform>(), 1f, 2f).setEase(LeanTweenType.easeInOutQuad);
         buttonPanel.SetActive(true); // Ensure the panel is active
+    }
+
+    private void ShowSocialPanel()
+    {
+        // Make the social media panel appear using LeanTween
+        LeanTween.alpha(socialPanel.GetComponent<RectTransform>(), 1f, 2f).setEase(LeanTweenType.easeInOutQuad);
+        socialPanel.SetActive(true); // Ensure the panel is active
     }
 
     private string FormatTime(float seconds)
