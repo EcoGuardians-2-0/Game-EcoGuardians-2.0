@@ -26,7 +26,7 @@ VAR already_talked = false
 
 === intro3
     ¡Felicitaciones por completar el cuestionaro! Es genial ver tu interés en la estación<>
-    y en el programa Awaq Bio-Tech. # speaker: Ana # animation: 1
+    y en el programa <color=\#70e000>Awaq Bio-Tech</color>. # speaker: Ana # animation: 1
     Si quieres saber más sobre lo que hacemos ¡Aquí estoy para resolver cualquier duda que tengas!
     ->question
     
@@ -50,7 +50,7 @@ VAR already_talked = false
         Organizamos <color=\#FEF445>conferencias sobre biodiversidad y talleres de formación </color>.
         Además, prepararamos reuniones con expertos en conservación y tecnología.
         -> question    
-    +[¿Cómo contribuyen estos eventos al éxito del programa Awaq Bio-Tech?]
+    +[¿Cómo contribuyen estos eventos al éxito del programa <color=\#70e000>Awaq Bio-Tech</color>?]
         Los eventos <color=\#FEF445>permiten formar los biomonitores y compartir conocimiento con expertos</color> internacionales.
         Esto ayuda a fortalecer las capacidades de nuestro equipo y mejora la implementación del programa.
         -> question

@@ -15,7 +15,7 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola! Soy Angélica, la directora de la estación biológica. #speaker: Angélica # animation: 1
+    ¡Hola! Soy Angélica, la directora de la <color=\#70e000>estación biológica</color>. #speaker: Angélica # animation: 1
     Llevo tres años trabajando aquí y mi principal misión es asegurar que la estación mantenga sus funciones de conservación.
     ->question
 
@@ -45,12 +45,12 @@ VAR already_talked = false
         
 === q1
     Mi principal misión es asegurar que la estación mantenga sus funciones de conservación y que siga siendo un centro cultural y de biodiversidad. # animation: 3
-    +[¿Cuál es el rol del BioPark dentro del programa Awaq Bio-Tech?]
+    +[¿Cuál es el rol del <color=\#70e000>BioPark</color> dentro del programa <color=\#70e000>Awaq Bio-Tech</color>?]
         Aquí entrenamos a los biomonitores en técnicas de monitoreo de biodiversidad, y recolectamos datos valiosos para el programa Awaq Bio-Tech.
         -> question    
     +[¿Cómo has logrado transformar la estación en estos tres años?]
         He trabajado para que la estación mantenga su estructura original, tanto cultural como ambiental.
-        También hemos creado el <color=\#FEF445>BioPark</color>, que es nuestro <color=\#FEF445>centro de entrenamiento para biomonitores</color>.
+        También hemos creado el <color=\#70e000>BioPark</color>, que es nuestro <color=\#FEF445>centro de entrenamiento para biomonitores</color>.
         -> question
     
     

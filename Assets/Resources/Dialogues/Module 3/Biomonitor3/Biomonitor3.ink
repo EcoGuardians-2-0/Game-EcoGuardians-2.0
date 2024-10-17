@@ -45,7 +45,7 @@ VAR failed_test = 0
 === final_question
 <color=\#2B5628>¿Estás listo para terminar tu experiencia en la estación biológica?</color>
     +[Si, siento que he recorrido bastante de la estación]
-        Vale, me ha sido un placer conocerte durante tu visita por la estación biológica de Aguadas Caldas.
+        Vale, me ha sido un placer conocerte durante tu visita por la <color=\#70e000>estación biológica de Aguadas Caldas</color>.
         Esperamos que regreses pronto. !Estamos con los brazos abiertos!
         -> finish_game
     +[No, aún siento que me queda algo por explorar.]
