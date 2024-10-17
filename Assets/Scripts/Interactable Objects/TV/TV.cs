@@ -29,16 +29,18 @@ public class TV : InteractableObject
             Debug.LogError(gameObject.name + ": No se encontraron todos los objetos necesarios.");
         else
         {
-            onObject.SetActive(false);
+            tvImagesManager = onObject.GetComponent<TVImagesManager>();
+            tvVideoManager = onObject.GetComponent<TVVideoManager>();
+
+            if (tvVideoManager == null)
+                onObject.SetActive(false);
+
             offObject.SetActive(true);
 
             selectionPrompt = selectionPromptBefore;
 
             disableObjects = DisableObjects.Instance;
             cameraUtilityManager = CameraUtilityManager.Instance;
-
-            tvImagesManager = onObject.GetComponent<TVImagesManager>();
-            tvVideoManager = onObject.GetComponent<TVVideoManager>();
         }
     }
 
@@ -50,7 +52,9 @@ public class TV : InteractableObject
         disableObjects.TogglePlayer();
         disableObjects.ToggleSelectionCursor();
 
-        onObject.SetActive(!onObject.activeSelf);
+        if (tvVideoManager == null)
+            onObject.SetActive(!onObject.activeSelf);
+
         offObject.SetActive(!offObject.activeSelf);
 
         disableObjects.disableSwitchCamera();
@@ -59,7 +63,8 @@ public class TV : InteractableObject
 
         isOn = !isOn;
 
-        if (isOn){
+        if (isOn)
+        {
             EventManager.Minimap.OnLockMiniMap.Invoke();
             EventManager.Photograph.OnActiveCamera(false);
             AudioManager.Instance.PlaySound(SoundType.TVOn);
@@ -85,13 +90,7 @@ public class TV : InteractableObject
             tvImagesManager.Init();
 
         if (tvVideoManager != null)
-        {
-            if (!tvVideoManager.hasVideo)
-                tvVideoManager.PlayVideo();
-
-            if (tvVideoManager.hasVideo)
-                tvVideoManager.PlayVideo();
-        }
+            tvVideoManager.PlayVideo();
     }
 
     // Turn off the TV
