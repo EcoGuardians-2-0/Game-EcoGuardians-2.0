@@ -24,7 +24,7 @@ VAR failed_test = 0
     ~global_mision_completada = "quest_2.0"
     ¡Hola! Soy Sara, me alegra ver que has llegado al segundo módulo, ¡Espero estés disfrutando tu experiencia! # speaker: Sara # animation: 1
     Vamos a hacer esto. Seguiremos explorando, y mientras, tú seguirás cumpliendo determinadas tareas y retos para que sea más divertido.
-    Tengo una idea: ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que ella hace en la estación.
+    Tengo una idea, ¿por qué no vas a la cocina y hablas con Luisa? Cuando regreses, te preguntaré sobre lo que ella hace en la estación.
     Recuerda, poner atención al <color=\#FEF445>color de ciertas palabras cuando hables con mis compañeros</color>, ya que serán claves durante mi <color=\#FEF445>actividad del cuestionario</color>.
     // Assigning missions to character
     ~ global_misiones_2 = true
@@ -60,7 +60,7 @@ VAR failed_test = 0
         -else:
             ...
             ¡Genial, ya hablaste con mis compañeros! 
-            Como te habia comentado, prepare un cuestionario para ver que tanto has conocido de la estación.
+            Como te habia comentado, prepare un cuestionario para ver que tanto has conocido de la <color=\#70e000>estación</color>.
             ¿Te sientes preparado para hacerlo ahora?
                 +[Claro]
                     ¡Excelente decisión! Estoy seguro de que lo harás muy bien.

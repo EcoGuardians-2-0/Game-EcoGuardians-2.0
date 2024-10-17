@@ -25,7 +25,7 @@ VAR already_talked = false
     ->question
 
 === intro3
-    ¡Hola otra vez, felicitaciones por el cuestionario, lo sabías  todo! #speaker: Luisa # animation: 1
+    ¡Hola otra vez, felicitaciones por el cuestionario, lo sabías todo! #speaker: Luisa # animation: 1
     Si quieres saber más sobre lo que hacemos o simplemente disfrutar de un buen plato. ¡Aquí estoy!
     ->question
     
@@ -45,8 +45,8 @@ VAR already_talked = false
         
 === q1
     Mi misión es <color=\#FEF445>promover la cocina local de las arrierías</color> y ofrecer una experiencia gastronómica única a los visitantes. # animation: 3
-    +[¿Cómo contribuye el restaurante al éxito del BioPark y del programa Awaq Bio-Tech?]
-        Ofrecemos una experiencia gastronómica que complementa las actividades del BioPark.
+    +[¿Cómo contribuye el restaurante al éxito del <color=\#70e000>BioPark</color> y del programa <color=\#70e000>Awaq Bio-Tech</color>?]
+        Ofrecemos una experiencia gastronómica que complementa las actividades del <color=\#70e000>BioPark</color>.
         También a disfrutar de la <color=\#FEF445>comida local, lo que ayuda a generar más ingresos y fortalecer el turismo sostenible</color>
         -> question    
     +[¿Qué es lo que más te gusta de trabajar en la estación biológica?]
