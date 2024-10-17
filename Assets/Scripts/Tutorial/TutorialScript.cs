@@ -412,7 +412,6 @@ public class TutorialScript : MonoBehaviour
     public IEnumerator FinishTutorial()
     {
         WallCollider.SetActive(false);
-        AlertStart.SetActive(true);
 
         yield return StartCoroutine(ActivateAndDeactivate());
         EventManager.Quest.OnQuestAssigned();
@@ -422,6 +421,11 @@ public class TutorialScript : MonoBehaviour
 
     public IEnumerator ActivateAndDeactivate()
     {
+        while (DialogueManager.instance.isTalking)
+        {
+            yield return null;
+        }
+
         AlertStart.SetActive(true);
 
         yield return new WaitForSeconds(3f);
