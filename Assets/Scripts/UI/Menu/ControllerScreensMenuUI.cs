@@ -22,7 +22,9 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
-    public float mainControllerSen = 40f;
+    [SerializeField] private Slider sensitivitySlider;
+    private float mainControllerSen = 40f;
+    
 
     [Header("Events")]
     public UnityEvent<string> onGameStarted;
@@ -37,7 +39,10 @@ public class ControllerScreensMenuUI : MonoBehaviour
     public GameObject game;
     public GameObject panelExit;
     public ControllerPauseUI controllerPauseUI;
+    public GameObject AlertChangesSaved;
 
+    private float originalControllerSen;
+    
     private static ControllerScreensMenuUI _Instance;
     public static ControllerScreensMenuUI Instance
     {
@@ -60,8 +65,19 @@ public class ControllerScreensMenuUI : MonoBehaviour
         // Get the related audio mixers SFX volume and set it
         setSFXVolume(80.0f);
         setMusicVolume(80.0f);
-        SetControllerSen(40f);
+        // Establecer el valor predeterminado de sensibilidad
+        float defaultSensitivity = 40f;
+
+        // Guardar este valor como la sensibilidad original
+        originalControllerSen = defaultSensitivity * 5;
+
+        // Aplicar el valor inicial usando SetControllerSen
+        SetControllerSen(defaultSensitivity);
         GameplayApply();
+
+        // Actualizar el slider y el texto al valor inicial
+        sensitivitySlider.value = defaultSensitivity;
+        sensTextValue.text = defaultSensitivity.ToString("0");
     }
 
     private void Awake()
@@ -173,12 +189,45 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     public void GameplayApply()
     {
-        PlayerPrefs.SetFloat("masterSen", mainControllerSen);
-        PlayerPrefs.Save();
+        // Verificar si hubo cambios antes de aplicar
+        if (mainControllerSen != originalControllerSen)
+        {
+            PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+            PlayerPrefs.Save();
+            StartCoroutine(ActivateAndDeactivate());
+
+            // Actualizar la sensibilidad original al nuevo valor guardado
+            originalControllerSen = mainControllerSen;
+        }
+    }
+
+    // Función para cancelar los cambios y restaurar la sensibilidad original
+    public void CancelChanges()
+    {
+        // Verificar si hubo cambios antes de cancelar
+        if (mainControllerSen != originalControllerSen)
+        {
+            mainControllerSen = originalControllerSen;
+            sensTextValue.text = (originalControllerSen / 5).ToString("0");
+
+            // Restaurar el valor del slider
+            sensitivitySlider.value = originalControllerSen / 5;
+        }
     }
 
     public void startNewGame()
     {
         onGameStarted.Invoke("NewGame");
+    }
+    public IEnumerator ActivateAndDeactivate()
+    {
+        if (!AlertChangesSaved.activeSelf)
+        {
+            AlertChangesSaved.SetActive(true);
+
+            yield return new WaitForSeconds(3f);
+
+            AlertChangesSaved.SetActive(false);
+        }
     }
 }
