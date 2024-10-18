@@ -58,7 +58,7 @@ public class TutorialScript : MonoBehaviour
     public Graphic P2_UI;
     public Graphic C_UI;
     public Graphic C2_UI;
-    public Graphic Q_UI;
+    public Graphic Ctrl_UI;
     public Graphic Tab_UI;
     public Graphic Tab2_UI;
     public Graphic Left_UI;
@@ -291,14 +291,14 @@ public class TutorialScript : MonoBehaviour
     public void VerifyKeyT6()
     {
 
-        if (Input.GetKeyDown(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            Q_UI.color = targetColor;
+            Ctrl_UI.color = targetColor;
             isKeyHeld = true;
             keyHoldTime = Time.time;
         }
 
-        if (isKeyHeld && Input.GetKey(KeyCode.Q))
+        if (isKeyHeld && Input.GetKey(KeyCode.LeftControl))
         {
             if (Time.time - keyHoldTime >= 0.5f)
             {
@@ -309,7 +309,7 @@ public class TutorialScript : MonoBehaviour
         }
 
 
-        if (Input.GetKeyUp(KeyCode.Q))
+        if (Input.GetKeyUp(KeyCode.LeftControl))
         {
             isKeyHeld = false;
         }
