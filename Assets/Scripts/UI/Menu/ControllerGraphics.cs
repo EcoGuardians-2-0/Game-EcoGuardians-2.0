@@ -5,12 +5,11 @@ using TMPro;
 public class ControllerGraphics : MonoBehaviour
 {
     public TMP_Dropdown dropdown;
+    public GameObject AlertChangesSaved;
     private int quality;
     private int originalQuality;
-
     private static ControllerGraphics _Instance;
-    public GameObject AlertChangesSaved;
-
+    
     public static ControllerGraphics Instance
     {
         get
