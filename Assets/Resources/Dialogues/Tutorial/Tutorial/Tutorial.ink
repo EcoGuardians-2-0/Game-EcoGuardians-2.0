@@ -13,8 +13,8 @@ VAR already_talked = false
 }
 
 === tutorial 
-    Hola. Perdón no saludarte antes, mi nombre es Diego. #speaker: Diego
-    Recuerda presionar la tecla <b><color=\#FEF445>enter</color></b> para avanzar en el dialogo. #speaker: Diego. # animation: 1
+    Hola. Perdón no saludarte antes, mi nombre es Diego. #speaker: Diego # animation: 1
+    Recuerda presionar la tecla <b><color=\#FEF445>enter</color></b> para avanzar en el dialogo.
     Utiliza las <b><color=\#FEF445>flechitas</color></b> izquierda y derecha para moverte entre las opciones.
     -> continue_dialogue
     
