@@ -43,7 +43,7 @@ VAR failed_test = 0
     * -> final_question
     
 === final_question
-<color=\#2B5628>¿Estás listo para terminar tu experiencia en la estación biológica?</color>
+<color=\#d90429>¿Estás listo para terminar tu experiencia en la estación biológica?</color>
     +[Si, siento que he recorrido bastante de la estación]
         Vale, me ha sido un placer conocerte durante tu visita por la <color=\#70e000>estación biológica de Aguadas Caldas</color>.
         Esperamos que regreses pronto. !Estamos con los brazos abiertos!
@@ -90,7 +90,7 @@ VAR failed_test = 0
         Has pasado el cuestionario del tercer modulo.
         Eres extraordinari@, <color=\#FEF445> has completado todos los retos y actividades que hemos preparado </color>.
         Si deseas, puedes continuar explorando otros rincones de la estación que te faltaron visitar.
-        Pero si sientes que has terminado, <color=\#2B5628>vuelve hablar conmigo para hacerte una última pregunta</color>.
+        Pero si sientes que has terminado, <color=\#d90429>vuelve hablar conmigo para hacerte una última pregunta</color>.
         ~global_pass_3 = true
 
      -else:

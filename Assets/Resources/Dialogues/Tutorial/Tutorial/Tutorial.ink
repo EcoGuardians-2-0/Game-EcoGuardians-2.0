@@ -13,19 +13,19 @@ VAR already_talked = false
 }
 
 === tutorial 
+    Hola. Perdón no saludarte antes, mi nombre es Diego. #speaker: Diego
     Recuerda presionar la tecla <b><color=\#FEF445>enter</color></b> para avanzar en el dialogo. #speaker: Diego. # animation: 1
     Utiliza las <b><color=\#FEF445>flechitas</color></b> izquierda y derecha para moverte entre las opciones.
     -> continue_dialogue
     
     
-    Hola. Perdón no saludarte antes, mi nombre es Diego. #speaker: Diego
-    
+
 === continue_dialogue
     ¡Muy bien! Ahora que sabes como interactuar con los diálogos... # animation: 5
     ¿Estás list@ para comenzar tu visita?
-    
-    + [¡Si, quiero empezar ya!] -> start_game
     + [No, aún no quiero empezar] ->  not_ready
+    + [¡Si, quiero empezar ya!] -> start_game
+
 
 
 === start_game
@@ -42,7 +42,7 @@ VAR already_talked = false
 
 === additional_dialogue
     Tambien te invito a tomarle fotos con la camara a las diferentes especies de pajaros que puedes encontrar.
-    Si le tomas las fotos a todas las aves, puede que los veas al final del juego... 
+    Si le tomas las fotos a todas las aves, puede que las veas al final del juego... 
     Espero que disfrutes tu visita a la estación. #speaker: Diego
     -> DONE
 
