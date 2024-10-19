@@ -91,6 +91,11 @@ public class Act2GameController : GenericActivity
 
     public void InstantiateMenuButtons()
     {
+        if (FinishTaskButton.gameObject.activeSelf)
+        {
+            FinishTaskButton.gameObject.SetActive(false);
+        }
+   
         string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
 
         GameObject[] objects = GameObject.FindGameObjectsWithTag("LevelSelectionButton");
@@ -190,6 +195,7 @@ public class Act2GameController : GenericActivity
     public void OnBackButtonClicked()
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
+        levelController.ResetTimer();
 
         // Display the menu field
         MenuField.gameObject.SetActive(true);
@@ -203,8 +209,6 @@ public class Act2GameController : GenericActivity
 
         HelpIcon.gameObject.SetActive(true);
         quitButton.SetActive(true);
-        if (FinishTaskButton.gameObject.activeSelf)
-            FinishTaskButton.gameObject.SetActive(false);
     }
 
     public void DisableMenu()

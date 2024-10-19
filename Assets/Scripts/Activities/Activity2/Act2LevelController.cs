@@ -145,7 +145,7 @@ public class Act2LevelController : MonoBehaviour
         {
             Debug.Log("Player Wins!");
             GameFinished();
-            StopTimer();
+            ResetTimer();
         }
     }
 
@@ -259,10 +259,11 @@ public class Act2LevelController : MonoBehaviour
         isTimerRunning = true;
     }
 
-    // Stop the timer
-    private void StopTimer()
+    // Reset the timer
+    public void ResetTimer()
     {
         isTimerRunning = false;
+        elapsedTime = 0f;
     }
 
     // Update the timer text
@@ -303,6 +304,10 @@ public class Act2LevelController : MonoBehaviour
         if (elapsedTime >= 90)
         {
             FinishTaskButton.gameObject.SetActive(true);
+        }
+        else
+        {
+            FinishTaskButton.gameObject.SetActive(false);
         }
     }
 
