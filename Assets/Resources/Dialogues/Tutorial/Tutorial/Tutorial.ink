@@ -21,7 +21,7 @@ VAR already_talked = false
     
 
 === continue_dialogue
-    ¡Muy bien! Ahora que sabes como interactuar con los diálogos... # animation: 5
+    ¡Muy bien! Ahora que sabes cómo interactuar con los diálogos... # animation: 5
     ¿Estás list@ para comenzar tu visita?
     + [No, aún no quiero empezar] ->  not_ready
     + [¡Si, quiero empezar ya!] -> start_game
@@ -41,13 +41,13 @@ VAR already_talked = false
     -> additional_dialogue
 
 === additional_dialogue
-    Tambien te invito a tomarle fotos con la camara a las diferentes especies de pajaros que puedes encontrar.
+    También te invito a tomarle fotos con la cámara a las diferentes especies de pájaros que puedes encontrar.
     Si le tomas las fotos a todas las aves, puede que las veas al final del juego... 
     Espero que disfrutes tu visita a la estación. #speaker: Diego
     -> DONE
 
 === not_ready
-    Esta bien tomate tu tiempo. Avisamo cuando quieras empezar tu vista a la estación.
+    Está bien, tómate tu tiempo. Avísame cuando quieras empezar tu vista a la estación.
     -> DONE
     
 ===  nodialogue
@@ -56,7 +56,7 @@ VAR already_talked = false
 
 === afterwards
     Te recomiendo revisar tu minimapa. El icono te ayudará a guiarte hacia la ubicación del biomonitor.  # animation: 1
-    Camina hacia el icono y encontraras al biomonitor quien te indicara tu siguiente misión en la estación.
+    Camina hacia el icono y encontrarás al biomonitor quien te indicará tu siguiente misión en la estación.
     -> DONE
 
 * -> END
