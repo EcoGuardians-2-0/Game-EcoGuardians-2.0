@@ -21,7 +21,7 @@ public class TVVideoManager : MonoBehaviour
     private float holdTimeCounterUpVolume = 0.5f;
     private float holdTimeCounterDownVolume = 0.5f;
 
-    private void Awake()
+    public void Init()
     {
         videoPlayer = GetComponent<VideoPlayer>();
         meshRenderer = GetComponent<MeshRenderer>();
