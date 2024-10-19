@@ -16,7 +16,7 @@ public class IconHandler : MonoBehaviour
     {
         miniMapComponent = GetComponent<MiniMapComponent>();
         miniMapComponent.icon = icon;
-        miniMapComponent.size = new Vector2(30, 30);
+        miniMapComponent.size = new Vector2(35, 35);
     }
 
     void OnEnable()
