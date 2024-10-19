@@ -9,11 +9,12 @@ public class TVVideoManager : MonoBehaviour
 
     private VideoPlayer videoPlayer;
     private MeshRenderer meshRenderer;
+    private bool visibility = true;
+    
     private Loader loaderScript;
     [SerializeField] private GameObject loader;
 
     public bool hasVideo = false;
-    private bool isPrepared = false;
 
     private double lastTime;
 
@@ -21,15 +22,18 @@ public class TVVideoManager : MonoBehaviour
     private float holdTimeCounterUpVolume = 0.5f;
     private float holdTimeCounterDownVolume = 0.5f;
 
+    private bool waitingPreparedFirstTime = true;
+    private bool waitingPrepared = false;
+
     public void Init()
     {
         videoPlayer = GetComponent<VideoPlayer>();
         meshRenderer = GetComponent<MeshRenderer>();
         loaderScript = loader.GetComponent<Loader>();
 
-        ToggleMeshRenderer();
-        isPrepared = false;
+        SetVisibility(false);
         videoPlayer.playOnAwake = false;
+        videoPlayer.errorReceived += OnVideoError;
         videoPlayer.prepareCompleted += OnVideoPreparedFirstTime;
         videoPlayer.Prepare();
 
@@ -40,16 +44,16 @@ public class TVVideoManager : MonoBehaviour
     private void OnVideoPreparedFirstTime(VideoPlayer vp)
     {
         videoPlayer.Pause();
-        isPrepared = true;
         Debug.Log("Video: " + videoPlayer.url + " is prepared for first time");
         // Unsubscribe from the event to avoid repeated calls
         videoPlayer.prepareCompleted -= OnVideoPreparedFirstTime;
+        waitingPreparedFirstTime = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (meshRenderer.enabled)
+        if (visibility)
         {
             // Pause video
             if (Input.GetKeyDown(KeyCode.Space))
@@ -109,6 +113,12 @@ public class TVVideoManager : MonoBehaviour
     // Function to play the video
     public void PlayVideo()
     {
+        if (waitingPreparedFirstTime)
+        {
+            videoPlayer.prepareCompleted -= OnVideoPreparedFirstTime;
+            waitingPreparedFirstTime = false;
+        }
+
         loaderScript.Play();
         DisableObjects.Instance.ToggleControlsVideoTVUI(true);
 
@@ -117,29 +127,30 @@ public class TVVideoManager : MonoBehaviour
             if (lastTime != 0)
                 videoPlayer.time = lastTime;
 
-            if (isPrepared)
+            if (videoPlayer.isPrepared)
             {
                 Debug.Log("Video is prepared");
                 // Change material when the video is ready
-                meshRenderer.material = materials[1];
                 loaderScript.Pause();
+                SetVisibility(true);
                 videoPlayer.Play();
-                ToggleMeshRenderer();
             }
-            else if (!isPrepared)
+            else if (!videoPlayer.isPrepared)
             {
                 Debug.Log("Video is not prepared");
                 videoPlayer.prepareCompleted += OnVideoPrepared;
+                waitingPrepared = true;
                 videoPlayer.Prepare();
             }
         }
     }
 
     // toggle mesh renderer
-    public void ToggleMeshRenderer()
+    public void SetVisibility(bool state)
     {
-        meshRenderer.enabled = !meshRenderer.enabled;
-        Debug.Log("Mesh Renderer is: " + meshRenderer.enabled);
+        visibility = state;
+        meshRenderer.material = visibility ? materials[1] : materials[0];
+        Debug.Log("Mesh Renderer is: " + meshRenderer.material + " state: " + state);
     }
 
     // Callback when the video is prepared
@@ -149,24 +160,44 @@ public class TVVideoManager : MonoBehaviour
         loaderScript.Pause();
 
         // Start the video after it is prepared
-        meshRenderer.material = materials[1];
         videoPlayer.Play();
-        ToggleMeshRenderer();
-        isPrepared = true;
+        SetVisibility(true);
         Debug.Log("Video: " + videoPlayer.url + " is prepared");
 
         // Unsubscribe from the event to avoid repeated calls
         videoPlayer.prepareCompleted -= OnVideoPrepared;
+        waitingPrepared = false;
     }
 
+    private void OnVideoError(VideoPlayer vp, string message)
+    {
+        Debug.LogError($"Error playing video: {message}, waiting for prepared: {waitingPrepared}, isprepared: {videoPlayer.isPrepared}");
+        if (waitingPrepared && !videoPlayer.isPrepared)
+            StartCoroutine(ReloadVideo());
+    }
+
+    private IEnumerator ReloadVideo()
+    {
+        yield return new WaitForSeconds(3);
+        if (waitingPrepared && !videoPlayer.isPrepared)
+            videoPlayer.Prepare();
+    }
 
     // Function to pause the video
     public void PauseVideo()
     {
         loaderScript.Pause();
-        videoPlayer.Pause();
-        ToggleMeshRenderer();
-        meshRenderer.material = materials[0];
+        if (visibility)
+        {
+            videoPlayer.Pause();
+            SetVisibility(false);
+        }
+
+        if (waitingPrepared)
+        {
+            videoPlayer.prepareCompleted -= OnVideoPrepared;
+            waitingPrepared = false;
+        }
     }
 
     // Funtion to toggle play/pause the video
