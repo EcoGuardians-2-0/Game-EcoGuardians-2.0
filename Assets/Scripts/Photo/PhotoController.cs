@@ -4,18 +4,12 @@ using System.Collections.Generic;
 
 public class PhotoController : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject displayBirdCount;
-    [SerializeField]
-    private Text birdCountText;
-    [SerializeField]
-    private Sprite azulejo_comun;
-    [SerializeField]
-    private Sprite Piranga_abejera;
-    [SerializeField]
-    private Sprite Jilguero_aliblanco;
-    [SerializeField]
-    private Sprite Toche_enjalmado;
+    [SerializeField] private GameObject displayBirdCount;
+    [SerializeField] private Text birdCountText;
+    [SerializeField] private Sprite azulejo_comun;
+    [SerializeField] private Sprite Piranga_abejera;
+    [SerializeField] private Sprite Jilguero_aliblanco;
+    [SerializeField] private Sprite Toche_enjalmado;
 
     public static int BirdsCount = 0;
     private Sprite birdSprite;
@@ -30,7 +24,6 @@ public class PhotoController : MonoBehaviour
 
     public bool AddBird(string birdName)
     {
-        Debug.Log("Bird name: " + birdName);
         if (birdDictionary.ContainsKey(birdName))
         {
             if (!birdDictionary[birdName])
@@ -49,6 +42,7 @@ public class PhotoController : MonoBehaviour
             AudioManager.Instance.PlaySound(SoundType.foundBird);
             birdDictionary.Add(birdName, true);
             BirdsCount++;
+
             string normalizedBirdName = birdName.Trim().ToLower();
 
             switch (normalizedBirdName)
@@ -66,12 +60,10 @@ public class PhotoController : MonoBehaviour
                     birdSprite = Jilguero_aliblanco;
                     break;
                 case "toche enjalmado":
-                    Debug.Log("Encontrado");
                     birdReturnName = "Toche Enjalmado";
                     birdSprite = Toche_enjalmado;
                     break;
                 default:
-                    Debug.LogWarning("Bird name not found: " + birdName);
                     break;
             }
 

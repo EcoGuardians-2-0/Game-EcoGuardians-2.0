@@ -101,7 +101,6 @@ public class PhotoCapture : MonoBehaviour
 
         StartCoroutine(CapturePhoto());
     }
-
     IEnumerator CapturePhoto()
     {
         isCapturing = false;
@@ -109,6 +108,9 @@ public class PhotoCapture : MonoBehaviour
         viewingPhoto = true;
 
         yield return new WaitForEndOfFrame();
+
+        // Update the screenCapture dimensions to match the current screen resolution
+        screenCapture.Reinitialize(Screen.width, Screen.height);
 
         Rect regionToRead = new Rect(0, 0, Screen.width, Screen.height);
 
