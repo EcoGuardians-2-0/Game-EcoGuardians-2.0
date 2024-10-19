@@ -102,4 +102,9 @@ public class SwitchCamera : MonoBehaviour
 
         lastAppliedSensitivity = savedSensitivity;
     }
+
+    public bool isThirdCamActive()
+    {
+        return thirdActive;
+    }
 }
