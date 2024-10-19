@@ -259,6 +259,12 @@ public class Act2LevelController : MonoBehaviour
         isTimerRunning = true;
     }
 
+    // Stop the timer
+    public void StopTimer()
+    {
+        isTimerRunning = false;
+    }
+
     // Reset the timer
     public void ResetTimer()
     {
@@ -284,17 +290,8 @@ public class Act2LevelController : MonoBehaviour
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityComplete);
 
-        GoBackButton.gameObject.SetActive(false);
-        levelCompletePanel.gameObject.SetActive(true);
+        InstantiateGameCompletedPanel();
 
-        // Setup the listeners to the retry and go back buttons
-        RestartButton.GetComponent<Button>().onClick.AddListener(RestartGame);
-        GoBackLevelsButton.GetComponent<Button>().onClick.AddListener(GoBackLevels);
-
-        int minutes = Mathf.FloorToInt(elapsedTime / 60);
-        int seconds = Mathf.FloorToInt(elapsedTime % 60);
-        timertext.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        ShowTime.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         ShowResult();
     }
 
@@ -311,16 +308,55 @@ public class Act2LevelController : MonoBehaviour
         }
     }
 
-    // Finish task if the game is too haard
+    // Finish task if the game is too hard
     public void FinishTask()
     {
-        act2GameController.UpdateGameQuest();
+        InstantiateGameCompletedPanel();
+
+        int levelStars = 1;
+        if (currentLevel == 1)
+        {
+            act2ProgressSO.level1Progress = 1;
+        }
+        else if (currentLevel == 2)
+        {
+            act2ProgressSO.level2Progress = 1;
+        }
+        else
+        {
+            Debug.LogError("Invalid level number");
+        }
+
+        SetLevelStars(levelStars);
+        if (act2GameController != null)
+        {
+            act2GameController.UpdateLevelsCompleted();
+            act2GameController.CheckLevelsCompleted();
+        }
+        else
+        {
+            Debug.LogError("act2GameController is null");
+        }
+    }
+
+    public void InstantiateGameCompletedPanel()
+    {
+        GoBackButton.gameObject.SetActive(false);
+        levelCompletePanel.gameObject.SetActive(true);
+
+        // Setup the listeners to the retry and go back buttons
+        RestartButton.GetComponent<Button>().onClick.AddListener(RestartGame);
+        GoBackLevelsButton.GetComponent<Button>().onClick.AddListener(GoBackLevels);
+
+        int minutes = Mathf.FloorToInt(elapsedTime / 60);
+        int seconds = Mathf.FloorToInt(elapsedTime % 60);
+        ShowTime.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+
+        ResetTimer();
     }
 
     public void ShowResult()
     {
-        string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
-
         int LevelStars = 0;
         int elapsedTimeMinutes = GetElapsTimeMinutes();
 
@@ -346,6 +382,13 @@ public class Act2LevelController : MonoBehaviour
         {
             Debug.LogError("act2GameController is null");
         }
+
+        SetLevelStars(LevelStars);
+    }
+
+    public void SetLevelStars(int LevelStars)
+    {
+        string[] starNames = { "FirstStar", "SecondStar", "ThirdStar" };
 
         // Update the stars based on the level result
         Transform LevelsStarContainer = levelCompletePanel.transform.Find("LevelStarContainer");

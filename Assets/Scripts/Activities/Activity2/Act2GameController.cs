@@ -195,7 +195,6 @@ public class Act2GameController : GenericActivity
     public void OnBackButtonClicked()
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
-        levelController.ResetTimer();
 
         // Display the menu field
         MenuField.gameObject.SetActive(true);
