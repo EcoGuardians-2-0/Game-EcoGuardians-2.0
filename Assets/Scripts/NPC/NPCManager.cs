@@ -48,6 +48,11 @@ public class CharacterManager: MonoBehaviour {
                 currentCharacter.AddComponent<StepCall>();
             }
 
+            if (currentCharacter.GetComponent<PositionController>() == null)
+            {
+                currentCharacter.AddComponent<PositionController>();
+            }
+
             // Creating game object to create the character icon on the minimap screen
             GameObject miniMapComponent = new GameObject("MinimapIcon");
             miniMapComponent.transform.SetParent(currentCharacter.transform);
