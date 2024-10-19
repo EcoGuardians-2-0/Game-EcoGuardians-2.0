@@ -1,11 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 
 public class PhotoController : MonoBehaviour
 {
     [SerializeField] private GameObject displayBirdCount;
-    [SerializeField] private Text birdCountText;
+    [SerializeField] private TextMeshProUGUI birdCountText;
     [SerializeField] private Sprite azulejo_comun;
     [SerializeField] private Sprite Piranga_abejera;
     [SerializeField] private Sprite Jilguero_aliblanco;
