@@ -1,6 +1,7 @@
 INCLUDE ../../Globals/globals.ink
 
 VAR already_talked = false
+VAR chose_option = false
 
 // Speaker's name at the start of the conversation
 // Check if player's has already talked with Jenny before
@@ -34,7 +35,10 @@ VAR already_talked = false
     { already_talked:
         ¿En qué te gustaría que te ayudara hoy? # animation:5
         - else:
-        ¿Te gustaría preguntarme algo más esta vez? # animation:5
+        ¿Te gustaría preguntarme algo{chose_option: más esta vez}? # animation:5
+    }
+    {chose_option == false:
+        ~chose_option = true
     }
     + [¿Cuál es tu función principal en la estación biológica?]
         -> q1

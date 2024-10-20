@@ -37,11 +37,12 @@ VAR chose_option = false
         - else:
         ¿En qué {chose_option: más }puedo ayudarte hoy? # animation:5
     }
-    + [¿Cuál es tu función principal en la estación biológica?]
+    {chose_option == false:
         ~chose_option = true
+    }
+    + [¿Cuál es tu función principal en la estación biológica?]
         -> q1
     + [¿Cuál es tu responsabilidad en una emergencia?]
-        ~chose_option = true
         -> q2
     + [No estoy bien, voy a seguir explorando]
         -> finish
