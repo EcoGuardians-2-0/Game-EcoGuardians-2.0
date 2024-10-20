@@ -8,6 +8,7 @@ public class WallAlertUI : MonoBehaviour
 {
     public GameObject alertWall;
     private TextMeshProUGUI alertWallText;
+    public static bool state;
 
     void OnEnable()
     {
@@ -27,7 +28,9 @@ public class WallAlertUI : MonoBehaviour
 
     public void setActiveAlertWall(int module, bool state)
     {
-        alertWall.SetActive(state);
+        WallAlertUI.state = state;
+        Debug.Log("Current wall state is " + WallAlertUI.state);
+        alertWall.SetActive(WallAlertUI.state);
         alertWallText.text = "No puedes pasar sin antes completar todas las tareas del módulo " + module;
     }  
 }

@@ -58,7 +58,7 @@ public class SelectionManager : MonoBehaviour
 
             interactable = selectionTransform.GetComponent<InteractableObject>();
 
-            if (interactable != null && interactable.playerInRange)
+            if (interactable != null && interactable.playerInRange && !WallAlertUI.state)
             {
                 if (interactable != lastInteractable)
                 {
@@ -71,6 +71,7 @@ public class SelectionManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
+                    Debug.Log("Wall Alert " + WallAlertUI.state);
                     if (!DialogueManager.instance.isTalking)
                     {
                         interactable.Interact();
