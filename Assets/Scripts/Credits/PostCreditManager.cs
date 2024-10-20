@@ -7,8 +7,6 @@ using UnityEngine.UI;
 public class PostCreditManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject PostCreditUI;
-    [SerializeField]
     private GameObject timePanel; // Panel that contains the time
     [SerializeField]
     private GameObject messagePanel; // Panel that contains the recognition message
@@ -16,6 +14,8 @@ public class PostCreditManager : MonoBehaviour
     private GameObject buttonPanel; // Panel that contains the buttons
     [SerializeField]
     private GameObject socialPanel;
+    [SerializeField]
+    private SocialRedirects socialRedirectScript; // Gameobject that contains method to open URL
 
     private TextMeshProUGUI timeText; // Reference to the TextMeshProUGUI for the time
     private TextMeshProUGUI messageText; // Reference to the TextMeshProUGUI for the message
@@ -47,7 +47,7 @@ public class PostCreditManager : MonoBehaviour
         if (links.Count > 0)
         {
             // Add the redirection to the second button in buttonPanel for donations
-            AddSocialMediaRedirect(buttonPanel.transform.GetChild(2).gameObject, links[0].url); // Assuming the first link is for donations
+            AddSocialMediaListener(buttonPanel.transform.GetChild(2).gameObject, links[0].url); // Assuming the first link is for donations
         }
 
         // Add redirection to all buttons inside the socialPanel for social media links, starting from the second link
@@ -57,26 +57,18 @@ public class PostCreditManager : MonoBehaviour
             if (button != null) // Ensure we're not exceeding the link list
             {
                 // Assign the corresponding social media link to the button
-                AddSocialMediaRedirect(button.gameObject, links[i].url); // Links from index 1 onward are for social media
+                AddSocialMediaListener(button.gameObject, links[i].url); // Links from index 1 onward are for social media
             }
         }
     }
 
-    private void AddSocialMediaRedirect(GameObject button, string url)
+    private void AddSocialMediaListener(GameObject button, string url)
     {
-        // Ensure the button has a Button component
         Button btnComponent = button.GetComponent<Button>();
-        if (btnComponent != null)
+        if (btnComponent != null && socialRedirectScript != null)
         {
-            SocialRedirects redirectScript = button.GetComponent<SocialRedirects>();
-            if (redirectScript == null)
-            {
-                // If the SocialRedirects script isn't present, add it
-                redirectScript = button.AddComponent<SocialRedirects>();
-            }
-
-            // Add listener to open the URL when the button is clicked
-            btnComponent.onClick.AddListener(() => redirectScript.OpenSocialMediaLink(url));
+            // Add listener to call the method from the socialRedirectScript when clicked
+            btnComponent.onClick.AddListener(() => socialRedirectScript.OpenSocialMediaLink(url));
         }
     }
 
