@@ -59,12 +59,14 @@ public class Letter : InteractableObject
         AudioManager.Instance.PlaySound(SoundType.OpenNote);
         EventManager.Letter.OnDisplayLetterImage.Invoke(targetUIImage, true);
         selectionPrompt = selectionPromptAfter;
+        CameraUtilityManager.Instance.SetCameraOn(transform, 1.5f, new Vector3(0f, 0.8f, 1.8f), new Vector3(0, 0, 0));
     }
 
     private void turnOff()
     {
         EventManager.Letter.OnDisplayLetterImage(null, false);
         selectionPrompt = selectionPromptBefore;
+        CameraUtilityManager.Instance.SetCameraOff();
     }
 
 
