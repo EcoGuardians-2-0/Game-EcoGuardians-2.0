@@ -72,10 +72,13 @@ VAR failed_test = 0
     }
     
 == evaluacion
-    {score>= passing_score:
+    {score >= passing_score:
         ~global_mision_completada = "quest_1.7"
-        ¡Increíble! Has respondido todas las preguntas correctamente.<>
-        Has pasado el cuestionario del primer módulo.
+        {score == total_questions:
+            ¡Increíble! Has respondido todas las preguntas correctamente y pasaste el cuestionario.
+        -else:
+            Has pasado el cuestionario del primer módulo. ¡Felicitaciones!
+        }
         Subiendo las escaleras te encontrarás el segundo módulo.<>
         El restaurante y el baño público forman parte del segundo módulo.
         ~global_pass_1 = true

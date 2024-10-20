@@ -73,8 +73,11 @@ VAR failed_test = 0
 == evaluacion
     {score>= passing_score:
         ~global_mision_completada = "quest_2.0"
-        ¡Increíble! Has respondido todas las preguntas correctamente.<>
-        Has pasado el cuestionario del segundo modulo.
+        {score == total_questions:
+            ¡Increíble! Has respondido todas las preguntas correctamente y pasaste el cuestionario del segundo módulo.
+        -else:
+            Has pasado el cuestionario del segundo modulo. ¡Felicitaciones!
+        }
         Saliendo del restaurante y caminando recto, podrás encontrar el tercer módulo de la estación.
         Este módulo contiene <color=\#FEF445>la base de operaciones y nuestro volumen de conocimiento</color> como centro de <color=\#FEF445>conferencias científicas y entrenamiento</color> para nosotros los biomonitores.
         ~global_pass_2 = true

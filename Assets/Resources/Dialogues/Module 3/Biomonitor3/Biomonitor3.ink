@@ -86,8 +86,11 @@ VAR failed_test = 0
 == evaluacion
     {score>= passing_score:
         ~global_mision_completada = "quest_3.0"
-        ¡Increíble! Has respondido todas las preguntas correctamente.<>
-        Has pasado el cuestionario del tercer modulo.
+        {score == total_questions:
+            ¡Increíble! Has respondido todas las preguntas correctamente y pasaste el cuestionario del tercer módulo.
+        -else:
+            Has pasado el cuestionario del tercer modulo. ¡Felicitaciones!
+        }
         Eres extraordinari@, <color=\#FEF445> has completado todos los retos y actividades que hemos preparado </color>.
         Si deseas, puedes continuar explorando otros rincones de la estación que te faltaron visitar.
         Pero si sientes que has terminado, <color=\#d90429>vuelve hablar conmigo para hacerte una última pregunta</color>.
