@@ -39,6 +39,7 @@ public class TutorialScript : MonoBehaviour
     public GameObject T10;
     public GameObject T11;
     public GameObject WallCollider;
+    public GameObject FirstFences;
     public GameObject TvOn;
     public GameObject Pausa;
     public GameObject AlertStart;
@@ -412,6 +413,7 @@ public class TutorialScript : MonoBehaviour
     public IEnumerator FinishTutorial()
     {
         WallCollider.SetActive(false);
+        FirstFences.SetActive(false);
 
         yield return StartCoroutine(ActivateAndDeactivate());
         EventManager.Quest.OnQuestAssigned();
