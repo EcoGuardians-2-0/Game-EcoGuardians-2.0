@@ -14,9 +14,12 @@ public class FollowTarget : MonoBehaviour
     private SwitchCamera switchCamera;
     private CinemachineVirtualCamera firstCam;
     private CinemachineVirtualCamera thirdCam;
+    private Transform mainCamera;
 
     void Start()
     {
+        mainCamera = Camera.main.transform;
+
         // Get the parent object (Character model)
         player = this.gameObject.transform.parent.gameObject;
         // Get the reference to the PlayerController of the player
@@ -39,22 +42,23 @@ public class FollowTarget : MonoBehaviour
 
         // Adjust rotation only if cameras are initialized
         if (firstCam != null && thirdCam != null)
-        {
             AdjustRotation();
-        }
     }
 
     void Update()
     {
+        if ( firstCam == null)
+            firstCam = switchCamera.FirstCam;
+
+        if (thirdCam == null)
+            thirdCam = switchCamera.ThirdCam;
+
         // Get the player's position
         Vector3 playerPosition = player.transform.position;
 
         // Check if the player is grounded
         if (playerController.GetIsGrounded())
-        {
-            // Update the fixed Y position when the player is grounded
-            fixedY = playerPosition.y + yOffset;
-        }
+            fixedY = playerPosition.y + yOffset; // Update the fixed Y position when the player is grounded
 
         // Keep the object above the player in X and Z, but with a fixed Y if not grounded
         Vector3 newPosition = new Vector3(playerPosition.x, fixedY, playerPosition.z);
@@ -62,25 +66,14 @@ public class FollowTarget : MonoBehaviour
 
         // Adjust rotation only if cameras are initialized
         if (firstCam != null && thirdCam != null)
-        {
             AdjustRotation();
-        }
     }
 
     void AdjustRotation()
     {
-        // Check which camera is active
-        if (switchCamera != null && switchCamera.isThirdCamActive())
+        if (firstCam.Priority == 11 || thirdCam.Priority == 11)
         {
-            // Use the third-person camera's rotation
-            float cameraRotationY = thirdCam.transform.rotation.eulerAngles.y;
-            Vector3 currentRotation = transform.rotation.eulerAngles;
-            transform.rotation = Quaternion.Euler(currentRotation.x, cameraRotationY, currentRotation.z);
-        }
-        else if (firstCam != null)
-        {
-            // Use the first-person camera's rotation
-            float cameraRotationY = firstCam.transform.rotation.eulerAngles.y;
+            float cameraRotationY = mainCamera.rotation.eulerAngles.y;
             Vector3 currentRotation = transform.rotation.eulerAngles;
             transform.rotation = Quaternion.Euler(currentRotation.x, cameraRotationY, currentRotation.z);
         }
