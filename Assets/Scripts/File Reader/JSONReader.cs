@@ -82,4 +82,35 @@ public class JSONReader
         return linksContainer;
     }
 
+
+    /*
+     * 
+     * Method: ReadVideos
+     * Description: Reads the videos from a JSON file located in StreamingAssets and returns a VideoList object
+     * Returns: 
+     *  -> VideoList: The deserialized object containing the list of videos
+     * 
+     */
+    public VideoList ReadVideos()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "videos.json");
+
+        if (!File.Exists(filePath))
+        {
+            Debug.LogError("File not found: " + filePath);
+            return null;
+        }
+
+        string jsonData = File.ReadAllText(filePath);
+
+        VideoList videoList = JsonUtility.FromJson<VideoList>(jsonData);
+
+        if (videoList == null || videoList.videos == null || videoList.videos.Length == 0)
+        {
+            Debug.LogError("Error deserializing JSON or no videos found.");
+            return null;
+        }
+
+        return videoList;
+    }
 }
