@@ -1,6 +1,8 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PostCreditManager : MonoBehaviour
 {
@@ -17,6 +19,7 @@ public class PostCreditManager : MonoBehaviour
 
     private TextMeshProUGUI timeText; // Reference to the TextMeshProUGUI for the time
     private TextMeshProUGUI messageText; // Reference to the TextMeshProUGUI for the message
+    private List<Link> links; // List to store all links to socials
 
     private float startTime; // Variable to store the start time
 
@@ -37,6 +40,44 @@ public class PostCreditManager : MonoBehaviour
 
         timeText = timePanel.GetComponentInChildren<TextMeshProUGUI>();
         messageText = messagePanel.GetComponentInChildren<TextMeshProUGUI>();
+
+        JSONReader reader = new JSONReader();
+        List<Link> links = reader.ReadLinks().links;
+
+        if (links.Count > 0)
+        {
+            // Add the redirection to the second button in buttonPanel for donations
+            AddSocialMediaRedirect(buttonPanel.transform.GetChild(2).gameObject, links[0].url); // Assuming the first link is for donations
+        }
+
+        // Add redirection to all buttons inside the socialPanel for social media links, starting from the second link
+        for (int i = 1; i < socialPanel.transform.childCount; i++)
+        {
+            Button button = socialPanel.transform.GetChild(i).GetComponent<Button>();
+            if (button != null) // Ensure we're not exceeding the link list
+            {
+                // Assign the corresponding social media link to the button
+                AddSocialMediaRedirect(button.gameObject, links[i].url); // Links from index 1 onward are for social media
+            }
+        }
+    }
+
+    private void AddSocialMediaRedirect(GameObject button, string url)
+    {
+        // Ensure the button has a Button component
+        Button btnComponent = button.GetComponent<Button>();
+        if (btnComponent != null)
+        {
+            SocialRedirects redirectScript = button.GetComponent<SocialRedirects>();
+            if (redirectScript == null)
+            {
+                // If the SocialRedirects script isn't present, add it
+                redirectScript = button.AddComponent<SocialRedirects>();
+            }
+
+            // Add listener to open the URL when the button is clicked
+            btnComponent.onClick.AddListener(() => redirectScript.OpenSocialMediaLink(url));
+        }
     }
 
     private void ShowResults()
