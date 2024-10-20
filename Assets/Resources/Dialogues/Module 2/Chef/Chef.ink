@@ -73,7 +73,7 @@ VAR already_talked = false
     { global_misiones_2 == true:
       ~global_mision_completada="quest_2.1"
     }
-    Si necesitas ayuda o tienes alguna pregunta en el futuro <br> 
+    Si necesitas ayuda o tienes alguna pregunta en el futuro... <br> 
     ¡No dudes en acercarte!
     -> DONE
 

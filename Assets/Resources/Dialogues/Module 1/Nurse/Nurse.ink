@@ -16,7 +16,7 @@ VAR already_talked = false
 
 === intro
     ¡Hola! Soy María Isabel, encargada de los primeros auxilios en la estación biológica.# speaker:Maria Isabel # animation: 1
-    Estoy aquí para asegurar que todos estén a salvo y preparados ante cualquier estación.
+    Estoy aquí para asegurar que todos estén a salvo y preparados ante cualquier situación.
     ->question
 
 === intro2
