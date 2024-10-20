@@ -164,6 +164,9 @@ public class QuestManager : MonoBehaviour
                 if (rawImage.texture != spriteCompleted.texture)
                     AnimationsQuest.Instance.CompleteQuestAnimation(checkBox);
                 rawImage.texture = spriteCompleted.texture;
+
+                // Sfx for completing a task
+                AudioManager.Instance.PlaySound(SoundType.CompletedTask);
             }
             else
             {
@@ -182,7 +185,7 @@ public class QuestManager : MonoBehaviour
 
     public IEnumerator ClearAllQuests()
     {
-        isClearingQuests = true;  // Indicar que se está limpiando
+        isClearingQuests = true;  // Indicar que se estï¿½ limpiando
         totalQuests = 0;
         totalQuestsCompleted = 0;
 
@@ -191,19 +194,19 @@ public class QuestManager : MonoBehaviour
         {
             GameObject activeQuest = questEntry.Value;
             EventManager.MapIcon.OnDisplayIconFiltered(questEntry.Key).Invoke(false);
-            AnimationsQuest.Instance.DeleteQuestAnimation(activeQuest);  // Llamar a la animación para eliminar la misión
+            AnimationsQuest.Instance.DeleteQuestAnimation(activeQuest);  // Llamar a la animaciï¿½n para eliminar la misiï¿½n
             yield return new WaitForSeconds(0.5f);  // Esperar medio segundo
         }
 
-        // Limpiar todos los títulos activos
+        // Limpiar todos los tï¿½tulos activos
         foreach (var titleEntry in activeTitles)
         {
             GameObject activeTitle = titleEntry.Value;
-            AnimationsQuest.Instance.DeleteQuestAnimation(activeTitle);  // Llamar a la animación para eliminar el título
+            AnimationsQuest.Instance.DeleteQuestAnimation(activeTitle);  // Llamar a la animaciï¿½n para eliminar el tï¿½tulo
             yield return new WaitForSeconds(0.5f);  // Esperar medio segundo
         }
 
-        // Limpiar las listas de misiones y títulos
+        // Limpiar las listas de misiones y tï¿½tulos
         activeQuests.Clear();
         activeTitles.Clear();
 

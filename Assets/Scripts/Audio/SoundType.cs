@@ -27,4 +27,5 @@ public enum SoundType
     TakePhoto,
     CreditsMusic,
     foundBird,
+    CompletedTask,
 }
