@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.IO;
 
 /*
  * 
@@ -50,5 +51,35 @@ public class JSONReader
         }
     }
 
+    /*
+     * 
+     * Method: ReadLinks
+     * Description: Reads the links from a JSON file located in StreamingAssets and returns a LinksContainer object
+     * Returns: 
+     *  -> LinksContainer: The deserialized object containing the list of links
+     * 
+     */
+    public LinksContainer ReadLinks()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "links.json");
+
+        if (!File.Exists(filePath))
+        {
+            Debug.LogError("File not found: " + filePath);
+            return null;
+        }
+
+        string jsonData = File.ReadAllText(filePath);
+
+        LinksContainer linksContainer = JsonUtility.FromJson<LinksContainer>(jsonData);
+
+        if (linksContainer == null || linksContainer.links.Count == 0)
+        {
+            Debug.LogError("Error deserializing JSON or no links found.");
+            return null;
+        }
+
+        return linksContainer;
+    }
 
 }
