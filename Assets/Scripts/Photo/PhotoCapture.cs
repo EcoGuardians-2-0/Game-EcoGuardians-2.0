@@ -99,6 +99,7 @@ public class PhotoCapture : MonoBehaviour
             yield return null;
         }
 
+        DisableObjects.Instance.ToggleSelectionCursor();
         StartCoroutine(CapturePhoto());
     }
     IEnumerator CapturePhoto()
@@ -108,7 +109,7 @@ public class PhotoCapture : MonoBehaviour
         viewingPhoto = true;
 
         yield return new WaitForEndOfFrame();
-
+        
         // Update the screenCapture dimensions to match the current screen resolution
         screenCapture.Reinitialize(Screen.width, Screen.height);
 
@@ -190,6 +191,7 @@ public class PhotoCapture : MonoBehaviour
         }
 
         birdDetected = false;
+        DisableObjects.Instance.ToggleSelectionCursor();
     }
 
     void RemovePhoto()
