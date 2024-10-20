@@ -93,7 +93,7 @@ VAR failed_test = 0
         }
         Eres extraordinari@, <color=\#FEF445> has completado todos los retos y actividades que hemos preparado </color>.
         Si deseas, puedes continuar explorando otros rincones de la estación que te faltaron visitar.
-        Pero si sientes que has terminado, <color=\#d90429>vuelve hablar conmigo para hacerte una última pregunta</color>.
+        Pero si sientes que has terminado, <color=\#d90429>vuelve hablar conmigo para salir de la estación biológica y terminar el juego</color>.
         ~global_pass_3 = true
 
      -else:

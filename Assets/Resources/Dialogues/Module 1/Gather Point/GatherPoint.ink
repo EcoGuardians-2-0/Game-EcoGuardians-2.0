@@ -1,6 +1,7 @@
 INCLUDE ../../Globals/globals.ink
 
 VAR already_talked = false
+VAR chose_option = false
 
 // Speaker's name at the start of the conversation
 // Check if player's has already talked with Jenny before
@@ -15,12 +16,12 @@ VAR already_talked = false
 } 
 
 === intro
-    ¡Hola! Bienvenid@ al Punto de Encuentro. Soy Alex, guía de esta estación. #speaker: Alex # animation: 1
+    ¡Hola! Bienvenid@ al Punto de Encuentro. Soy Alex, el brigadista de esta estación. #speaker: Alex # animation: 1
     Estoy aquí para ayudarte en tu visita. 
     ->question
 
 === intro2
-    Es un placer, verte de nuevo. Si hay algo más que pueda hacer por ti, no dudes en decirme. # speaker:Alex # animation: 1
+    Es un placer, verte de nuevo. Si hay algo más que pueda hacer por tí, no dudes en decirme. # speaker:Alex # animation: 1
     Espero que tu visita continúe siendo emocionante.
     ->question
 
@@ -34,11 +35,13 @@ VAR already_talked = false
     { already_talked:
         ¿Te gustaría preguntarme algo más esta vez? # animation:5
         - else:
-        ¿En qué puedo ayudarte hoy? # animation:5
+        ¿En qué {chose_option: más }puedo ayudarte hoy? # animation:5
     }
     + [¿Cuál es tu función principal en la estación biológica?]
+        ~chose_option = true
         -> q1
     + [¿Cuál es tu responsabilidad en una emergencia?]
+        ~chose_option = true
         -> q2
     + [No estoy bien, voy a seguir explorando]
         -> finish

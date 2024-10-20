@@ -13,7 +13,7 @@ VAR already_talked = false
 }
 
 === tutorial 
-    Hola. Perdón no saludarte antes, mi nombre es Diego. #speaker: Diego # animation: 1
+    Hola. Perdón por no darte la bienvenida antes, mi nombre es Diego. #speaker: Diego # animation: 1
     Recuerda presionar la tecla <b><color=\#FEF445>enter</color></b> para avanzar en el dialogo.
     Utiliza las <b><color=\#FEF445>flechitas</color></b> izquierda y derecha para moverte entre las opciones.
     -> continue_dialogue
@@ -30,7 +30,9 @@ VAR already_talked = false
 
 === start_game
     Perfecto. Tu primera misión sera encontrar al biomonitor de la estación.  # animation: 3
-    Recuerda revisar tu minimapa para poder ubicarlo y hablar con el.
+    Recuerda, puedes activar o desactivar con <color=\#FEF445>M</color> el minimapa.
+    También, puedes activar o desactivar con <color=\#FEF445>TAB</color> la lista de tareas.
+    Usa estas herramientas para guiarte en la estación y así puedas hablar con él.
     Tiene preparado muchas misiones para tí en este primer módulo.
     { global_tutorial_completed == false:
         ~ global_tutorial_completed = true
@@ -51,7 +53,7 @@ VAR already_talked = false
     -> DONE
     
 ===  nodialogue
-    ... # speaker: Diego
+    Aún no es el momento para que hablemos... (<color=\#FEF445Presiona enter</color>) # speaker: Diego
     -> DONE 
 
 === afterwards
