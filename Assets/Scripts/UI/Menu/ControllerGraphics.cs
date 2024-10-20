@@ -60,7 +60,6 @@ public class ControllerGraphics : MonoBehaviour
 
     public void CancelChanges()
     {
-        // Restablecer el valor del dropdown al original
         dropdown.value = originalQuality;
         quality = originalQuality; // Asegurarse de que quality también se actualice
     }
@@ -84,6 +83,6 @@ public class ControllerGraphics : MonoBehaviour
 
     private void OnDropdownValueChanged(int value)
     {
-        AdjustQuality(); // Ajustar la calidad al cambiar el dropdown
+        AdjustQuality();
     }
 }

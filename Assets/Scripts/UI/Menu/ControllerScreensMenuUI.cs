@@ -40,7 +40,10 @@ public class ControllerScreensMenuUI : MonoBehaviour
     public GameObject panelExit;
     public ControllerPauseUI controllerPauseUI;
     public GameObject AlertChangesSaved;
-
+    public Button returnGame;
+    public Button returnAudio;
+    public Button returnControls;
+    public Button returnSettings;
     private float originalControllerSen;
     
     private static ControllerScreensMenuUI _Instance;
@@ -121,36 +124,13 @@ public class ControllerScreensMenuUI : MonoBehaviour
     private void checkP()
     {
         if (Input.GetKeyDown(KeyCode.P) && settings.activeSelf)
-        {
-            if (!menuP)
-            {
-                settings.SetActive(false);
-                pauseUI.SetActive(true);
-                controllerPauseUI.InGame(true);
-            }
-            else
-            {
-                settings.SetActive(false);
-                menu.SetActive(true);
-                controllerPauseUI.FromMenu(false);
-            }
-
-        }
+            returnSettings.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && audioUI.activeSelf)
-        {
-            audioUI.SetActive(false);
-            settings.SetActive(true);
-        }
+            returnAudio.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && game.activeSelf)
-        {
-            game.SetActive(false);
-            settings.SetActive(true);
-        }
+            returnGame.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && controls.activeSelf)
-        {
-            controls.SetActive(false);
-            settings.SetActive(true);
-        }
+            returnControls.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && panelExit.activeSelf)
             panelExit.gameObject.SetActive(false);
     }
