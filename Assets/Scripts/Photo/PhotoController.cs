@@ -73,6 +73,11 @@ public class PhotoController : MonoBehaviour
         }
     }
 
+    public void ResetBirdsCound()
+    {
+        BirdsCount = 0;
+    }
+
     public void DisplayBirdCount()
     {
         birdCountText.text = BirdsCount.ToString();
