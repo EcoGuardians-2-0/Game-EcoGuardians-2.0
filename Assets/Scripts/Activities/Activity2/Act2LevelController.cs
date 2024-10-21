@@ -41,6 +41,10 @@ public class Act2LevelController : MonoBehaviour
     private Transform GoBackLevelsButton;
     [SerializeField]
     private Transform FinishTaskButton;
+    [SerializeField]
+    private Transform completedQuestPanel;
+    [SerializeField]
+    private Transform closeCompletedQuestBtn;
     private Act2ProgressSO act2ProgressSO;
     private Act2GameController act2GameController;
     float elapsedTime = 0f;
@@ -50,6 +54,9 @@ public class Act2LevelController : MonoBehaviour
     private int size = 3;
     private int currentLevel = 0;
     private bool isTimerRunning = false;
+
+    public bool completedQuest = false;
+    public int timesCompletedQuest = 0;
 
     void Awake()
     {
@@ -517,7 +524,6 @@ public class Act2LevelController : MonoBehaviour
     public void GoBackLevels()
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
-
         MenuField.gameObject.SetActive(true);
         // Update the menu buttons based on the level result
         act2GameController.InstantiateMenuButtons();
@@ -526,14 +532,28 @@ public class Act2LevelController : MonoBehaviour
         // Set the level complete object unactive and display the puzzle field
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
+        ShowCompletedQuestPanel();
+    }
+
+    public void ShowCompletedQuestPanel()
+    {
+        // Ensure that the completed task panel is only shown once
+        if (completedQuest && timesCompletedQuest == 1)
+        {
+            completedQuestPanel.gameObject.SetActive(true);
+            closeCompletedQuestBtn.GetComponent<Button>().onClick.AddListener(CloseCompletedQuestPanel);
+        }
+    }
+
+    public void CloseCompletedQuestPanel()
+    {   
+        completedQuestPanel.gameObject.SetActive(false);
     }
 
     public int GetCurrentLevel()
     {
         return currentLevel;
     }
-
-
 
     private void InstantiateLevelBtns()
     {

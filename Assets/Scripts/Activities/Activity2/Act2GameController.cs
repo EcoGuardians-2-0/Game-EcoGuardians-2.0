@@ -39,6 +39,9 @@ public class Act2GameController : GenericActivity
 
     private List<bool> levelsCompleted = new List<bool>();
 
+    bool completedQuest = false;
+
+
     void Awake()
     {
         // Set the current levelsCompleted to all false
@@ -210,6 +213,8 @@ public class Act2GameController : GenericActivity
         }        
         HelpIcon.gameObject.SetActive(true);
         quitButton.SetActive(true);
+
+        levelController.ShowCompletedQuestPanel();
     }
 
     public void DisableMenu()
@@ -246,6 +251,8 @@ public class Act2GameController : GenericActivity
     public void UpdateGameQuest()
     {
         gameManager.HandleQuestCompleted("quest_3.3");
+        levelController.completedQuest = true;
+        levelController.timesCompletedQuest++;
     }
 
     //Check if the completed levels are two
