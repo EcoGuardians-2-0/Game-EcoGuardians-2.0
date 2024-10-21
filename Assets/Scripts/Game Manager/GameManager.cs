@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private bool doingTasks;
     private bool doingQuestionnaire;
     private bool advancingLevel = false;
+    [SerializeField]
+    private bool isDevMode;
 
 
     private void OnEnable()
@@ -47,7 +49,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Detectar tecla 'U' para saltar de nivel
-        if (Input.GetKeyDown(KeyCode.U) && !advancingLevel)
+        if (Input.GetKeyDown(KeyCode.U) && !advancingLevel && isDevMode)
         {
             if(currentStage < GameStage.GameComplete)
                 StartCoroutine(SkipLevel());
