@@ -29,6 +29,10 @@ public class Act1LevelController : MonoBehaviour
     private Transform GoBackButton;
     [SerializeField]
     private Text ShowAttemps;
+    [SerializeField]
+    private Transform completedQuestPanel;
+    [SerializeField]
+    private Transform closeCompletedQuestBtn;
     public Sprite[] puzzles;
     public List<Sprite> gamePuzzles = new List<Sprite>();
     public List<Button> btns = new List<Button>();
@@ -43,6 +47,9 @@ public class Act1LevelController : MonoBehaviour
     private bool isAnimating = false;
     // Scriptable Object progress
     private Act1ProgressSO act1ProgressSO;
+
+    public bool completedQuest = false;
+    public int timesCompletedQuest = 0;
 
     [SerializeField]
     private float flipDuration = 0.5f;
@@ -599,6 +606,24 @@ public class Act1LevelController : MonoBehaviour
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
         act1GameController.EnableQuitButton();
+
+        ShowCompletedQuestPanel();
+    }
+
+
+    public void ShowCompletedQuestPanel()
+    {
+        // Ensure that the completed task panel is only shown once
+        if (completedQuest && timesCompletedQuest == 1)
+        {
+            completedQuestPanel.gameObject.SetActive(true);
+            closeCompletedQuestBtn.GetComponent<Button>().onClick.AddListener(CloseCompletedQuestPanel);
+        }
+    }
+
+    public void CloseCompletedQuestPanel()
+    {
+        completedQuestPanel.gameObject.SetActive(false);
     }
 
     public int GetCurrentLevel()

@@ -39,9 +39,6 @@ public class Act2GameController : GenericActivity
 
     private List<bool> levelsCompleted = new List<bool>();
 
-    bool completedQuest = false;
-
-
     void Awake()
     {
         // Set the current levelsCompleted to all false

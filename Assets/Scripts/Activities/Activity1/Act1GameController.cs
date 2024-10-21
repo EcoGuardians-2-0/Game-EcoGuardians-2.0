@@ -260,6 +260,7 @@ public class Act1GameController : GenericActivity
         
         HelpIcon.gameObject.SetActive(true);
         EnableQuitButton();
+        levelController.ShowCompletedQuestPanel();
     }
 
     public void DisableMenu()
@@ -295,6 +296,8 @@ public class Act1GameController : GenericActivity
     public void UpdateGameQuest()
     {
         gameManager.HandleQuestCompleted("quest_1.6");
+        levelController.completedQuest = true;
+        levelController.timesCompletedQuest++;
     }
 
     //Check if the completed levels are two
