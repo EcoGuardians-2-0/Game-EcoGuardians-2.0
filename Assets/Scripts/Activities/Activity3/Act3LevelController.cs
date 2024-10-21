@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class Act3LevelController : MonoBehaviour
 {   
@@ -17,9 +18,11 @@ public class Act3LevelController : MonoBehaviour
     [SerializeField]
     private Transform completedQuitGameBtn;
     [SerializeField]
-    private Transform quitGameBtn;
-    [SerializeField]
     private Transform restartButton;
+    [SerializeField]
+    private Transform BeginTryCountDown;
+    [SerializeField]
+    private TextMeshProUGUI countDownText;
     [SerializeField]
     private Text finalScoreText;
     [SerializeField]
@@ -40,7 +43,6 @@ public class Act3LevelController : MonoBehaviour
             HelpIconPopUp.gameObject.SetActive(false);
             Time.timeScale = 1; // Resume the game
         });
-        quitGameBtn.GetComponent<Button>().onClick.AddListener(QuitGame);
         completedQuitGameBtn.GetComponent<Button>().onClick.AddListener(QuitGame);
     }
 
@@ -64,7 +66,6 @@ public class Act3LevelController : MonoBehaviour
         act3GameController.SetHighScore(int.Parse(score));
 
         // hide the btns and the score
-        quitGameBtn.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(false);
         highScoreContainer.gameObject.SetActive(false);
 
@@ -85,11 +86,37 @@ public class Act3LevelController : MonoBehaviour
     // Restart the current level
     public void RestartGame()
     {
-        snake.Restart();
+        // Restart the countdown
+        RestartCountDown();
+        
         levelCompletePanel.gameObject.SetActive(false);
         HelpIcon.gameObject.SetActive(true);
-        quitGameBtn.gameObject.SetActive(true);
         highScoreContainer.gameObject.SetActive(true);   
+    }
+
+    private void RestartCountDown()
+    {
+        BeginTryCountDown.gameObject.SetActive(true);
+
+        // Set the countdown to 3
+        countDownText.text = "3";
+
+        // Start the countdown
+        StartCoroutine(CountDown());
+    }
+
+    private IEnumerator CountDown()
+    {
+        yield return new WaitForSeconds(1);
+        countDownText.text = "2";
+        yield return new WaitForSeconds(1);
+        countDownText.text = "1";
+        yield return new WaitForSeconds(1);
+        countDownText.text = "¡Juega!";
+        yield return new WaitForSeconds(1);
+        BeginTryCountDown.gameObject.SetActive(false);
+
+        snake.Restart();
     }
 
     private void QuitGame()
@@ -106,9 +133,7 @@ public class Act3LevelController : MonoBehaviour
 
         // Set up the game objects
         HelpIcon.gameObject.SetActive(true);
-        quitGameBtn.gameObject.SetActive(true);
         highScoreContainer.gameObject.SetActive(true);
-        
 
         // Set the level field inactive
         levelField.gameObject.SetActive(false);
