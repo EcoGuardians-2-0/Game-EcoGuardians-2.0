@@ -9,6 +9,8 @@ public class Act2GameController : GenericActivity
     [SerializeField]
     private Transform GoBackButton;
     [SerializeField]
+    private Transform ReferenceImagebtn;
+    [SerializeField]
     private Transform HelpIcon;
     [SerializeField]
     private Transform HelpIconPopUp;
@@ -200,12 +202,12 @@ public class Act2GameController : GenericActivity
         MenuField.gameObject.SetActive(true);
         InstantiateMenuButtons();
         GoBackButton.gameObject.SetActive(false);
+        ReferenceImagebtn.gameObject.SetActive(false);
 
         if (puzzleField.gameObject.activeSelf)
         {
             puzzleField.gameObject.SetActive(false);
-        }
-
+        }        
         HelpIcon.gameObject.SetActive(true);
         quitButton.SetActive(true);
     }

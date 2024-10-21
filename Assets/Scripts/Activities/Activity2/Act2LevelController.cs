@@ -8,6 +8,12 @@ public class Act2LevelController : MonoBehaviour
     [SerializeField]
     private Transform HelpIcon;
     [SerializeField]
+    private Transform ReferenceImageBtn;
+    [SerializeField]
+    private Transform ReferenceImage;
+    [SerializeField]
+    private Transform GobackReferenceImageBtn;
+    [SerializeField]
     private Transform MenuField;
     [SerializeField]
     private Transform levelField;
@@ -49,6 +55,8 @@ public class Act2LevelController : MonoBehaviour
     {
         act2GameController = FindObjectOfType<Act2GameController>();
         FinishTaskButton.GetComponent<Button>().onClick.AddListener(FinishTask);
+        ReferenceImageBtn.GetComponent<Button>().onClick.AddListener(ShowReferenceImage);
+        GobackReferenceImageBtn.GetComponent<Button>().onClick.AddListener(HideReferenceImage);
     }
 
     private void Update()
@@ -71,6 +79,9 @@ public class Act2LevelController : MonoBehaviour
 
         // Destroy any existing pieces before creating new ones
         DestroyCurrentPieces();
+
+        // Instantiate the level buttons
+        InstantiateLevelBtns();
 
         // Set the puzzle size based on the level
         if (level == 1)
@@ -342,6 +353,7 @@ public class Act2LevelController : MonoBehaviour
     public void InstantiateGameCompletedPanel()
     {
         GoBackButton.gameObject.SetActive(false);
+        ReferenceImageBtn.gameObject.SetActive(false);
         levelCompletePanel.gameObject.SetActive(true);
 
         // Setup the listeners to the retry and go back buttons
@@ -497,6 +509,7 @@ public class Act2LevelController : MonoBehaviour
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
 
         levelCompletePanel.gameObject.SetActive(false);
+        ReferenceImageBtn.gameObject.SetActive(true);
         GoBackButton.gameObject.SetActive(true);
         InstantiateLevel(currentLevel);
     }
@@ -518,5 +531,23 @@ public class Act2LevelController : MonoBehaviour
     public int GetCurrentLevel()
     {
         return currentLevel;
+    }
+
+
+
+    private void InstantiateLevelBtns()
+    {
+        ReferenceImageBtn.gameObject.SetActive(true);
+    }
+
+
+    private void ShowReferenceImage()
+    {
+        ReferenceImage.gameObject.SetActive(true);
+    }
+
+    private void HideReferenceImage()
+    {
+        ReferenceImage.gameObject.SetActive(false);
     }
 }
