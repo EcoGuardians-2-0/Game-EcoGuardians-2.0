@@ -110,6 +110,8 @@ public class QuestManager : MonoBehaviour
         {
             totalQuests++;
             SetOffTasksTitle();
+            EventManager.MapIcon.OnDisplayIconFiltered(questId).Invoke(true);
+
 
             GameObject newQuest = Instantiate(questPrefab, QuestListParent);
             newQuest.name = "Quest: " + questId;

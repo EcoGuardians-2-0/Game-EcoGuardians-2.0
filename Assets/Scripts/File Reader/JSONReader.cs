@@ -47,7 +47,6 @@ public class JSONReader
                 questManager.AddTitle(questList.quests[i].stringid, questList.quests[i].description);
             else
             {
-                EventManager.MapIcon.OnDisplayIconFiltered(questList.quests[i].stringid).Invoke(true);
                 questManager.AddQuest(questList.quests[i].stringid, questList.quests[i].description);
 
             }
