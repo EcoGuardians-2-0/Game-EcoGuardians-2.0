@@ -71,7 +71,6 @@ public class SelectionManager : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    Debug.Log("Wall Alert " + WallAlertUI.state);
                     if (!DialogueManager.instance.isTalking)
                     {
                         interactable.Interact();
