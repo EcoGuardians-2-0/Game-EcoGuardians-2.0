@@ -46,11 +46,15 @@ public class Letter : InteractableObject
         {
             turnOn();
             EventManager.Photograph.OnActiveCamera(false);
+            EventManager.QuestUI.OnLockQuestUI();
+            EventManager.Minimap.OnLockMiniMap();
         }
         else
         {
             turnOff();
             EventManager.Photograph.OnActiveCamera(true);
+            EventManager.QuestUI.OnUnlockQuestUI();
+            EventManager.Minimap.OnUnlockMiniMap();
         }
     }
 

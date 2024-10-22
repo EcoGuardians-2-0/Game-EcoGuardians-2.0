@@ -223,8 +223,8 @@ public class CreditsManager : MonoBehaviour
         }
 
         EventManager.Photograph.OnActiveCamera(false);
-        EventManager.Minimap.OnUnlockMiniMap();
-        EventManager.QuestUI.OnUnlockQuestUI();
+        EventManager.Minimap.OnLockMiniMap();
+        EventManager.QuestUI.OnLockQuestUI();
 
         CreditsUI.SetActive(true);
 
