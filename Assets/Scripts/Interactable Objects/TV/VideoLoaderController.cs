@@ -14,35 +14,52 @@ public class VideoLoaderController : MonoBehaviour
     void Start()
     {
         jsonReader = new JSONReader();
-        LoadVideos();
+        StartCoroutine(LoadVideos());
     }
 
-    void LoadVideos()
+    IEnumerator LoadVideos()
     {
-        VideoList videoList = jsonReader.ReadVideos(); 
+        yield return StartCoroutine(jsonReader.ReadVideos(OnVideosLoaded));
+    }
 
+    void OnVideosLoaded(VideoList videoList)
+    {
         if (videoList != null)
         {
-            for (int i = 0; i < videoList.videos.Length; i++)
+            Debug.Log("Videos loaded successfully.");
+            AssignVideosToTVs(videoList);
+        }
+        else
+        {
+            Debug.LogError("Failed to load videos.");
+        }
+    }
+
+    void AssignVideosToTVs(VideoList videoList)
+    {
+        for (int i = 0; i < videoList.videos.Length; i++)
+        {
+            Video video = videoList.videos[i];
+
+            if (i < tvObjects.Count)
             {
-                Video video = videoList.videos[i];
+                GameObject tvObject = tvObjects[i];
+                VideoPlayer videoPlayer = tvObject.GetComponent<VideoPlayer>();
 
-                if (i < tvObjects.Count)
+                if (videoPlayer != null)
                 {
-                    GameObject tvObject = tvObjects[i];
-                    VideoPlayer videoPlayer = tvObject.GetComponent<VideoPlayer>();
-
-                    if (videoPlayer != null)
-                    {
-                        videoPlayer.url = video.url;
-                        tvObject.GetComponent<TVVideoManager>().Init();
-                        Debug.Log($"Playing {video.screen_name}: {video.url}");
-                    }
-                    else
-                        Debug.LogWarning("No VideoPlayer found on " + tvObject.name);
+                    videoPlayer.url = video.url;
+                    tvObject.GetComponent<TVVideoManager>().Init();
+                    Debug.Log($"Playing {video.screen_name}: {video.url}");
                 }
                 else
-                    Debug.LogWarning("No TV object found for index: " + i);
+                {
+                    Debug.LogWarning("No VideoPlayer found on " + tvObject.name);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No TV object found for index: " + i);
             }
         }
     }

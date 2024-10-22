@@ -42,23 +42,37 @@ public class PostCreditManager : MonoBehaviour
         messageText = messagePanel.GetComponentInChildren<TextMeshProUGUI>();
 
         JSONReader reader = new JSONReader();
-        List<Link> links = reader.ReadLinks().links;
+        StartCoroutine(LoadLinks(reader));
+    }
 
-        if (links.Count > 0)
+    private IEnumerator LoadLinks(JSONReader reader)
+    {
+        yield return StartCoroutine(reader.ReadLinks(OnLinksLoaded));
+    }
+
+    private void OnLinksLoaded(LinksContainer linksContainer)
+    {
+        if (linksContainer != null && linksContainer.links.Count > 0)
         {
+            List<Link> links = linksContainer.links;
+
             // Add the redirection to the second button in buttonPanel for donations
             AddSocialMediaListener(buttonPanel.transform.GetChild(2).gameObject, links[0].url); // Assuming the first link is for donations
-        }
 
-        // Add redirection to all buttons inside the socialPanel for social media links, starting from the second link
-        for (int i = 1; i < socialPanel.transform.childCount; i++)
-        {
-            Button button = socialPanel.transform.GetChild(i).GetComponent<Button>();
-            if (button != null) // Ensure we're not exceeding the link list
+            // Add redirection to all buttons inside the socialPanel for social media links, starting from the second link
+            for (int i = 1; i < socialPanel.transform.childCount; i++)
             {
-                // Assign the corresponding social media link to the button
-                AddSocialMediaListener(button.gameObject, links[i].url); // Links from index 1 onward are for social media
+                Button button = socialPanel.transform.GetChild(i).GetComponent<Button>();
+                if (button != null && i < links.Count) // Ensure we're not exceeding the link list
+                {
+                    // Assign the corresponding social media link to the button
+                    AddSocialMediaListener(button.gameObject, links[i].url); // Links from index 1 onward are for social media
+                }
             }
+        }
+        else
+        {
+            Debug.LogError("No links found or error loading links.");
         }
     }
 

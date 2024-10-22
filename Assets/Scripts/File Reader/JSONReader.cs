@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.IO;
+using System;
+using UnityEngine.Networking;
+using System.Collections;
 
 /*
  * 
@@ -54,63 +57,107 @@ public class JSONReader
     /*
      * 
      * Method: ReadLinks
-     * Description: Reads the links from a JSON file located in StreamingAssets and returns a LinksContainer object
-     * Returns: 
-     *  -> LinksContainer: The deserialized object containing the list of links
+     * Description: Reads the links from a JSON file and adds them to the links container
+     * Parameters: 
+     *  -> Action<LinksContainer> callback: The callback to execute after reading the links
+     *  -> int maxRetries: The maximum number of retries to read the file
+     * Returns: IEnumerator
+     *  -> The coroutine to read the links
      * 
      */
-    public LinksContainer ReadLinks()
+    public IEnumerator ReadLinks(System.Action<LinksContainer> callback, int maxRetries = 100)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "links.json");
+        int attempt = 0;
 
-        if (!File.Exists(filePath))
+        while (attempt < maxRetries)
         {
-            Debug.LogError("File not found: " + filePath);
-            return null;
+            UnityWebRequest request = UnityWebRequest.Get(filePath);
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string jsonData = request.downloadHandler.text;
+                LinksContainer linksContainer = JsonUtility.FromJson<LinksContainer>(jsonData);
+
+                if (linksContainer != null && linksContainer.links.Count > 0)
+                {
+                    callback(linksContainer);
+                    yield break; 
+                }
+                else
+                {
+                    Debug.LogError("Error deserializing JSON or no links found.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Error loading links.json: {request.error}");
+            }
+
+            attempt++;
+            if (attempt < maxRetries)
+            {
+                Debug.Log($"Retrying... Attempt {attempt + 1} of {maxRetries}");
+                yield return new WaitForSeconds(2);
+            }
         }
 
-        string jsonData = File.ReadAllText(filePath);
-
-        LinksContainer linksContainer = JsonUtility.FromJson<LinksContainer>(jsonData);
-
-        if (linksContainer == null || linksContainer.links.Count == 0)
-        {
-            Debug.LogError("Error deserializing JSON or no links found.");
-            return null;
-        }
-
-        return linksContainer;
+ 
+        Debug.LogError("Failed to load links after maximum retries.");
+        callback(null);
     }
 
 
     /*
      * 
      * Method: ReadVideos
-     * Description: Reads the videos from a JSON file located in StreamingAssets and returns a VideoList object
-     * Returns: 
-     *  -> VideoList: The deserialized object containing the list of videos
+     * Description: Reads the videos from a JSON file and adds them to the video manager
+     * Parameters: 
+     *  -> Action<VideoList> callback: The callback to execute after reading the videos
+     * Returns: IEnumerator
+     *  -> The coroutine to read the videos
      * 
      */
-    public VideoList ReadVideos()
+    public IEnumerator ReadVideos(System.Action<VideoList> callback, int maxRetries = 100)
     {
         string filePath = Path.Combine(Application.streamingAssetsPath, "videos.json");
+        int attempt = 0;
 
-        if (!File.Exists(filePath))
+        while (attempt < maxRetries)
         {
-            Debug.LogError("File not found: " + filePath);
-            return null;
+            UnityWebRequest request = UnityWebRequest.Get(filePath);
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string jsonData = request.downloadHandler.text;
+                VideoList videoList = JsonUtility.FromJson<VideoList>(jsonData);
+
+                if (videoList != null && videoList.videos != null && videoList.videos.Length > 0)
+                {
+                    callback(videoList);
+                    yield break;
+                }
+                else
+                {
+                    Debug.LogError("Error deserializing JSON or no videos found.");
+                }
+            }
+            else
+            {
+                Debug.LogError($"Error loading videos.json: {request.error}");
+            }
+
+            attempt++;
+            if (attempt < maxRetries)
+            {
+                Debug.Log($"Retrying... Attempt {attempt + 1} of {maxRetries}");
+                yield return new WaitForSeconds(2);
+            }
         }
 
-        string jsonData = File.ReadAllText(filePath);
-
-        VideoList videoList = JsonUtility.FromJson<VideoList>(jsonData);
-
-        if (videoList == null || videoList.videos == null || videoList.videos.Length == 0)
-        {
-            Debug.LogError("Error deserializing JSON or no videos found.");
-            return null;
-        }
-
-        return videoList;
+        Debug.LogError("Failed to load videos after maximum retries.");
+        callback(null);
     }
 }
