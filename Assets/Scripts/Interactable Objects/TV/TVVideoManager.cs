@@ -53,61 +53,69 @@ public class TVVideoManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (visibility)
+        try
         {
-            // Pause video
-            if (Input.GetKeyDown(KeyCode.Space))
-                TogglePlayPause();
-
-            if (videoPlayer.isPlaying)
+            if (visibility)
             {
-                // Advance and rewind video - Suspended functionality
-                //if (Input.GetKeyDown(KeyCode.LeftArrow))
-                //    videoPlayer.time = Mathf.Max(0, (float)videoPlayer.time - 5);
+                // Pause video
+                if (Input.GetKeyDown(KeyCode.Space))
+                    TogglePlayPause();
 
-                //if (Input.GetKeyDown(KeyCode.RightArrow))
-                //    videoPlayer.time = Mathf.Min((float)videoPlayer.length, (float)videoPlayer.time + 5);
-
-                // Up and Down keys for volume control
-                if (Input.GetKeyDown(KeyCode.UpArrow))
-                    videoPlayer.SetDirectAudioVolume(0, Mathf.Min(1, (float)videoPlayer.GetDirectAudioVolume(0) + 0.1f));
-
-
-                if (Input.GetKeyDown(KeyCode.DownArrow))
-                    videoPlayer.SetDirectAudioVolume(0, Mathf.Max(0, (float)videoPlayer.GetDirectAudioVolume(0) - 0.1f));
-
-                // Holding keys \\
-
-                // Up and Down keys for volume control
-                if (Input.GetKey(KeyCode.UpArrow))
+                if (videoPlayer.isPlaying)
                 {
-                    holdTimeCounterUpVolume -= Time.deltaTime;
+                    // Advance and rewind video - Suspended functionality
+                    //if (Input.GetKeyDown(KeyCode.LeftArrow))
+                    //    videoPlayer.time = Mathf.Max(0, (float)videoPlayer.time - 5);
 
-                    if (holdTimeCounterUpVolume < 0)
-                        videoPlayer.SetDirectAudioVolume(0, Mathf.Min(1, (float)videoPlayer.GetDirectAudioVolume(0) + 0.3f * Time.deltaTime));
+                    //if (Input.GetKeyDown(KeyCode.RightArrow))
+                    //    videoPlayer.time = Mathf.Min((float)videoPlayer.length, (float)videoPlayer.time + 5);
+
+                    // Up and Down keys for volume control
+                    if (Input.GetKeyDown(KeyCode.UpArrow))
+                        videoPlayer.SetDirectAudioVolume(0, Mathf.Min(1, (float)videoPlayer.GetDirectAudioVolume(0) + 0.1f));
+
+
+                    if (Input.GetKeyDown(KeyCode.DownArrow))
+                        videoPlayer.SetDirectAudioVolume(0, Mathf.Max(0, (float)videoPlayer.GetDirectAudioVolume(0) - 0.1f));
+
+                    // Holding keys \\
+
+                    // Up and Down keys for volume control
+                    if (Input.GetKey(KeyCode.UpArrow))
+                    {
+                        holdTimeCounterUpVolume -= Time.deltaTime;
+
+                        if (holdTimeCounterUpVolume < 0)
+                            videoPlayer.SetDirectAudioVolume(0, Mathf.Min(1, (float)videoPlayer.GetDirectAudioVolume(0) + 0.3f * Time.deltaTime));
+                    }
+                    else
+                        holdTimeCounterUpVolume = holdTime;
+
+                    if (Input.GetKey(KeyCode.DownArrow))
+                    {
+                        holdTimeCounterDownVolume -= Time.deltaTime;
+
+                        if (holdTimeCounterDownVolume < 0)
+                            videoPlayer.SetDirectAudioVolume(0, Mathf.Max(0, (float)videoPlayer.GetDirectAudioVolume(0) - 0.3f * Time.deltaTime));
+                    }
+                    else
+                        holdTimeCounterDownVolume = holdTime;
+
+                    // Save time to continue from there
+                    if (videoPlayer.time > 0.1)
+                        lastTime = videoPlayer.time;
                 }
-                else
-                    holdTimeCounterUpVolume = holdTime;
 
-                if (Input.GetKey(KeyCode.DownArrow))
-                {
-                    holdTimeCounterDownVolume -= Time.deltaTime;
-
-                    if (holdTimeCounterDownVolume < 0)
-                        videoPlayer.SetDirectAudioVolume(0, Mathf.Max(0, (float)videoPlayer.GetDirectAudioVolume(0) - 0.3f * Time.deltaTime));
-                }
-                else
-                    holdTimeCounterDownVolume = holdTime;
-
-                // Save time to continue from there
-                if (videoPlayer.time > 0.1)
-                    lastTime = videoPlayer.time;
+                // Hide or show the controls video TV UI
+                if (Input.GetKeyDown(KeyCode.Q))
+                    DisableObjects.Instance.ToggleControlsVideoTVUI(false);
             }
-
-            // Hide or show the controls video TV UI
-            if (Input.GetKeyDown(KeyCode.Q))
-                DisableObjects.Instance.ToggleControlsVideoTVUI(false);
         }
+        catch
+        {
+
+        }
+        
     }
 
     // Function to play the video
