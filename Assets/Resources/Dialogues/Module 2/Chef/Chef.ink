@@ -44,7 +44,7 @@ VAR chose_option = false
         -> q1
     + [¿Qué impacto tiene el restaurante en la comunidad?]
         -> q2
-    + [No estoy bien, voy a seguir explorando]
+    + [No, estoy bien. Voy a seguir explorando]
         -> finish
         
 === q1
