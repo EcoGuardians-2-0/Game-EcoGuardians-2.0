@@ -47,8 +47,6 @@ public class TV : InteractableObject
     // Interact with the TV
     public override void Interact()
     {
-        base.Interact(); // Do not remove - child calls parent method
-
         disableObjects.TogglePlayer();
         disableObjects.ToggleSelectionCursor();
 
@@ -65,6 +63,8 @@ public class TV : InteractableObject
 
         if (isOn)
         {
+            SelectionManager.instance.oneTimeInteraction = true;
+            SelectionManager.instance.canHighlight = false;
             EventManager.Minimap.OnLockMiniMap.Invoke();
             EventManager.Photograph.OnActiveCamera(false);
             AudioManager.Instance.PlaySound(SoundType.TVOn);
@@ -72,6 +72,8 @@ public class TV : InteractableObject
         }
         else
         {
+            SelectionManager.instance.oneTimeInteraction = false;
+            SelectionManager.instance.canHighlight = true;
             EventManager.Minimap.OnUnlockMiniMap.Invoke();
             EventManager.Photograph.OnActiveCamera(true);
             AudioManager.Instance.PlaySound(SoundType.TvOff);

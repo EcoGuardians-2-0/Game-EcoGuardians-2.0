@@ -44,14 +44,7 @@ public class Character : InteractableObject
 
     public override void Interact()
     {
-
-        if (!DialogueManager.instance.isTalking)
-        {
-            DialogueManager.instance.StartConversation(inkJSON);
-
-            //CameraUtilityManager.Instance.SetCameraOnCharacter(transform);
-        }
-
+        DialogueManager.instance.StartConversation(inkJSON);
     }
 
     protected override void handleCollision(Collider other)

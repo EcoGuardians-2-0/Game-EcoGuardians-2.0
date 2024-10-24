@@ -303,8 +303,16 @@ public class Act1GameController : GenericActivity
     //Check if the completed levels are two
     public void CheckLevelsCompleted()
     {
+        int passedLevels = 0;
+
+        for (int i = 0; i < levelsCompleted.Count; i++)
+        {
+            if (levelsCompleted[i])
+              passedLevels++;
+        }
+
         // Look in the list of level completed if the two levels are completed
-        if (levelsCompleted[0] && levelsCompleted[1])
+        if (passedLevels >= 2)
         {
             // Call the game manager to complete the questionnaire
             UpdateGameQuest();
@@ -315,6 +323,8 @@ public class Act1GameController : GenericActivity
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
         Activity.Instance.activityOne.SetActive(false);
+        SelectionManager.instance.isInteracting = false;
+        SelectionManager.instance.canHighlight = true;
         EnableWorldMap();
     }
 

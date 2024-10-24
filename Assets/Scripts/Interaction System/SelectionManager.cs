@@ -12,6 +12,8 @@ public class SelectionManager : MonoBehaviour
     public static SelectionManager instance;
     public bool isInteracting;
     public bool onTarget;
+    public bool canHighlight;
+    public bool oneTimeInteraction;
 
     [SerializeField]
     private GameObject textBox;
@@ -36,6 +38,7 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         onTarget = false;
+        canHighlight = true;
         interaction_text = textBox.GetComponentInChildren<Image>().GetComponentInChildren<TextMeshProUGUI>();
     }
 
@@ -58,7 +61,7 @@ public class SelectionManager : MonoBehaviour
 
             interactable = selectionTransform.GetComponent<InteractableObject>();
 
-            if (interactable != null && interactable.playerInRange && !WallAlertUI.state)
+            if (interactable != null && (interactable.playerInRange || oneTimeInteraction) && !isInteracting)
             {
                 if (interactable != lastInteractable)
                 {
@@ -66,15 +69,13 @@ public class SelectionManager : MonoBehaviour
                 }
 
 
-                interactable.GetComponent<Outline>().enabled = !isInteracting;
+                interactable.GetComponent<Outline>().enabled = canHighlight;
                 SetText(interactable.GetSelectionPrompt());
 
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    if (!DialogueManager.instance.isTalking)
-                    {
-                        interactable.Interact();
-                    }
+                    Debug.Log("Interacting with " + interactable.name);
+                    interactable.Interact();
                 }
             }
             else

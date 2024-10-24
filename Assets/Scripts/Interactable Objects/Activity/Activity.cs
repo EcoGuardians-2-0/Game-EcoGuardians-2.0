@@ -42,6 +42,8 @@ public class Activity : InteractableObject
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
+        SelectionManager.instance.canHighlight = false;
+        SelectionManager.instance.isInteracting = true;
         
         if(itemName == "Activity1"){
             activityOne.SetActive(true);

@@ -34,7 +34,6 @@ public class Letter : InteractableObject
 
     public override void Interact()
     {
-        base.Interact(); // Do not remove - child calls parent method
 
         DisableObjects.Instance.disableSwitchCamera();
         DisableObjects.Instance.disableCameras();
@@ -44,6 +43,8 @@ public class Letter : InteractableObject
 
         if (toggle)
         {
+            SelectionManager.instance.canHighlight = false;
+            SelectionManager.instance.oneTimeInteraction = true;
             turnOn();
             EventManager.Photograph.OnActiveCamera(false);
             EventManager.QuestUI.OnLockQuestUI();
@@ -51,6 +52,8 @@ public class Letter : InteractableObject
         }
         else
         {
+            SelectionManager.instance.canHighlight = true;
+            SelectionManager.instance.oneTimeInteraction = false;
             turnOff();
             EventManager.Photograph.OnActiveCamera(true);
             EventManager.QuestUI.OnUnlockQuestUI();

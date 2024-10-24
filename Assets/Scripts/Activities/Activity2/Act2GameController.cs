@@ -266,8 +266,9 @@ public class Act2GameController : GenericActivity
     public void QuitActivityTwo()
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
-
         Activity.Instance.activityThree.SetActive(false);
+        SelectionManager.instance.isInteracting = false;
+        SelectionManager.instance.canHighlight = true;
         EnableWorldMap();
     }
 

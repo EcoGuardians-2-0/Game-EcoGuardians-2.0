@@ -57,7 +57,9 @@ public class Act3GameController : GenericActivity
     public void QuitActivityThree()
     {
         AudioManager.Instance.PlaySound(SoundType.ActivityBtnSfx);
-        Activity.Instance.activityTwo.SetActive(false);   
+        Activity.Instance.activityTwo.SetActive(false);
+        SelectionManager.instance.isInteracting = false;
+        SelectionManager.instance.canHighlight = true;
         EnableWorldMap();
     }
 
