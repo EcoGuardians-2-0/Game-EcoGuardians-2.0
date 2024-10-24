@@ -16,6 +16,7 @@ public class CreditsManager : MonoBehaviour
     public GameObject birdTaskPrefab;  // Prefab for BirdTask
     public GameObject birdCardPrefab;  // Prefab for BirdCard
     public GameObject CreditsUI;
+    public GameObject logoPrefab;
     private GameObject birdTask;
     public TextAsset creditsFile;
 
@@ -76,6 +77,10 @@ public class CreditsManager : MonoBehaviour
                 string birdTaskText = line.Replace("bird_task:", "").Trim();
                 CreateBirdTask(birdTaskText);
             }
+            else if (line.StartsWith("logo_segment:"))
+            {
+                CreateLogoSegment();
+            }
         }
     }
 
@@ -101,22 +106,47 @@ public class CreditsManager : MonoBehaviour
             string role = parts[0].Trim();  // The role (e.g., "Programmer")
             string names = parts[1].Trim();  // The names (e.g., "John Doe, Jane Smith, Bob Brown")
 
-            // Replace commas with newlines so each name is on a different line
-            names = names.Replace(",", "\n");
+            // Split names by ';' to create multiple columns if needed
+            string[] nameGroups = names.Split(';');
 
-            // Instantiate the prefab and assign the role and names text
+            // Instantiate the segment prefab and assign the role text
             GameObject segment = Instantiate(segmentPrefab, creditsContainer);
 
-            // Assume the prefab has two TextMeshProUGUI components for the role and the names
+            // Assume the first child TextMeshProUGUI is for the role title
             TextMeshProUGUI[] texts = segment.GetComponentsInChildren<TextMeshProUGUI>();
             texts[0].text = role;  // Assign the role text
-            texts[1].text = names;  // Assign the names text with newlines
+
+            // Loop through the name groups and create a corresponding Names object for each group
+            for (int i = 0; i < nameGroups.Length; i++)
+            {
+                string nameGroup = nameGroups[i].Trim().Replace(",", "\n");  // Replace commas with newlines
+
+                // Instantiate a new Names object for each group after the first
+                if (i == 0)
+                {
+                    // Use the first existing names object in the prefab
+                    texts[1].text = nameGroup;
+                }
+                else
+                {
+                    // Create a new Names object for additional groups
+                    GameObject newNamesObject = Instantiate(texts[1].gameObject, texts[1].transform.parent);
+                    TextMeshProUGUI newNamesText = newNamesObject.GetComponent<TextMeshProUGUI>();
+                    newNamesText.text = nameGroup;
+                }
+            }
         }
         else
         {
             Debug.LogError("Error processing segment: " + segmentData);
         }
     }
+    void CreateLogoSegment()
+    {
+        // Instantiate the logo prefab and add it to the credits container
+        Instantiate(logoPrefab, creditsContainer);
+    }
+
 
     void CreateBirdTask(string birdTaskText)
     {
