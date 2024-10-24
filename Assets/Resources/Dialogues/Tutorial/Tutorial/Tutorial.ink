@@ -53,7 +53,7 @@ VAR already_talked = false
     -> DONE
     
 ===  nodialogue
-    Aún no es el momento para que hablemos... (<color=\#FEF445A>Presiona enter</color>) # speaker: Diego
+    Aún no es el momento para que hablemos... (<color=\#FEF445>Presiona enter</color>) # speaker: Diego
     -> DONE 
 
 === afterwards
