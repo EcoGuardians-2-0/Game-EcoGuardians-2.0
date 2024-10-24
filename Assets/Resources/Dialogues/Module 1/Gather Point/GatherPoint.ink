@@ -44,7 +44,7 @@ VAR chose_option = false
         -> q1
     + [¿Cuál es tu responsabilidad en una emergencia?]
         -> q2
-    + [No estoy bien, voy a seguir explorando]
+    + [No, estoy bien. Voy a seguir explorando.]
         -> finish
         
 === q1
