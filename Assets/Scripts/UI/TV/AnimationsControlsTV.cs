@@ -17,7 +17,7 @@ public class AnimationsControlsTV : MonoBehaviour
 
     private float firstXPositionImage = -754f;
     private float secondXPositionImage = 0f;
-    private float firstXPositionVideo = -1164f;
+    private float firstXPositionVideo = -988f;
     private float secondXPositionVideo = 0f;
 
     // Getters

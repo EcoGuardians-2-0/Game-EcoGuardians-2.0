@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Timeline.Actions;
+// using UnityEditor.Timeline.Actions;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -13,7 +13,7 @@ public class ControllerPauseUI : MonoBehaviour
     public GameObject pauseMenuUI;
     public DisableObjects disableObjects;
     public Vector2 screenCenter;
-    
+
     private static ControllerPauseUI _Instance;
     public static ControllerPauseUI Instance
     {
@@ -58,6 +58,7 @@ public class ControllerPauseUI : MonoBehaviour
     public void Resume()
     {
         disableObjects.hideCursor();
+        EventManager.Pause.OnUnpause?.Invoke();
         pauseMenuUI.SetActive(false);
         Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
         Time.timeScale = 1f; // Restaura el tiempo de juego
@@ -73,15 +74,10 @@ public class ControllerPauseUI : MonoBehaviour
         gameIsPaused = true; // Actualiza el estado de pausa
     }
 
-    private void OnApplicationFocus(bool hasFocus)
-    {
-        if (canPause && !hasFocus)
-            Pause();
-    }
     public void SetIsPaused(bool isPaused)
     {
         gameIsPaused = isPaused;
     }
 
-    
+
 }

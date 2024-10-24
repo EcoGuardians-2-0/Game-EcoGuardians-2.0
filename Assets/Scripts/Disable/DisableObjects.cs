@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class DisableObjects : MonoBehaviour
 {
-
     public static DisableObjects Instance { get; private set; }
 
     [SerializeField]
@@ -27,6 +26,9 @@ public class DisableObjects : MonoBehaviour
     private GameObject selectionCursor;
 
     [SerializeField]
+    private GameObject selectionToolTip;
+
+    [SerializeField]
     private GameObject controlsImageTVUI;
 
     [SerializeField]
@@ -46,19 +48,28 @@ public class DisableObjects : MonoBehaviour
     {
         disableCameras();
     }
+
     public void setPlayer(GameObject player, PlayerController characterController)
     {
         this.player = player;
         this.characterController = characterController;
     }
+
     public void setSwitchCamera(SwitchCamera switchCamera)
     {
         this.switchCamera = switchCamera;
     }
+
     public void disableCameras()
     {
         foreach (CinemachineVirtualCamera camera in cameras)
             camera.enabled = !camera.enabled;
+    }
+
+    public void EnableCameras()
+    {
+        foreach (CinemachineVirtualCamera camera in cameras)
+            camera.enabled = true;
     }
 
     // Disable the camera movement
@@ -74,9 +85,26 @@ public class DisableObjects : MonoBehaviour
         }
     }
 
+    public void EnableCameraMovement()
+    {
+        foreach (CinemachineVirtualCamera camera in cameras)
+        {
+            var pov = camera.GetCinemachineComponent<CinemachinePOV>();
+            if (pov != null)
+            {
+                pov.enabled = true;
+            }
+        }
+    }
+
     public void disableSwitchCamera()
     {
         switchCamera.enabled = !switchCamera.enabled;
+    }
+
+    public void EnableSwitchCamera()
+    {
+        switchCamera.enabled = true;
     }
 
     public void disableCharacterController()
@@ -84,19 +112,35 @@ public class DisableObjects : MonoBehaviour
         characterController.isInGame = !characterController.isInGame;
     }
 
+    public void EnableCharacerController()
+    {
+        characterController.isInGame = true;
+    }
+
     public void TogglePlayer()
     {
         player.SetActive(!player.activeSelf);
     }
 
+    // Enable the player
+    public void EnablePlayer()
+    {
+        player.SetActive(true);
+    }
+
     public void ToggleMinimap()
     {
-        //minimap.SetActive(!minimap.activeSelf);
+        minimap.SetActive(!minimap.activeSelf);
     }
 
     public void ToggleSelectionCursor()
     {
         selectionCursor.SetActive(!selectionCursor.activeSelf);
+    }
+
+    public void ToggleTooltip()
+    {
+        selectionToolTip.SetActive(!selectionToolTip.activeSelf);
     }
 
     public void ToggleControlsImageTVUI(bool firstTime)
@@ -162,5 +206,14 @@ public class DisableObjects : MonoBehaviour
         ToggleSelectionCursor();
         DisableCameraMovement();
         showCursor();
+    }
+
+    public void EnableWorld()
+    {
+        hideCursor();
+        EnableCharacerController();
+        EnableCameras();
+        EnableSwitchCamera();
+        AudioManager.Instance.PlayMusic(SoundType.EnviromentBackgroundMusic);
     }
 }

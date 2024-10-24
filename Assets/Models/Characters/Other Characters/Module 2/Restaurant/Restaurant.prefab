@@ -81,6 +81,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b24b22a5931b94745a42c6079f939080, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7155648497348229970}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b24b22a5931b94745a42c6079f939080, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6302742545241624462}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b24b22a5931b94745a42c6079f939080, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 635482060617870065}
   m_SourcePrefab: {fileID: 100100000, guid: b24b22a5931b94745a42c6079f939080, type: 3}
 --- !u!1 &1241948719978676624 stripped
 GameObject:
@@ -143,9 +149,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f6254e27c8d5a42a40f0d723307173, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionPrompt: Talk to waitress
+  selectionPrompt: Hablar con biomonitora
   itemName: Sara
   customColor: {r: 0.47058824, g: 0.9254902, b: 0.3529412, a: 1}
   playerInRange: 0
-  inkJSON: {fileID: 4900000, guid: bd91397a2b8375946acd2b30a6e6ad87, type: 3}
+  inkJSON: {fileID: 4900000, guid: dd34a57949cee7748a049bce9ea78e28, type: 3}
   ikActive: 1
+--- !u!114 &6302742545241624462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241948719978676624}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  size: {x: 20, y: 20}
+  rotateWithObject: 0
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 100
+--- !u!114 &635482060617870065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241948719978676624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22f4ee0361d500f48a264d484dbf8acd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iconAbovePlayer: {fileID: 21300000, guid: 7a118c0e806b086489e79065f9ea17b9, type: 3}
+  iconAtPlayerLevel: {fileID: 21300000, guid: 62d26d32fc5430f44bbc57fff781f4f6, type: 3}
+  iconBelowPlayer: {fileID: 21300000, guid: ac838fce61119de4baee8e9f13a456cb, type: 3}
+  questID: quest_2.0

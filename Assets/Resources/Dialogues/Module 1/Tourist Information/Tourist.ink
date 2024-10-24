@@ -1,73 +1,91 @@
 INCLUDE ../../Globals/globals.ink
 
 VAR already_talked = false
+VAR chose_option = false
 
+// Speaker's name at the start of the conversation
+// Check if player's has already talked with Jenny before
 { already_talked:
-        -> intro2
+        {  global_pass_1:
+                -> intro3
+            - else:
+                -> intro2
+        }
     - else:
-        -> intro
-}
+    -> intro
+} 
 
-=== intro ===
-    Hola mi nombre es Sofia y soy una guia en <color=\#00FF00>AWAQ</color>. #speaker:Sofia #animation:1
-* -> question
+=== intro
+    ¡Hola! Soy Angie, la encargada de la información turística en la estación # speaker: Angie # animation: 1
+    Estoy aqui para ayudarte a descubrir todo lo que esta hermosa región tiene para ofrecer.
+    ->question
 
 === intro2
-    ¡Hola de nuevo! ¿Vienes por mas información? #speaker: Sofia #animation:1
-    -> question
+    ¡Qué gusto verte de nuevo! Espero que estés disfrutando el tiempo aquí. # speaker: Angie # animation: 1
+    Recuerda que ofrecemos información sobre las actividades turísticas que puedes disfrutar.
+    ->question
 
-=== question ===
-    Dime, ¿En qué te puedo ayudar? #animation:3
-    + [Cuentame un chiste]
-        -> JOKE
-    + [¿Qué haces en el parque?]
-        Ayudo a<color=\#FFFF00> resolver inquietudes</color>.
+=== intro3
+    ¡Hola de nuevo! Quiero felicitarte por completar el cuestionario # speaker: Angie # animation: 1
+    Es genial ver a visitantes tan comprometidos en explorar. <>
+    Espero que hayas encontrado la información útil.
+    ->question
+    
+    
+=== question
+    { already_talked:
+            ¿Hay más preguntas que tengas sobre información turística? # animation:5
+        - else:
+            ¿Sobre qué tema {chose_option: más }te gustaría hablar de información turística? # animation:5
+    }
+    {chose_option == false:
+        ~chose_option = true
+    }
+    + [¿Cuál es tu función principal en la estación biológica?]
+        -> q1
+    + [¿Cómo trabajas con el resto el equipo de la estación?]
+        -> q2
+    + [No estoy bien, voy a seguir explorando]
+        -> finish
+        
+=== q1
+    Vender las entradas para el <color=\#70e000>BioPark</color> y dar información sobre actividades turísticas de la región. # animation: 3
+    +[¿Qué tipo de actividades se pueden hacer?]
+        Los visitantes pueden disfrutar de una variedad de actividades.
+        Puedes hacer <color=\#FEF445>senderismo, caminatas a caballo y recorrido por los paisajes naturales </color>.
+        -> question    
+    +[¿Cómo guías a los turistas para aprovechar al máximo su visita?]
+        Les doy recomendaciones sobre las mejores rutas y actividades según sus intereses.
+        Me aseguro de que tengan toda la información para disfrutar de su visita de forma segura.
         -> question
-    + [¡Quiero participar en una actividad!]
-        -> ACTIVITY
-    + [Nada estoy bien]
-        Okay estaré aquí por si me necesitas.
-        -> DONE
-
-=== JOKE ===
-    -¿Qué le dijo<color=\#A020F0> una mora a otra </color>? #animation:5
-    -¡Tu me ena-moras!
-    + [Fue muy gracioso]
+    
+    
+=== q2
+    Nos coordinamos con todas las áreas para asegurar que los turistas tengan una experiencia fluida. # animation: 3
+    +[Y...¿Cómo promueves el turismo responsable?]
+        Siempre recordamos a los visitantes que respeten el entorno natural y sigan las rutas establecidas.
+        Así evitamos que se interfiera a la fauna local, ya que la conservación es nuestra prioridad.
+        -> question    
+    +[¿Qué es lo que más te gusta de la estación?]
+        Me encanta poder enseñar a la gente lo hermoso del municipio.
+        Así como contribuir en su desarrollo y conversación a través de mi trabajo.
         -> question
-    + [No me gusto el chiste]
-        Okay tal vez no fue gracioso pero...
-        -> question
-
-=== ACTIVITY ===
-    -¡Claro! Te tengo una actividad de resolver un rompecabezas. #animation: 3
-    -¿Te gustaría participar?
-    + [¡Claro!]
-        -> PUZZLE
-    + [Mejor no, gracias]
-        No pasa nada, vuelve a decirme si quieres participar.
-        -> question
-
-=== PUZZLE ===
-    - ¡Buena suerte! #animation:5
-    + [Iniciar rompecabezas]
-        -> CHANGE_SCENE_PUZZLE
-=== CHANGE_SCENE_PUZZLE ===
-    # Activity: 1
-    -> DONE
-
+    
 === finish
     { already_talked == false :
         ~already_talked = true
     }
     
     { global_misiones_1 == true:
-      ~global_mision_completada="quest_3"
+      ~global_mision_completada="quest_1.4"
     }
-    ¡No dudes en venir a verme <>
-    si tienes más preguntas o necesitas algo!
+    Bueno, fue un placer hablar contigo. <> 
+    No dudes en regresar si necesitas más información o recomendaciones.
+    ¡Cuídate y hasta pronto!
     -> DONE
 
 * -> END
     
+
 
 

@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float rotationSpeed = 720f;
     [SerializeField] private float jumpButtonGracePeriod = 0.2f;
     [SerializeField] private float jumpHorizontalSpeed = 5f;
+
+    // Important: Adjust the max fall speed
+    [SerializeField] private float maxFallSpeed = -7f;
     [SerializeField] private Transform cameraTransform;
 
     private CharacterController characterController;
@@ -75,6 +78,12 @@ public class PlayerController : MonoBehaviour
 
         ySpeed += gravity * Time.deltaTime;
 
+        // Limitar la velocidad de caída máxima
+        if (ySpeed < maxFallSpeed)
+        {
+            ySpeed = maxFallSpeed;
+        }
+
         if (characterController.isGrounded)
         {
             lastGroundedTime = Time.time;
@@ -92,7 +101,6 @@ public class PlayerController : MonoBehaviour
         if (Time.time - lastGroundedTime <= jumpButtonGracePeriod)
         {
             characterController.stepOffset = originalStepOffset;
-            ySpeed = -0.5f;
             animator.SetBool("isGrounded", true);
             isGrounded = true;
             animator.SetBool("isJumping", false);
@@ -191,10 +199,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnLand()
     {
-        if (ySpeed < -2f && AudioManager.Instance != null)
+        if (ySpeed < 0f && AudioManager.Instance != null)
         {
             AudioManager.Instance.PlayLandSound();
         }
+        ySpeed = 0f; // Resetear la velocidad en Y al aterrizar
     }
 
     public void setCameraTransform(Transform cameraTransform)

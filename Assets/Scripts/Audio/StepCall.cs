@@ -3,10 +3,10 @@ using UnityEngine;
 public class StepCall : MonoBehaviour
 {
     // Cooldown for walking steps
-    private float stepCooldown = 0.2f;
+    private float stepCooldown = 0.1f;
 
     // Cooldown for running steps
-    private float stepRunCooldown = 0.15f; 
+    private float stepRunCooldown = 0.08f; 
 
     
     private float lastStepTime;

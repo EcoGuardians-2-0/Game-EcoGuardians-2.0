@@ -8,9 +8,9 @@ public class SwitchCamera : MonoBehaviour
     public CinemachineVirtualCamera ThirdCam;
 
     [Header("Sensitivity Settings")]
-    private float minSensitivity = 200f; // Adjusted min sensitivity
+    private float minSensitivity = 0f; // Adjusted min sensitivity
     private float maxSensitivity = 1000f; // Adjusted max sensitivity
-    private float defaultSensitivity = 700f; // Default sensitivity
+    private float defaultSensitivity = 200f; // Default sensitivity
 
     private bool thirdActive = true;
     private float lastAppliedSensitivity;
@@ -18,17 +18,24 @@ public class SwitchCamera : MonoBehaviour
     private void Start()
     {
         // Set the default sens when the game starts
-        PlayerPrefs.SetFloat("masterSen", defaultSensitivity);
+        float currentSavedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
+        PlayerPrefs.SetFloat("masterSen", currentSavedSensitivity);
 
         UpdateCameraSensitivity();
     }
 
+    private void OnEnable()
+    {
+        EventManager.CameraView.OnChangeCameraView += HandleOnChangeCameraView;
+    }
+
+    private void OnDisable()
+    {
+        EventManager.CameraView.OnChangeCameraView -= HandleOnChangeCameraView;
+    }
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            thirdActive = !thirdActive;
-        }
 
         UpdateActiveCamera();
 
@@ -40,18 +47,31 @@ public class SwitchCamera : MonoBehaviour
         }
     }
 
-    void UpdateActiveCamera()
+    private void HandleOnChangeCameraView()
     {
+        thirdActive = !thirdActive;
         if (thirdActive)
         {
             FirstCam.Priority = 10;
             ThirdCam.Priority = 11;
-            UpdateRecentering(ThirdCam);
+            EventManager.Photograph.OnFirstPerson.Invoke(false);
         }
         else
         {
             ThirdCam.Priority = 10;
             FirstCam.Priority = 11;
+            EventManager.Photograph.OnFirstPerson.Invoke(true);
+        }
+    }
+
+    void UpdateActiveCamera()
+    {
+        if (thirdActive)
+        {
+            UpdateRecentering(ThirdCam);
+        }
+        else
+        {
             UpdateRecentering(FirstCam);
         }
     }
@@ -69,7 +89,7 @@ public class SwitchCamera : MonoBehaviour
         float savedSensitivity = PlayerPrefs.GetFloat("masterSen", defaultSensitivity);
 
         float appliedSensitivity = Mathf.Clamp(savedSensitivity, minSensitivity, maxSensitivity);
-        
+
         // Update First Person Camera sensitivity
         var firstPersonPOV = FirstCam.GetCinemachineComponent<CinemachinePOV>();
         firstPersonPOV.m_HorizontalAxis.m_MaxSpeed = appliedSensitivity;
@@ -81,5 +101,10 @@ public class SwitchCamera : MonoBehaviour
         thirdPersonPOV.m_VerticalAxis.m_MaxSpeed = appliedSensitivity;
 
         lastAppliedSensitivity = savedSensitivity;
+    }
+
+    public bool isThirdCamActive()
+    {
+        return thirdActive;
     }
 }

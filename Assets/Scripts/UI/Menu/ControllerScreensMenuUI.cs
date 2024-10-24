@@ -22,7 +22,9 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     [Header("Gameplay Settings")]
     [SerializeField] private TMP_Text sensTextValue = null;
-    public float mainControllerSen = 5f;
+    [SerializeField] private Slider sensitivitySlider;
+    private float mainControllerSen = 40f;
+    
 
     [Header("Events")]
     public UnityEvent<string> onGameStarted;
@@ -37,7 +39,13 @@ public class ControllerScreensMenuUI : MonoBehaviour
     public GameObject game;
     public GameObject panelExit;
     public ControllerPauseUI controllerPauseUI;
-
+    public GameObject AlertChangesSaved;
+    public Button returnGame;
+    public Button returnAudio;
+    public Button returnControls;
+    public Button returnSettings;
+    private float originalControllerSen;
+    
     private static ControllerScreensMenuUI _Instance;
     public static ControllerScreensMenuUI Instance
     {
@@ -53,6 +61,26 @@ public class ControllerScreensMenuUI : MonoBehaviour
             }
             return _Instance;
         }
+    }
+
+    void Start()
+    {
+        // Get the related audio mixers SFX volume and set it
+        setSFXVolume(80.0f);
+        setMusicVolume(80.0f);
+        // Establecer el valor predeterminado de sensibilidad
+        float defaultSensitivity = 40f;
+
+        // Guardar este valor como la sensibilidad original
+        originalControllerSen = defaultSensitivity * 5;
+
+        // Aplicar el valor inicial usando SetControllerSen
+        SetControllerSen(defaultSensitivity);
+        GameplayApply();
+
+        // Actualizar el slider y el texto al valor inicial
+        sensitivitySlider.value = defaultSensitivity;
+        sensTextValue.text = defaultSensitivity.ToString("0");
     }
 
     private void Awake()
@@ -96,36 +124,13 @@ public class ControllerScreensMenuUI : MonoBehaviour
     private void checkP()
     {
         if (Input.GetKeyDown(KeyCode.P) && settings.activeSelf)
-        {
-            if (!menuP)
-            {
-                settings.SetActive(false);
-                pauseUI.SetActive(true);
-                controllerPauseUI.InGame(true);
-            }
-            else
-            {
-                settings.SetActive(false);
-                menu.SetActive(true);
-                controllerPauseUI.FromMenu(false);
-            }
-
-        }
+            returnSettings.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && audioUI.activeSelf)
-        {
-            audioUI.SetActive(false);
-            settings.SetActive(true);
-        }
+            returnAudio.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && game.activeSelf)
-        {
-            game.SetActive(false);
-            settings.SetActive(true);
-        }
+            returnGame.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && controls.activeSelf)
-        {
-            controls.SetActive(false);
-            settings.SetActive(true);
-        }
+            returnControls.onClick.Invoke();
         if (Input.GetKeyDown(KeyCode.P) && panelExit.activeSelf)
             panelExit.gameObject.SetActive(false);
     }
@@ -139,31 +144,70 @@ public class ControllerScreensMenuUI : MonoBehaviour
 
     public void setSFXVolume(float sfxVolume)
     {
-        // Get the related audio mixers SFX volume and set it
-        mainMixer.SetFloat("sfxVolume", sfxVolume);
-        sfxVolumeValue.text = sfxVolume.ToString("0.0");
+        // Set the SFX volume
+        sfxVolume = Mathf.Clamp(sfxVolume, 0f, 100f);
+        float dbSFXVolume = Mathf.Lerp(-80f, 0f, sfxVolume / 100f);
+        mainMixer.SetFloat("sfxVolume", dbSFXVolume);
+        sfxVolumeValue.text = sfxVolume.ToString("0");
     }
 
-    public void setMusicVolume(float musicVolume)
+    public void setMusicVolume(float volume)
     {
-        // Get the related audio mixers Music volume and set it
-        mainMixer.SetFloat("musicVolume", musicVolume);
-        musicVolumeValue.text = musicVolume.ToString("0.0");
+        // Set the music volume
+        volume = Mathf.Clamp(volume, 0f, 100f);
+        float dbVolume = Mathf.Lerp(-80f, 0f, volume / 100f);
+        mainMixer.SetFloat("musicVolume", dbVolume);
+        musicVolumeValue.text = volume.ToString("0");
     }
 
     public void SetControllerSen(float sensitivity)
     {
-        mainControllerSen = sensitivity;
-        sensTextValue.text = sensitivity.ToString("0.0");
+        float transformedSensitivity = sensitivity * 5;
+        mainControllerSen = transformedSensitivity;
+        sensTextValue.text = sensitivity.ToString("0");
     }
 
     public void GameplayApply()
     {
-        PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+        // Verificar si hubo cambios antes de aplicar
+        if (mainControllerSen != originalControllerSen)
+        {
+            PlayerPrefs.SetFloat("masterSen", mainControllerSen);
+            PlayerPrefs.Save();
+            StartCoroutine(ActivateAndDeactivate());
+
+            // Actualizar la sensibilidad original al nuevo valor guardado
+            originalControllerSen = mainControllerSen;
+        }
+    }
+
+    // Función para cancelar los cambios y restaurar la sensibilidad original
+    public void CancelChanges()
+    {
+        // Verificar si hubo cambios antes de cancelar
+        if (mainControllerSen != originalControllerSen)
+        {
+            mainControllerSen = originalControllerSen;
+            sensTextValue.text = (originalControllerSen / 5).ToString("0");
+
+            // Restaurar el valor del slider
+            sensitivitySlider.value = originalControllerSen / 5;
+        }
     }
 
     public void startNewGame()
     {
         onGameStarted.Invoke("NewGame");
+    }
+    public IEnumerator ActivateAndDeactivate()
+    {
+        if (!AlertChangesSaved.activeSelf)
+        {
+            AlertChangesSaved.SetActive(true);
+
+            yield return new WaitForSeconds(3f);
+
+            AlertChangesSaved.SetActive(false);
+        }
     }
 }

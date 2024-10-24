@@ -29,29 +29,30 @@ public class TV : InteractableObject
             Debug.LogError(gameObject.name + ": No se encontraron todos los objetos necesarios.");
         else
         {
-            onObject.SetActive(false);
+            tvImagesManager = onObject.GetComponent<TVImagesManager>();
+            tvVideoManager = onObject.GetComponent<TVVideoManager>();
+
+            if (tvVideoManager == null)
+                onObject.SetActive(false);
+
             offObject.SetActive(true);
 
             selectionPrompt = selectionPromptBefore;
 
             disableObjects = DisableObjects.Instance;
             cameraUtilityManager = CameraUtilityManager.Instance;
-
-            tvImagesManager = onObject.GetComponent<TVImagesManager>();
-            tvVideoManager = onObject.GetComponent<TVVideoManager>();
         }
     }
 
     // Interact with the TV
     public override void Interact()
     {
-        base.Interact(); // Do not remove - child calls parent method
-
-        disableObjects.ToggleMinimap();
         disableObjects.TogglePlayer();
         disableObjects.ToggleSelectionCursor();
 
-        onObject.SetActive(!onObject.activeSelf);
+        if (tvVideoManager == null)
+            onObject.SetActive(!onObject.activeSelf);
+
         offObject.SetActive(!offObject.activeSelf);
 
         disableObjects.disableSwitchCamera();
@@ -61,9 +62,23 @@ public class TV : InteractableObject
         isOn = !isOn;
 
         if (isOn)
+        {
+            SelectionManager.instance.oneTimeInteraction = true;
+            SelectionManager.instance.canHighlight = false;
+            EventManager.Minimap.OnLockMiniMap.Invoke();
+            EventManager.Photograph.OnActiveCamera(false);
+            AudioManager.Instance.PlaySound(SoundType.TVOn);
             ActiveTV();
+        }
         else
+        {
+            SelectionManager.instance.oneTimeInteraction = false;
+            SelectionManager.instance.canHighlight = true;
+            EventManager.Minimap.OnUnlockMiniMap.Invoke();
+            EventManager.Photograph.OnActiveCamera(true);
+            AudioManager.Instance.PlaySound(SoundType.TvOff);
             DeactivateTV();
+        }
     }
 
     // Turn on the TV
@@ -77,11 +92,7 @@ public class TV : InteractableObject
             tvImagesManager.Init();
 
         if (tvVideoManager != null)
-        {
-            tvVideoManager.Init();
-            if (tvVideoManager.hasVideo)
-                tvVideoManager.PlayVideo();
-        }
+            tvVideoManager.PlayVideo();
     }
 
     // Turn off the TV
@@ -98,11 +109,12 @@ public class TV : InteractableObject
                 disableObjects.ForceDisableControlsVideoTVUI();
                 tvVideoManager.PauseVideo();
             }
-        }else if (tvImagesManager != null)
+        }
+        else if (tvImagesManager != null)
         {
             disableObjects.ForceDisableControlsImageTVUI();
             tvImagesManager.TurnOff();
-        }    
+        }
     }
 
     // Load the objects needed for the TV

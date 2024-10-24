@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -11,11 +12,13 @@ public class SelectionManager : MonoBehaviour
     public static SelectionManager instance;
     public bool isInteracting;
     public bool onTarget;
+    public bool canHighlight;
+    public bool oneTimeInteraction;
 
     [SerializeField]
     private GameObject textBox;
 
-    Text interaction_text;
+    TextMeshProUGUI interaction_text;
 
     private InteractableObject interactable;
     private InteractableObject lastInteractable;
@@ -35,7 +38,8 @@ public class SelectionManager : MonoBehaviour
     private void Start()
     {
         onTarget = false;
-        interaction_text = textBox.GetComponentInChildren<Image>().GetComponentInChildren<Text>();
+        canHighlight = true;
+        interaction_text = textBox.GetComponentInChildren<Image>().GetComponentInChildren<TextMeshProUGUI>();
     }
 
     void Update()
@@ -57,7 +61,7 @@ public class SelectionManager : MonoBehaviour
 
             interactable = selectionTransform.GetComponent<InteractableObject>();
 
-            if (interactable != null && interactable.playerInRange)
+            if (interactable != null && (interactable.playerInRange || oneTimeInteraction))
             {
                 if (interactable != lastInteractable)
                 {
@@ -65,15 +69,13 @@ public class SelectionManager : MonoBehaviour
                 }
 
 
-                interactable.GetComponent<Outline>().enabled = !isInteracting;
+                interactable.GetComponent<Outline>().enabled = canHighlight;
                 SetText(interactable.GetSelectionPrompt());
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E) && !isInteracting )
                 {
-                    if (!DialogueManager.instance.isTalking)
-                    {
-                        interactable.Interact();
-                    }
+                    Debug.Log("Interacting with " + interactable.name);
+                    interactable.Interact();
                 }
             }
             else

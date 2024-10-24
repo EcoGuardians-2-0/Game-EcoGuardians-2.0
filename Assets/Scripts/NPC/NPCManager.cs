@@ -48,6 +48,31 @@ public class CharacterManager: MonoBehaviour {
                 currentCharacter.AddComponent<StepCall>();
             }
 
+            if (currentCharacter.GetComponent<PositionController>() == null)
+            {
+                currentCharacter.AddComponent<PositionController>();
+            }
+
+            // Creating game object to create the character icon on the minimap screen
+            GameObject miniMapComponent = new GameObject("MinimapIcon");
+            miniMapComponent.transform.SetParent(currentCharacter.transform);
+            if (miniMapComponent.GetComponent<MiniMapComponent>() == null)
+            {
+                MiniMapComponent miniMap = miniMapComponent.AddComponent<MiniMapComponent>();
+                miniMap.enabled = false;
+                miniMap.icon = Resources.Load<Sprite>("Sprites/Minimap/playerIcon");
+                miniMap.size = new Vector2(30, 30);
+                miniMap.enabled = true;
+            }
+
+            // Adding the folow target to the minimap game object
+            if (miniMapComponent.GetComponent<FollowTarget>() == null)
+            {
+                FollowTarget followTarget = miniMapComponent.AddComponent<FollowTarget>();
+            }
+
+            MiniMapController.changeTarget(miniMapComponent.transform);
+
             currentCharacter.GetComponent<PlayerController>().setCameraTransform(mainCamera);
 
             // Third Person Camera

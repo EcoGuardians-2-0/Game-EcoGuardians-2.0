@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,30 +6,22 @@ using UnityEngine;
 public class FollowTarget : MonoBehaviour
 {
     public GameObject player; // The player
-    public float yOffset = 1.0f; // Y offset to place the object above the player
+    public float yOffset = 0f; // Y offset to place the object above the player
 
     private PlayerController playerController; // Reference to the PlayerController script
     private float fixedY; // The fixed Y position for the object
 
+    private SwitchCamera switchCamera;
+    private CinemachineVirtualCamera firstCam;
+    private CinemachineVirtualCamera thirdCam;
+    private Transform mainCamera;
+
     void Start()
     {
-        Transform parentTransform = transform.parent;
-        if (parentTransform != null)
-        {
-            foreach (Transform sibling in parentTransform)
-            {
-                if (sibling != transform)
-                {
-                    player = sibling.gameObject;
-                    break;
-                }
-            }
-        }
-        else
-        {
-            Debug.LogWarning("Parent transform not found (MiniMapIcon for player).");
-        }
+        mainCamera = Camera.main.transform;
 
+        // Get the parent object (Character model)
+        player = this.gameObject.transform.parent.gameObject;
         // Get the reference to the PlayerController of the player
         playerController = player.GetComponent<PlayerController>();
 
@@ -40,37 +33,49 @@ public class FollowTarget : MonoBehaviour
         initialPosition.y = fixedY;
         transform.position = initialPosition;
 
-        // Adjust the initial rotation of the object to match the player's Y rotation
-        AdjustRotation();
+        switchCamera = player.GetComponent<SwitchCamera>();
+        if (switchCamera != null)
+        {
+            firstCam = switchCamera.FirstCam;
+            thirdCam = switchCamera.ThirdCam;
+        }
+
+        // Adjust rotation only if cameras are initialized
+        if (firstCam != null && thirdCam != null)
+            AdjustRotation();
     }
 
     void Update()
     {
+        if ( firstCam == null)
+            firstCam = switchCamera.FirstCam;
+
+        if (thirdCam == null)
+            thirdCam = switchCamera.ThirdCam;
+
         // Get the player's position
         Vector3 playerPosition = player.transform.position;
 
         // Check if the player is grounded
         if (playerController.GetIsGrounded())
-        {
-            // Update the fixed Y position when the player is grounded
-            fixedY = playerPosition.y + yOffset;
-        }
+            fixedY = playerPosition.y + yOffset; // Update the fixed Y position when the player is grounded
 
         // Keep the object above the player in X and Z, but with a fixed Y if not grounded
         Vector3 newPosition = new Vector3(playerPosition.x, fixedY, playerPosition.z);
         transform.position = newPosition;
 
-        // Adjust the object's rotation to match the player's Y rotation
-        AdjustRotation();
+        // Adjust rotation only if cameras are initialized
+        if (firstCam != null && thirdCam != null)
+            AdjustRotation();
     }
 
     void AdjustRotation()
     {
-        // Get the player's Y rotation
-        float playerRotationY = player.transform.rotation.eulerAngles.y;
-
-        // Maintain the object's original X and Z rotations
-        Vector3 currentRotation = transform.rotation.eulerAngles;
-        transform.rotation = Quaternion.Euler(currentRotation.x, playerRotationY, currentRotation.z);
+        if (firstCam.Priority == 11 || thirdCam.Priority == 11)
+        {
+            float cameraRotationY = mainCamera.rotation.eulerAngles.y;
+            Vector3 currentRotation = transform.rotation.eulerAngles;
+            transform.rotation = Quaternion.Euler(currentRotation.x, cameraRotationY, currentRotation.z);
+        }
     }
 }

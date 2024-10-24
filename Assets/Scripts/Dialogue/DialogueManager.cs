@@ -21,8 +21,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField]
     private TextAsset loadGlobalsJSON;
 
-    [Header("Events")]
-    public UnityEvent<string> onActivityStarted;
+
 
     public bool isTalking { get; private set; }
 
@@ -79,9 +78,13 @@ public class DialogueManager : MonoBehaviour
     public void StartConversation(TextAsset inkJSON)
     {
         SelectionManager.instance.isInteracting = true;
+        SelectionManager.instance.canHighlight = false;
+        DisableObjects.Instance.ToggleSelectionCursor();
+        DisableObjects.Instance.ToggleTooltip();
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
+        EventManager.Photograph.OnActiveCamera(false);
 
         currentStory = new Story(inkJSON.text);
         currentSpeaker = "";
@@ -101,6 +104,10 @@ public class DialogueManager : MonoBehaviour
         isTalking = false;
         dialogueUI.dialogueUI.SetActive(false);
         SelectionManager.instance.isInteracting = false;
+        SelectionManager.instance.canHighlight = true;
+        EventManager.Photograph.OnActiveCamera(true);
+        DisableObjects.Instance.ToggleSelectionCursor();
+        DisableObjects.Instance.ToggleTooltip();
         DisableObjects.Instance.disableCharacterController();
         DisableObjects.Instance.disableCameras();
         DisableObjects.Instance.disableSwitchCamera();
@@ -118,12 +125,14 @@ public class DialogueManager : MonoBehaviour
                 currentChoiceIndex++;
                 if (currentChoiceIndex >= choices.Count)
                     currentChoiceIndex = 0;
+                AudioManager.Instance.PlaySound(SoundType.dialogOptionSelection);
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 currentChoiceIndex--;
                 if (currentChoiceIndex < 0)
                     currentChoiceIndex = choices.Count - 1;
+                AudioManager.Instance.PlaySound(SoundType.dialogOptionSelection);
             }
 
             dialogueUI.changeOption(currentChoiceIndex);
@@ -139,10 +148,12 @@ public class DialogueManager : MonoBehaviour
             if (choices.Count > 0)
             {
                 MakeChoice();
+                AudioManager.Instance.PlaySound(SoundType.dialogSelectedOption);
             }
             else
             {
                 ContinueStory();
+                AudioManager.Instance.PlaySound(SoundType.dialogForward);
             }
         }
     }
@@ -249,11 +260,6 @@ public class DialogueManager : MonoBehaviour
                     Debug.Log("Animation: " + tagValue);
                     currentAnimation = int.Parse(tagValue);
                     break;
-                case START_ACTIVITY_TAG:
-                    Debug.Log("Activity: " + tagValue);
-                    // Trigger the event based on the activity number
-                    onActivityStarted.Invoke(tagValue); 
-                    break;
                 default:
                     Debug.LogWarning("Tag not supported: " + tag);
                     break;
@@ -285,8 +291,8 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public Ink.Runtime.Object GetVariableState(string variableName)
+    public void SetVariable(string name, Ink.Runtime.Object value)
     {
-        return dialogueVariables.searchVariable(variableName);
+        dialogueVariables.setVariableValue(name, value);
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using System;
 using System.Reflection;
 [ExecuteInEditMode]
 public class MiniMapController : MonoBehaviour {
@@ -62,12 +63,15 @@ public class MiniMapController : MonoBehaviour {
 	private RectTransform mapPanelRect;
 	private RectTransform mapPanelMaskRect;
 
+	public static event Action<Transform> onChangeTransform;
+
 	private Vector3 prevRotOfCam;
 	Vector2 res;
 	Image miniMapPanelImage;
 
 	//Initialize everything here
 	public void OnEnable(){
+		onChangeTransform += handleChangeTarget;
 		ownerIconMap.Clear ();
 		GameObject maskPanelGO = transform.GetComponentInChildren<Mask> ().gameObject;
 		mapPanelMask = maskPanelGO.GetComponent<Image> ();
@@ -96,6 +100,18 @@ public class MiniMapController : MonoBehaviour {
 				renderTex.Release ();
 			}
 		}
+	}
+
+	public static void changeTarget(Transform target)
+	{
+		if(onChangeTransform != null)
+		{
+			onChangeTransform.Invoke (target);
+		}
+	}
+	private void handleChangeTarget(Transform target)
+	{
+		this.target = target;
 	}
 
 	//Release the unmanaged objects

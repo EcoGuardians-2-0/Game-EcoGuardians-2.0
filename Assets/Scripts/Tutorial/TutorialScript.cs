@@ -1,15 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class TutorialScript : MonoBehaviour
 {
-    public UnityEngine.UI.Image[] keyUI;
+    public Image[] keyUI;
+    public GameObject tutorialUI;
     public KeyCode[] keyCodes = { KeyCode.A, KeyCode.S, KeyCode.D, KeyCode.W };
     private Color targetColor = new Color32(44, 87, 41, 255);
     private Color principalColor = new Color32(0, 0, 0, 255);
     public GameObject Welcome;
+    public GameObject Tutorial_Start;
+    public GameObject Movement;
+    public GameObject Pause;
+    public GameObject Settings;
+    public GameObject Run;
+    public GameObject Jump;
+    public GameObject Camera;
+    public GameObject Camera_Control;
+    public GameObject Task;
+    public GameObject Interactable;
+    public GameObject Minimap;
+    public GameObject TakePhoto;
+    public GameObject NPC;
+    public GameObject NPC2;
+    public GameObject NPC3;
     public GameObject T1;
     public GameObject T2;
     public GameObject T3;
@@ -18,11 +35,16 @@ public class TutorialScript : MonoBehaviour
     public GameObject T6;
     public GameObject T7;
     public GameObject T8;
+    public GameObject T9;
+    public GameObject T10;
+    public GameObject T11;
     public GameObject WallCollider;
+    public GameObject FirstFences;
     public GameObject TvOn;
     public GameObject Pausa;
-    public GameObject AlertaEmpezar;
+    public GameObject AlertStart;
     public Graphic Enter_UI;
+    public Graphic Enter_UI_T11;
     public Graphic A2_UI;
     public Graphic S2_UI;
     public Graphic D2_UI;
@@ -31,70 +53,155 @@ public class TutorialScript : MonoBehaviour
     public Graphic Shift_UI;
     public Graphic E_UI;
     public Graphic E2_UI;
+    public Graphic M_UI;
+    public Graphic M2_UI;
     public Graphic P_UI;
     public Graphic P2_UI;
     public Graphic C_UI;
-    public Graphic Ctrl_UI;
+    public Graphic C2_UI;
+    public Graphic Q_UI;
     public Graphic Tab_UI;
     public Graphic Tab2_UI;
-    public Button EnterB;
+    public Graphic Left_UI;
+    public Graphic Right_UI;
+    public Graphic Photo_UI;
     private float keyHoldTime = 0f;
     private bool isKeyHeld = false;
-    private float shiftKeyStartTime = 0f; 
+    private float shiftKeyStartTime = 0f;
     private bool isHoldingShiftAndKey = false;
-
     private float[] keyStartTimes;
     private bool[] isColorChanged;
+    private bool isTransitioning = false;
+    // private bool isTimerActive = false;
+    private bool isCharacterActive = false;
+    // private float timer = 0f;
+    // private float alertDuration = 3f;
+
+    [SerializeField] private PhotoCapture photoCapture;
+
     void Start()
     {
         keyStartTimes = new float[keyCodes.Length];
         isColorChanged = new bool[keyCodes.Length];
     }
 
-    void Update()
+    private void OnEnable()
     {
-        if (Welcome.activeSelf)
-            WelcomeKeyDown();
-        else if (T1.activeSelf)
-            VerifyKeyDownT1();
-        else if (T2.activeSelf)
-            VerifyKeyDownT2();
-        else if (T3.activeSelf)
-            VerifyKeyDownT3();
-        else if (T4.activeSelf)
-            VerifyKeyDownT4();
-        else if (T5.activeSelf)
-            VerifyKeyDownT5();
-        else if (T6.activeSelf)
-            VerifyKeyDownT6();
-        else if (T7.activeSelf)
-            VerifyKeyDownT7();
-        else if (T8.activeSelf)
-            VerifyKeyDownT8();
-
+        EventManager.Tutorial.OnFinishedTutorialDialogue += HandleOnFinishedTutorial;
     }
 
-    public void WelcomeKeyDown()
+    private void OnDisable()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-            Enter_UI.color = targetColor;
-        if (Enter_UI.color == targetColor)
+        EventManager.Tutorial.OnFinishedTutorialDialogue -= HandleOnFinishedTutorial;
+    }
+
+    void Update()
+    {
+        if (!isCharacterActive && T1.activeSelf)
         {
-            Welcome.SetActive(false);
-            T1.SetActive(true);
-            EnterB.onClick.Invoke();
+            DisableObjects.Instance.disableCharacterController();
+            isCharacterActive = true;
+        }
+        // if (Input.GetKeyDown(KeyCode.L))
+        //    StartCoroutine(FinishTutorial());
+        if (!isTransitioning)
+        {
+            if (Welcome.activeSelf)
+                HandleEnterKey(Welcome, Tutorial_Start);
+            else if (Tutorial_Start.activeSelf)
+                HandleEnterKey(Tutorial_Start, Movement);
+            else if (Movement.activeSelf)
+                HandleEnterKey(Movement, T1);
+        }
+        if (T1.activeSelf)
+            VerifyKeyT1();
+        else if (Pause.activeSelf)
+            HandleEnterKey(Pause, Settings);
+        else if (Settings.activeSelf)
+            HandleEnterKey(Settings, T2);
+        else if (T2.activeSelf)
+            VerifyKeyT2();
+        else if (Run.activeSelf)
+            HandleEnterKey(Run, T3);
+        else if (T3.activeSelf)
+            VerifyKeyT3();
+        else if (Jump.activeSelf)
+            HandleEnterKey(Jump, T4);
+        else if (T4.activeSelf)
+            VerifyKeyT4();
+        else if (Camera.activeSelf)
+            HandleEnterKey(Camera, T5);
+        else if (T5.activeSelf)
+            VerifyKeyT5();
+        else if (Camera_Control.activeSelf)
+            HandleEnterKey(Camera_Control, T6);
+        else if (T6.activeSelf)
+            VerifyKeyT6();
+        else if (Task.activeSelf)
+            HandleEnterKey(Task, T7, EventManager.QuestUI.OnGeneralUnlockQuestUI);
+        else if (T7.activeSelf)
+            VerifyKeyT7();
+        else if (Interactable.activeSelf)
+            HandleEnterKey(Interactable, T8);
+        else if (T8.activeSelf)
+            VerifyKeyT8();
+        else if (Minimap.activeSelf)
+            HandleEnterKey(Minimap, T9, EventManager.Minimap.OnGeneralUnlockMiniMap);
+        else if (T9.activeSelf)
+            VerifyKeyT9();
+        else if (TakePhoto.activeSelf)
+            HandleEnterKey(TakePhoto, T10);
+        else if (T10.activeSelf)
+            VerifyKeyT10();
+        else if (NPC.activeSelf)
+            HandleEnterKey(NPC, NPC2);
+        else if (NPC2.activeSelf)
+            HandleEnterKey(NPC2, NPC3);
+        else if (NPC3.activeSelf)
+        {
+            DialogueManager.instance.SetVariable("global_tutorial", DialogueVariableSetter.SetVariable(true));
+            HandleEnterKey(NPC3, T11);
+        }
+        else if (T11.activeSelf)
+            VerifyKeyT11();
+    }
+
+    public void HandleEnterKey(GameObject currentScreen, GameObject nextScreen, UnityAction OnActionComplete = null)
+    {
+        if (Enter_UI.color == targetColor && !isTransitioning)
+        {
+            currentScreen.SetActive(false);
+            nextScreen.SetActive(true);
+            isTransitioning = true;
+        }
+
+        if (Input.GetKey(KeyCode.Return) && Enter_UI.color == principalColor && !isTransitioning)
+        {
+            Enter_UI.color = targetColor;
+            if(OnActionComplete != null)
+            {
+                OnActionComplete?.Invoke();
+            }
+            StartCoroutine(RestoreColorAfterDelay());
         }
     }
 
-    public void VerifyKeyDownT1()
+    private IEnumerator RestoreColorAfterDelay()
+    {
+        yield return new WaitForSeconds(1f);
+        Enter_UI.color = principalColor;
+        isTransitioning = false;
+    }
+
+    public void VerifyKeyT1()
     {
         for (int i = 0; i < keyCodes.Length; i++)
         {
             if (Input.GetKey(keyCodes[i]))
             {
                 if (keyStartTimes[i] == 0)
-                    keyStartTimes[i] = Time.time; 
-                if (Time.time - keyStartTimes[i] >= 2f && !isColorChanged[i])
+                    keyStartTimes[i] = Time.time;
+                if (Time.time - keyStartTimes[i] >= 0.5f && !isColorChanged[i])
                 {
                     isColorChanged[i] = true;
                     keyUI[i].color = targetColor;
@@ -105,18 +212,18 @@ public class TutorialScript : MonoBehaviour
                 if (!isColorChanged[i])
                 {
                     keyUI[i].color = principalColor;
-                    keyStartTimes[i] = 0; 
+                    keyStartTimes[i] = 0;
                 }
             }
         }
-    
+
         if (keyUI[0].color == targetColor && keyUI[1].color == targetColor && keyUI[2].color == targetColor && keyUI[3].color == targetColor)
         {
             T1.SetActive(false);
-            T2.SetActive(true);
+            Pause.SetActive(true);
         }
     }
-    public void VerifyKeyDownT2()
+    public void VerifyKeyT2()
     {
         if (Input.GetKeyDown(KeyCode.P))
             P_UI.color = targetColor;
@@ -126,11 +233,11 @@ public class TutorialScript : MonoBehaviour
         if (P_UI.color == targetColor && !Pausa.activeSelf)
         {
             T2.SetActive(false);
-            T3.SetActive(true);
+            Run.SetActive(true);
         }
     }
 
-    public void VerifyKeyDownT3()
+    public void VerifyKeyT3()
     {
         Shift_UI.color = Input.GetKey(KeyCode.LeftShift) ? targetColor : principalColor;
         A2_UI.color = Input.GetKey(KeyCode.A) ? targetColor : principalColor;
@@ -142,13 +249,13 @@ public class TutorialScript : MonoBehaviour
             if (!isHoldingShiftAndKey)
             {
                 shiftKeyStartTime = Time.time;
-                isHoldingShiftAndKey = true; 
+                isHoldingShiftAndKey = true;
             }
 
             if (Time.time - shiftKeyStartTime >= 2f)
             {
                 T3.SetActive(false);
-                T4.SetActive(true);
+                Jump.SetActive(true);
                 isHoldingShiftAndKey = false;
             }
         }
@@ -158,56 +265,57 @@ public class TutorialScript : MonoBehaviour
         }
 
     }
-    public void VerifyKeyDownT4()
+    public void VerifyKeyT4()
     {
         if (Input.GetKeyDown(KeyCode.Space))
             Space_UI.color = targetColor;
         if (Space_UI.color == targetColor)
         {
             T4.SetActive(false);
-            T5.SetActive(true);
+            Camera.SetActive(true);
         }
     }
 
-    public void VerifyKeyDownT5()
+    public void VerifyKeyT5()
     {
-
+        if (Input.GetKeyDown(KeyCode.C) && C_UI.color == targetColor)
+            C2_UI.color = targetColor;
         if (Input.GetKeyDown(KeyCode.C))
             C_UI.color = targetColor;
 
-        if (C_UI.color == targetColor)
+        if (C2_UI.color == targetColor)
         {
             T5.SetActive(false);
-            T6.SetActive(true);
+            Camera_Control.SetActive(true);
         }
     }
-    public void VerifyKeyDownT6()
+    public void VerifyKeyT6()
     {
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            Ctrl_UI.color = targetColor;
+            Q_UI.color = targetColor;
             isKeyHeld = true;
             keyHoldTime = Time.time;
         }
 
-        if (isKeyHeld && Input.GetKey(KeyCode.LeftControl))
+        if (isKeyHeld && Input.GetKey(KeyCode.Q))
         {
-            if (Time.time - keyHoldTime >= 2f)
+            if (Time.time - keyHoldTime >= 0.5f)
             {
                 T6.SetActive(false);
-                T7.SetActive(true);
+                Task.SetActive(true);
                 isKeyHeld = false;
             }
         }
 
 
-        if (Input.GetKeyUp(KeyCode.LeftControl))
+        if (Input.GetKeyUp(KeyCode.Q))
         {
             isKeyHeld = false;
         }
     }
-    public void VerifyKeyDownT7()
+    public void VerifyKeyT7()
     {
 
         if (Input.GetKeyDown(KeyCode.Tab) && Tab_UI.color == targetColor)
@@ -218,10 +326,10 @@ public class TutorialScript : MonoBehaviour
         if (Tab2_UI.color == targetColor)
         {
             T7.SetActive(false);
-            T8.SetActive(true);
+            Interactable.SetActive(true);
         }
     }
-    public void VerifyKeyDownT8()
+    public void VerifyKeyT8()
     {
 
         if (TvOn.activeSelf)
@@ -233,15 +341,110 @@ public class TutorialScript : MonoBehaviour
         if (E2_UI.color == targetColor)
         {
             T8.SetActive(false);
-            WallCollider.SetActive(false);
-            StartCoroutine(ActivateAndDeactivate());
+            Minimap.SetActive(true);
+        }
+    }
+    public void VerifyKeyT9()
+    {
+
+        if (Input.GetKeyDown(KeyCode.M) && M_UI.color == targetColor)
+            M2_UI.color = targetColor;
+
+        if (Input.GetKeyDown(KeyCode.M))
+            M_UI.color = targetColor;
+
+        if (M2_UI.color == targetColor)
+        {
+            T9.SetActive(false);
+            TakePhoto.SetActive(true);
         }
     }
 
-    private IEnumerator ActivateAndDeactivate()
+    public void HandleOnFinishedTutorial()
     {
-        AlertaEmpezar.SetActive(true);
+        T11.SetActive(false);
+        StartCoroutine(FinishTutorial());
+    }
+
+    public void VerifyKeyT10()
+    {
+        EventManager.Photograph.OnActiveCamera(true);
+
+        if (photoCapture.isInFirstCamera && Input.GetMouseButtonDown(1))
+        {
+            Photo_UI.color = targetColor;
+            isKeyHeld = true;
+            keyHoldTime = Time.time;
+        }
+
+        if (isKeyHeld && photoCapture.isInFirstCamera && Input.GetMouseButton(1))
+        {
+            if (Time.time - keyHoldTime >= 2f)
+            {
+                T10.SetActive(false);
+
+                // Start coroutine and wait for it to complete before showing the NPC
+                StartCoroutine(WaitForPhotoAndShowNPC());
+
+                isKeyHeld = false;
+            }
+        }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            isKeyHeld = false;
+        }
+    }
+
+        
+    public void VerifyKeyT11()
+    {
+        if (DialogueManager.instance.isTalking)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+                Enter_UI_T11.color = targetColor;
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+                Left_UI.color = targetColor;
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                Right_UI.color = targetColor;
+        }
+    }
+
+    public IEnumerator FinishTutorial()
+    {
+        WallCollider.SetActive(false);
+        FirstFences.SetActive(false);
+
+        yield return StartCoroutine(ActivateAndDeactivate());
+        EventManager.Quest.OnQuestAssigned();
+        EventManager.Photograph.OnActiveCamera(true);
+        gameObject.SetActive(false);
+    }
+
+    public IEnumerator ActivateAndDeactivate()
+    {
+        while (DialogueManager.instance.isTalking)
+        {
+            yield return null;
+        }
+
+        AlertStart.SetActive(true);
+
         yield return new WaitForSeconds(3f);
-        AlertaEmpezar.SetActive(false);
+
+        AlertStart.SetActive(false);
+    }
+
+    private IEnumerator WaitForPhotoAndShowNPC()
+    {
+        yield return new WaitForSeconds(5f);
+        NPC.SetActive(true);
+    }
+
+    public void StartGame()
+    {
+        EventManager.Minimap.OnGeneralUnlockMiniMap.Invoke();
+        EventManager.QuestUI.OnGeneralUnlockQuestUI.Invoke();
+        StartCoroutine(FinishTutorial());
     }
 }
