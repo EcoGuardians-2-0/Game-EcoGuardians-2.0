@@ -16,6 +16,7 @@ public class CreditsManager : MonoBehaviour
     public GameObject birdTaskPrefab;  // Prefab for BirdTask
     public GameObject birdCardPrefab;  // Prefab for BirdCard
     public GameObject CreditsUI;
+    public GameObject logoPrefab;
     private GameObject birdTask;
     public TextAsset creditsFile;
 
@@ -76,6 +77,10 @@ public class CreditsManager : MonoBehaviour
                 string birdTaskText = line.Replace("bird_task:", "").Trim();
                 CreateBirdTask(birdTaskText);
             }
+            else if (line.StartsWith("logo_segment:"))
+            {
+                CreateLogoSegment();
+            }
         }
     }
 
@@ -135,6 +140,11 @@ public class CreditsManager : MonoBehaviour
         {
             Debug.LogError("Error processing segment: " + segmentData);
         }
+    }
+    void CreateLogoSegment()
+    {
+        // Instantiate the logo prefab and add it to the credits container
+        Instantiate(logoPrefab, creditsContainer);
     }
 
 
