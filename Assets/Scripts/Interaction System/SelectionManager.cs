@@ -61,7 +61,7 @@ public class SelectionManager : MonoBehaviour
 
             interactable = selectionTransform.GetComponent<InteractableObject>();
 
-            if (interactable != null && (interactable.playerInRange || oneTimeInteraction) && !isInteracting)
+            if (interactable != null && (interactable.playerInRange || oneTimeInteraction))
             {
                 if (interactable != lastInteractable)
                 {
@@ -72,7 +72,7 @@ public class SelectionManager : MonoBehaviour
                 interactable.GetComponent<Outline>().enabled = canHighlight;
                 SetText(interactable.GetSelectionPrompt());
 
-                if (Input.GetKeyDown(KeyCode.E))
+                if (Input.GetKeyDown(KeyCode.E) && !isInteracting )
                 {
                     Debug.Log("Interacting with " + interactable.name);
                     interactable.Interact();
