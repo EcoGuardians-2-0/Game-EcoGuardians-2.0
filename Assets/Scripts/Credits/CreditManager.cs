@@ -216,7 +216,7 @@ public class CreditsManager : MonoBehaviour
         Debug.Log("End position" + endPosition.y);
 
         // Animate the credits to move upwards over 40 seconds (or adjust the duration as needed)
-        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 10f).setEase(LeanTweenType.linear)
+        LeanTween.move(creditsContainer.GetComponent<RectTransform>(), endPosition, 40f).setEase(LeanTweenType.linear)
             .setOnComplete(OnFinishCredits);
     }
 
