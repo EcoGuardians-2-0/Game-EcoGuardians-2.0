@@ -22,7 +22,7 @@ VAR already_talked = false
 
 === continue_dialogue
     ¡Muy bien! Ahora que sabes cómo interactuar con los diálogos... # animation: 5
-    ¿Estás list@ para comenzar tu visita? (<color=\#FEF445A>Presiona enter</color>)
+    ¿Estás list@ para comenzar tu visita? (<color=\#FEF445>Presiona enter</color>)
     + [No, aún no quiero empezar] ->  not_ready
     + [¡Si, quiero empezar ya!] -> start_game
 
