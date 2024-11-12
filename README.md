@@ -106,6 +106,20 @@ Este proyecto está distribuido bajo la licencia **[GPL-3.0](https://www.gnu.org
 - **Santiago Gallo Jaimes** – [KironStylo](https://github.com/KironStylo) – [LinkedIn](https://www.linkedin.com/in/santiago-gallo-jaimes/)
 - **Stiven Ortiz Noreña** – [StiivenOrtiz](https://github.com/StiivenOrtiz) – [LinkedIn](https://www.linkedin.com/in/stiven-ortiz-norena)
 
+## 🏢 Instituciones involucradas
+
+### **[Awaq Estaciones Biológicas](https://www.somosawaq.org/)**
+
+<div align="center" style="background-color: white; padding: 5px; border-radius: 50px; margin-bottom: 15px;">
+  <img src="https://www.somosawaq.org/assets/AWAQverde%20ESP-03522d27.png" alt="Unity" style="width: 25%;">
+</div>
+
+### **[Pontificia Universidad Javeriana](https://www.javeriana.edu.co/inicio)**
+
+<div align="center" style="background-color: white; padding: 0px; border-radius: 50px; margin-bottom: 15px;">
+  <img src="https://asocolfhcs.org/images/Programas/Javeriana.png" alt="Unity" style="width: 60%;">
+</div>
+
 ---
 
 <hr style="border-top: 0px solid #000; margin-bottom: 0px;">
