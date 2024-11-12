@@ -99,6 +99,13 @@ El desarrollo de **EcoGuardians 2.0** se realizó principalmente utilizando el m
 
 Este proyecto está distribuido bajo la licencia **[GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)**. Consulta el archivo [LICENSE](./LICENSE) para más detalles. La **[GNU GPL-3.0](https://www.gnu.org/licenses/gpl-3.0.html)** permite a las personas utilizar, modificar y distribuir este proyecto, siempre y cuando se mantenga bajo una licencia de código abierto. Esta licencia no permite la distribución de versiones de código cerrado del proyecto.
 
+## 👥 Equipo de desarrollo
+
+- **Carlos Santiago Rojas Calderon** – [carlosantiagorojas](https://github.com/carlosantiagorojas) – [LinkedIn](https://www.linkedin.com/in/carlosantiagorc/)
+- **Santiago Camilo Rey Benavides** – [santiagoreyb](https://github.com/santiagoreyb) – [LinkedIn](https://www.linkedin.com/in/santiago-camilo-rey-benavides-3575652a3/)
+- **Santiago Gallo Jaimes** – [KironStylo](https://github.com/KironStylo) – [LinkedIn](https://www.linkedin.com/in/santiago-gallo-jaimes/)
+- **Stiven Ortiz Noreña** – [StiivenOrtiz](https://github.com/StiivenOrtiz) – [LinkedIn](https://www.linkedin.com/in/stiven-ortiz-norena)
+
 ---
 
 <hr style="border-top: 0px solid #000; margin-bottom: 0px;">
