@@ -12,10 +12,8 @@ Este repositorio está hecho para facilitar la colaboración en el desarrollo de
 
 **EcoGuardians 2.0** es un videojuego informativo que permite explorar la **[Estación Biológica del Norte de Caldas (EBNC)](https://www.somosawaq.org/eba)** de la ONGD **[Awaq](https://www.somosawaq.org/)**. Su objetivo es dar a conocer las actividades de conservación realizadas en la estación y promovidas por la organización.
 
-<div style="text-align: center; margin-bottom: 15px;">
-  <div style="background-color: white; padding: 0px; border-radius: 100px; display: inline-block;">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original-wordmark.svg" alt="Unity" style="width: 35%;">
-  </div>
+<div align="center" style="background-color: white; padding: 0px; border-radius: 50px; margin-bottom: 15px;">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original-wordmark.svg" alt="Unity" style="width: 25%;">
 </div>
 
 El desarrollo de **EcoGuardians 2.0** se realizó principalmente utilizando el motor gráfico **[Unity](https://unity.com/)**, en su versión **[2022.3.32f1](https://docs.unity3d.com/2022.3/Documentation/Manual/UnityManual.html)**. Esta herramienta fue elegida por su versatilidad y capacidad para crear experiencias interactivas, permitiendo un desarrollo eficiente y de alta calidad para el videojuego.
